@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DC0BCA5225AFA1F6000B7896 /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0BCA5125AFA1F6000B7896 /* CustomTabView.swift */; };
+		DC0BCA5725AFA28C000B7896 /* ViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0BCA5625AFA28C000B7896 /* ViewRouter.swift */; };
+		DC0BCA5C25AFA4F5000B7896 /* TabBarIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0BCA5B25AFA4F5000B7896 /* TabBarIcon.swift */; };
 		DC83FF4B2596B46E00CC66BB /* BookExchangeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC83FF4A2596B46E00CC66BB /* BookExchangeApp.swift */; };
 		DC83FF4D2596B46E00CC66BB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC83FF4C2596B46E00CC66BB /* ContentView.swift */; };
 		DC83FF4F2596B46F00CC66BB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC83FF4E2596B46F00CC66BB /* Assets.xcassets */; };
@@ -14,6 +17,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DC0BCA5125AFA1F6000B7896 /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
+		DC0BCA5625AFA28C000B7896 /* ViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRouter.swift; sourceTree = "<group>"; };
+		DC0BCA5B25AFA4F5000B7896 /* TabBarIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarIcon.swift; sourceTree = "<group>"; };
 		DC83FF472596B46E00CC66BB /* BookExchange.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookExchange.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC83FF4A2596B46E00CC66BB /* BookExchangeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookExchangeApp.swift; sourceTree = "<group>"; };
 		DC83FF4C2596B46E00CC66BB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -34,6 +40,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DC0BCA5025AFA169000B7896 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DC0BCA5125AFA1F6000B7896 /* CustomTabView.swift */,
+				DC0BCA5B25AFA4F5000B7896 /* TabBarIcon.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		DC0BCA5525AFA278000B7896 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				DC0BCA5625AFA28C000B7896 /* ViewRouter.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
 		DC83FF3E2596B46E00CC66BB = {
 			isa = PBXGroup;
 			children = (
@@ -54,6 +77,8 @@
 		DC83FF492596B46E00CC66BB /* BookExchange */ = {
 			isa = PBXGroup;
 			children = (
+				DC0BCA5525AFA278000B7896 /* Utility */,
+				DC0BCA5025AFA169000B7896 /* Views */,
 				DC83FF4A2596B46E00CC66BB /* BookExchangeApp.swift */,
 				DC83FF4C2596B46E00CC66BB /* ContentView.swift */,
 				DC83FF4E2596B46F00CC66BB /* Assets.xcassets */,
@@ -140,8 +165,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC0BCA5225AFA1F6000B7896 /* CustomTabView.swift in Sources */,
+				DC0BCA5C25AFA4F5000B7896 /* TabBarIcon.swift in Sources */,
 				DC83FF4D2596B46E00CC66BB /* ContentView.swift in Sources */,
 				DC83FF4B2596B46E00CC66BB /* BookExchangeApp.swift in Sources */,
+				DC0BCA5725AFA28C000B7896 /* ViewRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
