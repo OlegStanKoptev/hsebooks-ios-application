@@ -31,6 +31,7 @@ struct BookListSection: View {
                     BookListIcon(city: "City 4")
                     Color.clear.frame(width: 2)
                 }
+                .padding(.bottom, 8)
             }
         }
     }

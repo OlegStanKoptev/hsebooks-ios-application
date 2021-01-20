@@ -43,7 +43,7 @@ struct CustomTabView: View {
                 switch viewRouter.currentPage {
                 case .item1:
                     ScrollView {
-                        VStack(spacing: 12) {
+                        VStack(spacing: 8) {
                             BookListSection(header: "First header")
                             BookListSection(header: "Second header")
                             BookListSection(header: "Third header")
