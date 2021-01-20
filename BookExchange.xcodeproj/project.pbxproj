@@ -10,6 +10,9 @@
 		DC0BCA5225AFA1F6000B7896 /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0BCA5125AFA1F6000B7896 /* CustomTabView.swift */; };
 		DC0BCA5725AFA28C000B7896 /* ViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0BCA5625AFA28C000B7896 /* ViewRouter.swift */; };
 		DC0BCA5C25AFA4F5000B7896 /* TabBarIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0BCA5B25AFA4F5000B7896 /* TabBarIcon.swift */; };
+		DC3AEA2725B1BF5900554496 /* BookListIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3AEA2625B1BF5900554496 /* BookListIcon.swift */; };
+		DC5AE10B25B84D3300865FD8 /* BookListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5AE10A25B84D3300865FD8 /* BookListSection.swift */; };
+		DC5AE11225B84E4100865FD8 /* MainScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = DC5AE11125B84E4100865FD8 /* MainScreen.png */; };
 		DC83FF4B2596B46E00CC66BB /* BookExchangeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC83FF4A2596B46E00CC66BB /* BookExchangeApp.swift */; };
 		DC83FF4D2596B46E00CC66BB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC83FF4C2596B46E00CC66BB /* ContentView.swift */; };
 		DC83FF4F2596B46F00CC66BB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC83FF4E2596B46F00CC66BB /* Assets.xcassets */; };
@@ -20,6 +23,9 @@
 		DC0BCA5125AFA1F6000B7896 /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
 		DC0BCA5625AFA28C000B7896 /* ViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRouter.swift; sourceTree = "<group>"; };
 		DC0BCA5B25AFA4F5000B7896 /* TabBarIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarIcon.swift; sourceTree = "<group>"; };
+		DC3AEA2625B1BF5900554496 /* BookListIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListIcon.swift; sourceTree = "<group>"; };
+		DC5AE10A25B84D3300865FD8 /* BookListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListSection.swift; sourceTree = "<group>"; };
+		DC5AE11125B84E4100865FD8 /* MainScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MainScreen.png; sourceTree = "<group>"; };
 		DC83FF472596B46E00CC66BB /* BookExchange.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookExchange.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC83FF4A2596B46E00CC66BB /* BookExchangeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookExchangeApp.swift; sourceTree = "<group>"; };
 		DC83FF4C2596B46E00CC66BB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -45,6 +51,8 @@
 			children = (
 				DC0BCA5125AFA1F6000B7896 /* CustomTabView.swift */,
 				DC0BCA5B25AFA4F5000B7896 /* TabBarIcon.swift */,
+				DC3AEA2625B1BF5900554496 /* BookListIcon.swift */,
+				DC5AE10A25B84D3300865FD8 /* BookListSection.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -57,9 +65,26 @@
 			path = Utility;
 			sourceTree = "<group>";
 		};
+		DC5AE10F25B84E0E00865FD8 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				DC5AE11025B84E1F00865FD8 /* Images */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		DC5AE11025B84E1F00865FD8 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				DC5AE11125B84E4100865FD8 /* MainScreen.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
 		DC83FF3E2596B46E00CC66BB = {
 			isa = PBXGroup;
 			children = (
+				DC5AE10F25B84E0E00865FD8 /* Assets */,
 				DC83FF5A2596B4FF00CC66BB /* README.md */,
 				DC83FF492596B46E00CC66BB /* BookExchange */,
 				DC83FF482596B46E00CC66BB /* Products */,
@@ -154,6 +179,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC83FF522596B46F00CC66BB /* Preview Assets.xcassets in Resources */,
+				DC5AE11225B84E4100865FD8 /* MainScreen.png in Resources */,
 				DC83FF4F2596B46F00CC66BB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -165,11 +191,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC5AE10B25B84D3300865FD8 /* BookListSection.swift in Sources */,
 				DC0BCA5225AFA1F6000B7896 /* CustomTabView.swift in Sources */,
 				DC0BCA5C25AFA4F5000B7896 /* TabBarIcon.swift in Sources */,
 				DC83FF4D2596B46E00CC66BB /* ContentView.swift in Sources */,
 				DC83FF4B2596B46E00CC66BB /* BookExchangeApp.swift in Sources */,
 				DC0BCA5725AFA28C000B7896 /* ViewRouter.swift in Sources */,
+				DC3AEA2725B1BF5900554496 /* BookListIcon.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

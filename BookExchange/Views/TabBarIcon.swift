@@ -26,7 +26,7 @@ struct TabBarIcon: View {
                 .font(.footnote)
         }
         .padding(.horizontal, -4)
-        .foregroundColor(viewRouter.currentPage == assignedPage ? Color.black : .gray)
+        .foregroundColor(viewRouter.currentPage == assignedPage ? Color.orange : .white)
         .onTapGesture {
             viewRouter.currentPage = assignedPage
         }

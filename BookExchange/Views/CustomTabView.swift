@@ -19,7 +19,13 @@ struct CustomTabView: View {
                 VStack {
                     switch viewRouter.currentPage {
                     case .item1:
-                        Text("Page 1 Title")
+                        RoundedRectangle(cornerRadius: 4)
+                            .overlay(
+                                Text("Some text")
+                                    .foregroundColor(.gray)
+                            )
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 16)
                     case .item2:
                         Text("Page 2 Title")
                     case .item3:
@@ -27,45 +33,30 @@ struct CustomTabView: View {
                     case .item4:
                         Text("Page 4 Title")
                     }
-//                    Text(viewRouter.currentPage.rawValue)
-//                        .font(.headline)
-//                    Text("Authorization status: " + (authorized ? "+" : "-"))
-//                        .font(.subheadline)
-//                        .foregroundColor(.gray)
                 }
                 .font(.headline)
                 .frame(width: geometry.size.width, height: geometry.size.height/16)
                 .padding(.top, geometry.safeAreaInsets.top)
-                .background(Color(UIColor.secondarySystemBackground).shadow(radius: 1))
-                Spacer()
+                .background(Color(.displayP3, red: 92 / 255, green: 124 / 255, blue: 192 / 255).shadow(radius: 1))
+                .foregroundColor(.white)
+                Spacer(minLength: 0)
                 switch viewRouter.currentPage {
                 case .item1:
-                    Text("Page 1")
-                //BookListItem()
+                    ScrollView {
+                        VStack(spacing: 12) {
+                            BookListSection(header: "First header")
+                            BookListSection(header: "Second header")
+                            BookListSection(header: "Third header")
+                        }
+                    }
                 case .item2:
                     Text("Page 2")
                 case .item3:
                     Text("Page 3")
                 case .item4:
                     Text("Page 4")
-//                    Button("Auth Screen") {
-//                        self.showingAuthScreen.toggle()
-//                    }.sheet(isPresented: $showingAuthScreen) {
-//                        VStack {
-//                            HStack {
-//                                Button(action: { self.showingAuthScreen.toggle() }, label: { Text("Close").bold() })
-//                                    .padding(.horizontal, 12)
-//                                Spacer()
-//                            }
-//                            .frame(width: geometry.size.width, height: geometry.size.height/14)
-//                            .background(Color(UIColor.secondarySystemBackground).shadow(radius: 1))
-//                            Spacer()
-//                            //AuthorizationView(authorized: $authorized)
-//                            Spacer()
-//                        }
-//                    }
                 }
-                Spacer()
+                Spacer(minLength: 0)
                 HStack {
                     TabBarIcon(viewRouter: viewRouter, assignedPage: .item1, width: geometry.size.width/4, height: geometry.size.height/30, systemIconName: "seal", tabName: "Item 1")
                     TabBarIcon(viewRouter: viewRouter, assignedPage: .item2, width: geometry.size.width/4, height: geometry.size.height/30, systemIconName: "seal", tabName: "Item 2")
@@ -75,10 +66,11 @@ struct CustomTabView: View {
                 .frame(width: geometry.size.width, height: geometry.size.height/(geometry.safeAreaInsets.bottom == 0 ? 12 : 14))
                 .padding(.top, (geometry.safeAreaInsets.bottom == 0 ? -4 : 0))
                 .padding(.bottom, geometry.safeAreaInsets.bottom)
-                .background(Color(UIColor.secondarySystemBackground).shadow(radius: 1))
+                .background(Color(.displayP3, red: 92 / 255, green: 124 / 255, blue: 192 / 255).shadow(radius: 1))
             }
             .edgesIgnoringSafeArea(.vertical)
         }
+        .ignoresSafeArea(.keyboard)
     }
 }
 
