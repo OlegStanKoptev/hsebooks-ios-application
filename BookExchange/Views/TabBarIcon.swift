@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct TabBarIcon: View {
-    
-    @StateObject var viewRouter: ViewRouter
+    @ObservedObject var viewRouter: ViewRouter
     let assignedPage: Page
     
     let width, height: CGFloat
@@ -26,7 +25,7 @@ struct TabBarIcon: View {
                 .font(.footnote)
         }
         .padding(.horizontal, -4)
-        .foregroundColor(viewRouter.currentPage == assignedPage ? Color.orange : .white)
+        .foregroundColor(viewRouter.currentPage == assignedPage ? Color.orange : Color(UIColor.darkGray))
         .onTapGesture {
             viewRouter.currentPage = assignedPage
         }

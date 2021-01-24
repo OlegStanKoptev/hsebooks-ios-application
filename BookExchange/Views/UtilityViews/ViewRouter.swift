@@ -8,9 +8,8 @@
 import SwiftUI
 
 class ViewRouter: ObservableObject {
-    
+    var fixedPage: Page?
     @Published var currentPage: Page = .item1
-    
 }
 
 enum Page: String {
