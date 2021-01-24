@@ -12,6 +12,7 @@ struct BookExchangeApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(AppContext())
         }
     }
 }

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DC0BCA5225AFA1F6000B7896 /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0BCA5125AFA1F6000B7896 /* CustomTabView.swift */; };
 		DC0BCA5725AFA28C000B7896 /* ViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0BCA5625AFA28C000B7896 /* ViewRouter.swift */; };
 		DC0BCA5C25AFA4F5000B7896 /* TabBarIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0BCA5B25AFA4F5000B7896 /* TabBarIcon.swift */; };
 		DC3AEA2725B1BF5900554496 /* BookListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3AEA2625B1BF5900554496 /* BookListItem.swift */; };
@@ -32,7 +31,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		DC0BCA5125AFA1F6000B7896 /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
 		DC0BCA5625AFA28C000B7896 /* ViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRouter.swift; sourceTree = "<group>"; };
 		DC0BCA5B25AFA4F5000B7896 /* TabBarIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarIcon.swift; sourceTree = "<group>"; };
 		DC3AEA2625B1BF5900554496 /* BookListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListItem.swift; sourceTree = "<group>"; };
@@ -77,7 +75,6 @@
 			children = (
 				DC66D7A625BDAC94005DB679 /* UtilityViews */,
 				DCB66B3225BA1C6E00144463 /* BookListViews */,
-				DC0BCA5125AFA1F6000B7896 /* CustomTabView.swift */,
 				DC0BCA5B25AFA4F5000B7896 /* TabBarIcon.swift */,
 			);
 			path = Views;
@@ -266,7 +263,6 @@
 				DC49EAEE25BA25FF0095F294 /* BookBase.swift in Sources */,
 				DC66D7AC25BDB8DA005DB679 /* Ad.swift in Sources */,
 				DCB66B2D25BA1AF700144463 /* BookDetailList.swift in Sources */,
-				DC0BCA5225AFA1F6000B7896 /* CustomTabView.swift in Sources */,
 				DC3FFBA925BA35C20029A158 /* AppContext.swift in Sources */,
 				DCB66B3025BA1B2300144463 /* BookList.swift in Sources */,
 				DC66D7B525BDE6C3005DB679 /* BookListLoadableSection.swift in Sources */,
