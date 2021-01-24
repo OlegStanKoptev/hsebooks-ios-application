@@ -11,32 +11,30 @@ struct ContentView: View {
     @EnvironmentObject var context: AppContext
     
     var body: some View {
-        GeometryReader { geometry in
-            TabView {
-                BookList(size: geometry.size)
-                    .styleNavigationBar()
-                    .tabItem {
-                        Image(systemName: "house")
-                        Text("Home")
-                    }
-                Text("Page 2")
-                    .tabItem {
-                        Image(systemName: "square.grid.2x2")
-                        Text("Genres")
-                    }
-                Text("Page 3")
-                    .tabItem {
-                        Image(systemName: "heart")
-                        Text("Favorites")
-                    }
-                Text("Page 4")
-                    .tabItem {
-                        Image(systemName: "person")
-                        Text("Profile")
-                    }
-            }
-            .styleTabBar()
+        TabView {
+            BookList()
+                .styleNavigationBar()
+                .tabItem {
+                    Image(systemName: "house")
+                    Text("Home")
+                }
+            Text("Page 2")
+                .tabItem {
+                    Image(systemName: "square.grid.2x2")
+                    Text("Genres")
+                }
+            Text("Page 3")
+                .tabItem {
+                    Image(systemName: "heart")
+                    Text("Favorites")
+                }
+            Text("Page 4")
+                .tabItem {
+                    Image(systemName: "person")
+                    Text("Profile")
+                }
         }
+        .styleTabBar()
     }
 }
 

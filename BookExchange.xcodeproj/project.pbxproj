@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DC0BCA5725AFA28C000B7896 /* ViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0BCA5625AFA28C000B7896 /* ViewRouter.swift */; };
-		DC0BCA5C25AFA4F5000B7896 /* TabBarIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0BCA5B25AFA4F5000B7896 /* TabBarIcon.swift */; };
+		DC103FA725BE23FE00C3B54C /* TableViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC103FA625BE23FE00C3B54C /* TableViewWrapper.swift */; };
 		DC3AEA2725B1BF5900554496 /* BookListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3AEA2625B1BF5900554496 /* BookListItem.swift */; };
 		DC3FFBA925BA35C20029A158 /* AppContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3FFBA825BA35C20029A158 /* AppContext.swift */; };
 		DC49EAEE25BA25FF0095F294 /* BookBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC49EAED25BA25FF0095F294 /* BookBase.swift */; };
@@ -31,8 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		DC0BCA5625AFA28C000B7896 /* ViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRouter.swift; sourceTree = "<group>"; };
-		DC0BCA5B25AFA4F5000B7896 /* TabBarIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarIcon.swift; sourceTree = "<group>"; };
+		DC103FA625BE23FE00C3B54C /* TableViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewWrapper.swift; sourceTree = "<group>"; };
 		DC3AEA2625B1BF5900554496 /* BookListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListItem.swift; sourceTree = "<group>"; };
 		DC3FFBA825BA35C20029A158 /* AppContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContext.swift; sourceTree = "<group>"; };
 		DC49EAED25BA25FF0095F294 /* BookBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookBase.swift; sourceTree = "<group>"; };
@@ -75,7 +73,6 @@
 			children = (
 				DC66D7A625BDAC94005DB679 /* UtilityViews */,
 				DCB66B3225BA1C6E00144463 /* BookListViews */,
-				DC0BCA5B25AFA4F5000B7896 /* TabBarIcon.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -117,10 +114,10 @@
 		DC66D7A625BDAC94005DB679 /* UtilityViews */ = {
 			isa = PBXGroup;
 			children = (
-				DC0BCA5625AFA28C000B7896 /* ViewRouter.swift */,
 				DC66D7A325BD9689005DB679 /* BookListViewRouter.swift */,
 				DC66D7A725BDACCD005DB679 /* NavigationViewWrapper.swift */,
 				DC66D7C625BDF56B005DB679 /* TabBarWrapper.swift */,
+				DC103FA625BE23FE00C3B54C /* TableViewWrapper.swift */,
 				DC66D7C325BDEE44005DB679 /* ConditionalHiding.swift */,
 			);
 			path = UtilityViews;
@@ -162,8 +159,8 @@
 				DC49EAEC25BA25E90095F294 /* Abstractions */,
 				DC0BCA5525AFA278000B7896 /* Utility */,
 				DC0BCA5025AFA169000B7896 /* Views */,
-				DC83FF4A2596B46E00CC66BB /* BookExchangeApp.swift */,
 				DC83FF4C2596B46E00CC66BB /* ContentView.swift */,
+				DC83FF4A2596B46E00CC66BB /* BookExchangeApp.swift */,
 				DC83FF4E2596B46F00CC66BB /* Assets.xcassets */,
 				DC83FF532596B46F00CC66BB /* Info.plist */,
 				DC83FF502596B46F00CC66BB /* Preview Content */,
@@ -267,13 +264,12 @@
 				DCB66B3025BA1B2300144463 /* BookList.swift in Sources */,
 				DC66D7B525BDE6C3005DB679 /* BookListLoadableSection.swift in Sources */,
 				DC66D7A425BD9689005DB679 /* BookListViewRouter.swift in Sources */,
-				DC0BCA5C25AFA4F5000B7896 /* TabBarIcon.swift in Sources */,
 				DC83FF4D2596B46E00CC66BB /* ContentView.swift in Sources */,
 				DC66D7BA25BDE748005DB679 /* BookListSectionHeader.swift in Sources */,
 				DC83FF4B2596B46E00CC66BB /* BookExchangeApp.swift in Sources */,
+				DC103FA725BE23FE00C3B54C /* TableViewWrapper.swift in Sources */,
 				DCF4E3A625BE0FBB000B6E2A /* ImageLoader.swift in Sources */,
 				DC66D7A825BDACCD005DB679 /* NavigationViewWrapper.swift in Sources */,
-				DC0BCA5725AFA28C000B7896 /* ViewRouter.swift in Sources */,
 				DC66D7C725BDF56B005DB679 /* TabBarWrapper.swift in Sources */,
 				DC66D7C425BDEE44005DB679 /* ConditionalHiding.swift in Sources */,
 				DC3AEA2725B1BF5900554496 /* BookListItem.swift in Sources */,

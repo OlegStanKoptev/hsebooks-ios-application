@@ -9,10 +9,8 @@ import SwiftUI
 
 struct BookList: View {
     // MARK: SwiftUI variables
-    @ObservedObject var viewRouter: BookListViewRouter = BookListViewRouter()
     @State var searchText: String = ""
     @State var serverBooksLoading: Bool = false
-    var size: CGSize
     
     // MARK: Data variables
     var localBooks: [BookListItem] = [
@@ -21,9 +19,80 @@ struct BookList: View {
         BookListItem(author: "Default Author", title: "Another Book", rating: 5.0, city: "Moscow", picture: Image("Book Cover"))
     ]
     
-    @State var serverBooks: [BookListItem] = []
+    @State var serverBooks: [BookListItem] = [BookListItem(author: "Default Author", title: "Another Book", rating: 5.0, city: "Moscow")]
     
-    // MARK: Methods
+    // MARK: Body
+    var body: some View {
+        VStack(spacing: 0) {
+            BookListSelector()
+            ZStack {
+                BookListContent(localBooks: localBooks, serverBooks: $serverBooks, serverBooksLoading: $serverBooksLoading)
+                LoadBooksButton(serverBooksLoading: $serverBooksLoading, serverBooks: $serverBooks)
+            }
+            Spacer(minLength: 0)
+        }
+        .accentColor(.blue)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                SearchBar(searchText: $searchText)
+            }
+        }
+    }
+}
+
+struct BookList_Previews: PreviewProvider {
+    static var previews: some View {
+        BookList()
+//            .wrapNavigationView()
+    }
+}
+
+struct BookListSelector: View {
+    @ObservedObject var viewRouter: BookListViewRouter = BookListViewRouter()
+    
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 18) {
+                Color.clear.frame(width: 0)
+                ForEach(BookListPage.allCases, id: \.rawValue) { page in
+                    Text(page.rawValue)
+                        .foregroundColor(viewRouter.currentPage == page ? .orange : .white)
+                        .onTapGesture {
+                            viewRouter.currentPage = page
+                        }
+                }
+                Spacer(minLength: 0)
+            }
+            .font(.system(size: 15))
+            .textCase(.uppercase)
+            .frame(height: 36)
+            .foregroundColor(.white)
+        }
+        .background(Color("Accent"))
+    }
+}
+
+struct BookListContent: View {
+    var localBooks: [BookListItem]
+    @Binding var serverBooks: [BookListItem]
+    @Binding var serverBooksLoading: Bool
+    
+    var body: some View {
+        ScrollView(.vertical, showsIndicators: true) {
+            VStack(spacing: 8) {
+                Ad()
+                BookListSection(header: "Local books", books: localBooks)
+                BookListLoadableSection(header: "Books from server", books: serverBooks, serverBooksLoading: $serverBooksLoading)
+                Color.clear.frame(height: 100)
+            }
+        }
+    }
+}
+
+struct LoadBooksButton: View {
+    @Binding var serverBooksLoading: Bool
+    @Binding var serverBooks: [BookListItem]
+    
     func getBooksFromServer() {
         serverBooksLoading = true
         var request = URLRequest(url: URL(string: "https://books.infostrategic.com/bookBase/")!,timeoutInterval: Double.infinity)
@@ -52,80 +121,43 @@ struct BookList: View {
         }.resume()
     }
     
-    // MARK: Body
     var body: some View {
-        VStack(spacing: 0) {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 18) {
-                    Color.clear.frame(width: 0)
-                    ForEach(BookListPage.allCases, id: \.rawValue) { page in
-                        Text(page.rawValue)
-                            .foregroundColor(viewRouter.currentPage == page ? .orange : .white)
-                            .onTapGesture {
-                                viewRouter.currentPage = page
-                            }
-                    }
-                    Spacer(minLength: 0)
-                }
-                .font(.system(size: 15))
-                .textCase(.uppercase)
-                .frame(height: 36)
-                .foregroundColor(.white)
-            }
-            .background(Color("Accent"))
-            ZStack {
-                ScrollView(.vertical, showsIndicators: true) {
-                    VStack(spacing: 8) {
-                        Ad(size: size)
-                        BookListSection(header: "Local books", books: localBooks)
-                        BookListLoadableSection(header: "Books from server", books: serverBooks, serverBooksLoading: $serverBooksLoading)
-                        Color.clear.frame(height: 100)
-                    }
-                }
-                VStack {
-                    Spacer()
-                    Button(action: { getBooksFromServer() }) {
-                        if (!serverBooksLoading) {
-                        RoundedRectangle(cornerRadius: 8)
-                            .overlay(
-                                Text("Load books")
-                                    .foregroundColor(.white)
-                            )
-                        }
-                    }
-                    .frame(width: 350, height: 40)
-                    .padding(.bottom, 20)
+        VStack {
+            Spacer()
+            Button(action: { getBooksFromServer() }) {
+                if (!serverBooksLoading) {
+                    RoundedRectangle(cornerRadius: 8)
+                        .overlay(
+                            Text("Load books")
+                                .foregroundColor(.white)
+                        )
                 }
             }
-            Spacer(minLength: 0)
-        }
-        .accentColor(.blue)
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                RoundedRectangle(cornerRadius: 4)
-                    .foregroundColor(.white)
-                    .frame(width: size.width - 16 * 2, height: 38)
-                    .shadow(radius: 4)
-                    .overlay(
-                        HStack {
-                            Image(systemName: "magnifyingglass")
-                            TextField("Search for books, authors", text: $searchText)
-                                .font(.body)
-                            if (searchText != "") {
-                                Image(systemName: "xmark.circle.fill")
-                            }
-                        }
-                        .padding(.horizontal, 8)
-                        .foregroundColor(.gray)
-                    )
-            }
+            .frame(width: 350, height: 40)
+            .padding(.bottom, 20)
         }
     }
 }
 
-struct BookList_Previews: PreviewProvider {
-    static var previews: some View {
-        BookList(size: UIScreen.main.bounds.size)
-//            .wrapNavigationView()
+struct SearchBar: View {
+    @Binding var searchText: String
+    
+    var body: some View {
+        RoundedRectangle(cornerRadius: 4)
+            .foregroundColor(.white)
+            .frame(width: UIScreen.main.bounds.width - 16 * 2, height: 38)
+            .shadow(radius: 4)
+            .overlay(
+                HStack {
+                    Image(systemName: "magnifyingglass")
+                    TextField("Search for books, authors", text: $searchText)
+                        .font(.body)
+                    if (searchText != "") {
+                        Image(systemName: "xmark.circle.fill")
+                    }
+                }
+                .padding(.horizontal, 8)
+                .foregroundColor(.gray)
+            )
     }
 }
