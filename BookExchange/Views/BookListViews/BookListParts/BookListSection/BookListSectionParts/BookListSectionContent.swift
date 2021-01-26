@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct BookListSectionContent: View {
-    let books: [BookListItem]
+    @Binding var books: [BookBase]
+    var placeholderImage: Bool = false
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 16) {
                 Color.clear.frame(width: 0)
                 ForEach(books) { book in
-                    book
+                    BookListItem(author: book.author, title: book.title, rating: book.rating, city: book.language, pictureUrl: !placeholderImage ? book.pictureUrl : nil)
                 }
                 Color.clear.frame(width: 2)
             }
@@ -25,6 +26,6 @@ struct BookListSectionContent: View {
 
 struct BookListSectionContent_Previews: PreviewProvider {
     static var previews: some View {
-        BookListSectionContent(books: [ BookListItem(), BookListItem() ])
+        BookListSectionContent(books: .constant([BookBase(id: 1, author: "test", language: "eng", title: "title", numberOfPages: 1, publishYear: 1, wishers: [1], genres: [1], rating: 5.0)]))
     }
 }

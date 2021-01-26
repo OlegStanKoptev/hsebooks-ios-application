@@ -8,19 +8,17 @@
 import SwiftUI
 
 struct BookListLoadableSection: View {
+    @EnvironmentObject var context: AppContext
     var header: String = "Default header"
-    var books: [BookListItem] = [
-        BookListItem(city: "City 1"),
-        BookListItem(city: "City 2"),
-        BookListItem(city: "City 3")
+    var books: [BookBase] = [
+        BookBase(id: 1, author: "Author", language: "ENG", title: "Title", numberOfPages: 1, publishYear: 1, wishers: [], genres: [], rating: 5.0)
     ]
-    
-    @Binding var serverBooksLoading: Bool
+
     var body: some View {
         VStack(spacing: 4) {
             BookListSectionHeader(header: header)
             Group {
-                if (serverBooksLoading) {
+                if (context.booksProvider.loading) {
                     ZStack {
                         BookListItem()
                             .hidden()
@@ -28,7 +26,7 @@ struct BookListLoadableSection: View {
                             .progressViewStyle(CircularProgressViewStyle())
                     }
                 } else {
-                    BookListSectionContent(books: books)
+                    BookListSectionContent(books: $context.booksProvider.books)
                 }
             }
         }
@@ -37,6 +35,6 @@ struct BookListLoadableSection: View {
 
 struct BookListLoadableSection_Previews: PreviewProvider {
     static var previews: some View {
-        BookListLoadableSection(serverBooksLoading: .constant(false))
+        BookListLoadableSection()
     }
 }

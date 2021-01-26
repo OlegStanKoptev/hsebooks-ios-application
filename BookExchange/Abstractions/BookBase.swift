@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct BookBase: Decodable {
+struct BookBase: Decodable, Identifiable {
     var id: Int
     var author: String
     var language: String
     var title: String
     var numberOfPages: Int
     var publishYear: Int
-    var pictureUrl: URL
+    var pictureUrl: URL?
     var wishers: [Int]
     var genres: [Int]
     var rating: Float

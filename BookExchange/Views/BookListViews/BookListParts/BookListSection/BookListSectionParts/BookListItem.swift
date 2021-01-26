@@ -26,7 +26,8 @@ struct BookListItem: View, Identifiable {
                 if let pictureUrl = pictureUrl {
                     AsyncImage(
                         url: pictureUrl,
-                        placeholder: { Text("Loading ...") }
+                        placeholder: { Text("Loading...").frame(width: 100, height: size.width * 0.38) },
+                        image: { Image(uiImage: $0).resizable() }
                     )
                 } else {
                     picture

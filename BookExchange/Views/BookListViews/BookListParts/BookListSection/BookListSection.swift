@@ -9,16 +9,15 @@ import SwiftUI
 
 struct BookListSection: View {
     var header: String = "Default header"
-    var books: [BookListItem] = [
-        BookListItem(city: "City 1"),
-        BookListItem(city: "City 2"),
-        BookListItem(city: "City 3")
+    @State var books: [BookBase] = [
+        BookBase(id: 1, author: "Author", language: "eng", title: "Title", numberOfPages: 1, publishYear: 1, wishers: [], genres: [], rating: 5.0),
+        BookBase(id: 2, author: "Author", language: "eng", title: "Title", numberOfPages: 1, publishYear: 1, wishers: [], genres: [], rating: 5.0)
     ]
     
     var body: some View {
         VStack(spacing: 4) {
             BookListSectionHeader(header: header)
-            BookListSectionContent(books: books)
+            BookListSectionContent(books: $books, placeholderImage: true)
         }
     }
 }
