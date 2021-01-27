@@ -10,13 +10,10 @@ import SwiftUI
 struct BookListLoadableSection: View {
     @EnvironmentObject var context: AppContext
     var header: String = "Default header"
-    var books: [BookBase] = [
-        BookBase(id: 1, author: "Author", language: "ENG", title: "Title", numberOfPages: 1, publishYear: 1, wishers: [], genres: [], rating: 5.0)
-    ]
 
     var body: some View {
         VStack(spacing: 4) {
-            BookListSectionHeader(header: header)
+            BookListSectionHeader(header: header, books: $context.booksProvider.books)
             Group {
                 if (context.booksProvider.loading) {
                     ZStack {

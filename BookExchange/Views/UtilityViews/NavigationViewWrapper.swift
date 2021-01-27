@@ -23,7 +23,6 @@ struct NavitaionBarWrapper: ViewModifier {
         return NavigationView {
             content
                 .navigationBarTitleDisplayMode(.inline)
-                .navigationBarBackButtonHidden(true)
         }
     }
 }

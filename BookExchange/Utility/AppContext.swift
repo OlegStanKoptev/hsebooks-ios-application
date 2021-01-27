@@ -15,6 +15,6 @@ class AppContext: ObservableObject {
         anyCancellable = Publishers.CombineLatest(booksProvider.$books, booksProvider.$loading).sink(receiveValue: {_ in
             self.objectWillChange.send()
         })
-        booksProvider.loader = MockBooksLoader()
+        //booksProvider.loader = MockBooksLoader()
     }
 }

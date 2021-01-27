@@ -21,7 +21,9 @@ struct SearchBar: View {
                     TextField("Search for books, authors", text: $searchText)
                         .font(.body)
                     if (searchText != "") {
-                        Image(systemName: "xmark.circle.fill")
+                        Button(action: { searchText = "" }, label: {
+                            Image(systemName: "xmark.circle.fill")
+                        })
                     }
                 }
                 .padding(.horizontal, 8)

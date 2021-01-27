@@ -16,7 +16,7 @@ struct BookListSection: View {
     
     var body: some View {
         VStack(spacing: 4) {
-            BookListSectionHeader(header: header)
+            BookListSectionHeader(header: header, books: $books)
             BookListSectionContent(books: $books, placeholderImage: true)
         }
     }

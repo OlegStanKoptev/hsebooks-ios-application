@@ -25,7 +25,7 @@ struct BookListSelector: View {
             }
             .font(.system(size: 15))
             .textCase(.uppercase)
-            .frame(height: 36)
+            .frame(height: Constants.navBarChinHeight)
             .foregroundColor(.white)
         }
         .background(Color("Accent"))
