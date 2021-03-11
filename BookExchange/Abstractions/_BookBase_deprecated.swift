@@ -1,5 +1,5 @@
 //
-//  BookBase.swift
+//  BookBase_deprecated.swift
 //  BookExchange
 //
 //  Created by Oleg Koptev on 22.01.2021.
@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct BookBase: Decodable, Identifiable {
+//@available(*, unavailable)
+struct BookBase_deprecated: Decodable, Identifiable {
     var id: Int
     var author: String
     var language: String

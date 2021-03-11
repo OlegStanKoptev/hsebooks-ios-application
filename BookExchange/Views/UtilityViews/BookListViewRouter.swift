@@ -5,10 +5,9 @@
 //  Created by Oleg Koptev on 24.01.2021.
 //
 
-import SwiftUI
+import Combine
 
 class BookListViewRouter: ObservableObject {
-    var fixedPage: BookListPage?
     @Published var currentPage: BookListPage = .item2
 }
 

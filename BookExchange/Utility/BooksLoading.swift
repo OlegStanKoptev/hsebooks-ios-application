@@ -8,5 +8,5 @@
 import Foundation
 
 protocol BooksLoading {
-    func load(_ handler: @escaping (_ books: [BookBase]) -> Void)
+    func load(_ handler: @escaping (_ books: [BookBase_deprecated]) -> Void)
 }

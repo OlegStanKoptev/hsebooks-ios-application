@@ -8,8 +8,8 @@
 import Foundation
 
 class MockBooksLoader: BooksLoading {
-    func load(_ handler: @escaping ([BookBase]) -> Void) {
-        let books = try? JSONDecoder().decode([BookBase].self, from: data)
+    func load(_ handler: @escaping ([BookBase_deprecated]) -> Void) {
+        let books = try? JSONDecoder().decode([BookBase_deprecated].self, from: data)
         handler(books ?? [])
     }
     

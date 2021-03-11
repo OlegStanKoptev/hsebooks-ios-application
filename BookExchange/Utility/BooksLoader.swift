@@ -8,13 +8,13 @@
 import Foundation
 
 class BooksLoader: BooksLoading {
-    func load(_ handler: @escaping ([BookBase]) -> Void) {
+    func load(_ handler: @escaping ([BookBase_deprecated]) -> Void) {
         var request = URLRequest(url: Constants.allBooks, timeoutInterval: 10)
         request.addValue(Constants.authToken, forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
         let task = URLSession.shared.dataTask(with: request) { (data, _, _) in
             guard let data = data else { return }
-            let books = try? JSONDecoder().decode([BookBase].self, from: data)
+            let books = try? JSONDecoder().decode([BookBase_deprecated].self, from: data)
             DispatchQueue.main.async {
                 handler(books ?? [])
             }

@@ -9,7 +9,7 @@ import Foundation
 
 class BooksProvider: ObservableObject {
     var loader: BooksLoading = BooksLoader()
-    @Published var books: [BookBase] = []
+    @Published var books: [BookBase_deprecated] = []
     @Published var loading: Bool = false
     func load() {
         loading = true

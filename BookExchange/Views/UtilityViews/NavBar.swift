@@ -15,7 +15,8 @@ struct NavBar: View {
             Spacer(minLength: 0)
             ZStack {
                 HStack {
-                    Button(action: { presentationMode.wrappedValue.dismiss() }, label: {
+                    Button(action: { presentationMode.wrappedValue.dismiss()
+                    }, label: {
                         Image(systemName: "arrow.left")
                     })
                     Spacer()
@@ -28,15 +29,15 @@ struct NavBar: View {
         .font(.system(size: 17))
         .textCase(.uppercase)
         .foregroundColor(.white)
-        .frame(height: Constants.navBarChinHeight)
+        .frame(height: 34)
         .padding(.horizontal, 18)
-        .background(Color("Accent"))
-        .navigationBarBackButtonHidden(true)
+//        .navigationBarBackButtonHidden(true)
     }
 }
 
 struct NavBar_Previews: PreviewProvider {
     static var previews: some View {
         NavBar(header: "header")
+            .background(Color("Accent"))
     }
 }

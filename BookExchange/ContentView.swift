@@ -9,11 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var context: AppContext
-    
     var body: some View {
         TabView {
-            BookList()
-                .styleNavigationBar()
+            NavigationView {
+                BookList()
+            }
                 .tabItem {
                     Image(systemName: "house")
                     Text("Home")
@@ -28,7 +28,9 @@ struct ContentView: View {
                     Image(systemName: "heart")
                     Text("Favorites")
                 }
-            Text("Page 4")
+            NavigationView {
+                ProfileView()
+            }
                 .tabItem {
                     Image(systemName: "person")
                     Text("Profile")
@@ -41,5 +43,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(AppContext())
     }
 }

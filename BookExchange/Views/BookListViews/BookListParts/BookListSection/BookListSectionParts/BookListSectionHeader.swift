@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BookListSectionHeader: View {
     let header: String
-    @Binding var books: [BookBase]
+    @Binding var books: [BookBase_deprecated]
     var body: some View {
         NavigationLink(destination: BookDetailList(header: header, books: $books)) {
             HStack {

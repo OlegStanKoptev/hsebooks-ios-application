@@ -9,9 +9,9 @@ import SwiftUI
 
 struct BookListSection: View {
     var header: String = "Default header"
-    @State var books: [BookBase] = [
-        BookBase(id: 1, author: "Author", language: "eng", title: "Title", numberOfPages: 1, publishYear: 1, wishers: [], genres: [], rating: 5.0),
-        BookBase(id: 2, author: "Author", language: "eng", title: "Title", numberOfPages: 1, publishYear: 1, wishers: [], genres: [], rating: 5.0)
+    @State var books: [BookBase_deprecated] = [
+        BookBase_deprecated(id: 1, author: "Author", language: "eng", title: "Title", numberOfPages: 1, publishYear: 1, wishers: [], genres: [], rating: 5.0),
+        BookBase_deprecated(id: 2, author: "Author", language: "eng", title: "Title", numberOfPages: 1, publishYear: 1, wishers: [], genres: [], rating: 5.0)
     ]
     
     var body: some View {

@@ -8,41 +8,39 @@
 import SwiftUI
 
 struct BookDetailList: View {
-    @State var searchText: String = ""
     var header: String
-    @Binding var books: [BookBase]
+    @Binding var books: [BookBase_deprecated]
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
+            SearchBar()
+                .padding(.vertical, 4)
             NavBar(header: header)
             Spacer(minLength: 0)
             ScrollView(.vertical) {
                 VStack(spacing: 0) {
                     Color.clear.frame(height: 6)
                     ForEach(books) { book in
-                        BookDetailListitem(book: book)
+                        BookDetailListItem(book: book)
                     }
                 }
             }
             Spacer(minLength: 0)
         }
+        .backgroundForNavBar(height: 44 + 36)
         .ignoresSafeArea(.keyboard)
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                SearchBar(searchText: $searchText)
-            }
-        }
+        .navigationBarHidden(true)
     }
 }
 
 struct BookDetailList_Previews: PreviewProvider {
     static var previews: some View {
         BookDetailList(header: "header", books: .constant([
-            BookBase(id: 1, author: "Author", language: "ENG", title: "Title here", numberOfPages: 1, publishYear: 1, pictureUrl: nil, wishers: [], genres: [], rating: 5.0),
-            BookBase(id: 2, author: "Author", language: "ENG", title: "Title here", numberOfPages: 1, publishYear: 1, pictureUrl: nil, wishers: [], genres: [], rating: 5.0),
-            BookBase(id: 3, author: "Author", language: "ENG", title: "Title here", numberOfPages: 1, publishYear: 1, pictureUrl: nil, wishers: [], genres: [], rating: 5.0),
-            BookBase(id: 4, author: "Author", language: "ENG", title: "Title here", numberOfPages: 1, publishYear: 1, pictureUrl: nil, wishers: [], genres: [], rating: 5.0),
-            BookBase(id: 5, author: "Author", language: "ENG", title: "Title here", numberOfPages: 1, publishYear: 1, pictureUrl: nil, wishers: [], genres: [], rating: 5.0)
+            BookBase_deprecated(id: 1, author: "Author", language: "ENG", title: "Title here", numberOfPages: 1, publishYear: 1, pictureUrl: nil, wishers: [], genres: [], rating: 5.0),
+            BookBase_deprecated(id: 2, author: "Author", language: "ENG", title: "Title here", numberOfPages: 1, publishYear: 1, pictureUrl: nil, wishers: [], genres: [], rating: 5.0),
+            BookBase_deprecated(id: 3, author: "Author", language: "ENG", title: "Title here", numberOfPages: 1, publishYear: 1, pictureUrl: nil, wishers: [], genres: [], rating: 5.0),
+            BookBase_deprecated(id: 4, author: "Author", language: "ENG", title: "Title here", numberOfPages: 1, publishYear: 1, pictureUrl: nil, wishers: [], genres: [], rating: 5.0),
+            BookBase_deprecated(id: 5, author: "Author", language: "ENG", title: "Title here", numberOfPages: 1, publishYear: 1, pictureUrl: nil, wishers: [], genres: [], rating: 5.0)
         ]))
     }
 }

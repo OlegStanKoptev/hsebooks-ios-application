@@ -25,14 +25,14 @@ struct BookListSelector: View {
             }
             .font(.system(size: 15))
             .textCase(.uppercase)
-            .frame(height: Constants.navBarChinHeight)
+            .frame(height: 34)
             .foregroundColor(.white)
         }
-        .background(Color("Accent"))
     }
 }
 struct BookListSelector_Previews: PreviewProvider {
     static var previews: some View {
         BookListSelector()
+            .background(Color("Accent"))
     }
 }

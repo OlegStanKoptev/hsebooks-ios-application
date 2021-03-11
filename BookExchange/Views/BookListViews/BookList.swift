@@ -9,13 +9,14 @@ import SwiftUI
 
 struct BookList: View {
     @EnvironmentObject var context: AppContext
-    @State var searchText: String = ""
-    var localBooks: [BookBase] = [
-        BookBase(id: 1, author: "Author", language: "ENG", title: "Title", numberOfPages: 1, publishYear: 1, wishers: [], genres: [], rating: 5.0)
+    var localBooks: [BookBase_deprecated] = [
+        BookBase_deprecated(id: 1, author: "Author", language: "ENG", title: "Title", numberOfPages: 1, publishYear: 1, wishers: [], genres: [], rating: 5.0)
     ]
     
     var body: some View {
         VStack(spacing: 0) {
+            SearchBar()
+                .padding(.vertical, 4)
             BookListSelector()
             ZStack {
                 BookListContent(localBooks: localBooks)
@@ -24,17 +25,16 @@ struct BookList: View {
             Spacer(minLength: 0)
         }
         .accentColor(.blue)
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                SearchBar(searchText: $searchText)
-            }
-        }
+        .navigationBarHidden(true)
+        .backgroundForNavBar(height: 44 + 36)
     }
 }
 
 struct BookList_Previews: PreviewProvider {
     static var previews: some View {
-        BookList()
-            .environmentObject(AppContext())
+        NavigationView {
+            BookList()
+                .environmentObject(AppContext())
+        }
     }
 }
