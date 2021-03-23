@@ -20,21 +20,7 @@ struct BookListIncomingRequestRow: View {
     var onAccept: (() -> Void)?
     var onDecline: (() -> Void)?
     var body: some View {
-        BookListRowBase(title: title, author: author, height: 120, trailingPadding: 0) {
-//            VStack(alignment: .leading, spacing: 4) {
-//                HStack {
-//                    Image(systemName: "pin.fill")
-//                        .foregroundColor(Color("Orange"))
-//                    Text("\(city)")
-//                }
-//                HStack {
-//                    Image(systemName: "person.circle.fill")
-//                        .foregroundColor(Color("AccentColor"))
-//                    Text("\(username)")
-//                }
-//            }
-//            .foregroundColor(Color(.lightGray))
-            
+        BookListRowBase(title: title, author: author, height: 120, trailingPadding: 0) {            
             VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 4) {
                     Text("Request from:")

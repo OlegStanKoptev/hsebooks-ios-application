@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DC04798A25FC244700CA47D1 /* BookListOutcomingRequestRow_old.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC04798925FC244700CA47D1 /* BookListOutcomingRequestRow_old.swift */; };
+		DC04798A25FC244700CA47D1 /* BookListIncomingRequestRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC04798925FC244700CA47D1 /* BookListIncomingRequestRow.swift */; };
 		DC04799025FC32FA00CA47D1 /* FilledRoundedButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC04798F25FC32FA00CA47D1 /* FilledRoundedButtonStyle.swift */; };
 		DC04799425FC330800CA47D1 /* RoundedButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC04799325FC330800CA47D1 /* RoundedButtonStyle.swift */; };
 		DC04799B25FC369600CA47D1 /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC04799A25FC369600CA47D1 /* LogInView.swift */; };
@@ -49,7 +49,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		DC04798925FC244700CA47D1 /* BookListOutcomingRequestRow_old.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListOutcomingRequestRow_old.swift; sourceTree = "<group>"; };
+		DC04798925FC244700CA47D1 /* BookListIncomingRequestRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListIncomingRequestRow.swift; sourceTree = "<group>"; };
 		DC04798F25FC32FA00CA47D1 /* FilledRoundedButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilledRoundedButtonStyle.swift; sourceTree = "<group>"; };
 		DC04799325FC330800CA47D1 /* RoundedButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedButtonStyle.swift; sourceTree = "<group>"; };
 		DC04799A25FC369600CA47D1 /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
@@ -182,7 +182,7 @@
 				DC0DCC6A25FECF6F0045C4BA /* RatingView.swift */,
 				DC28C0FD25FBEEED00D0C315 /* BookListRowBase.swift */,
 				DC84F76325FC1E8D0057CF76 /* BookListRowWithMenu.swift */,
-				DC04798925FC244700CA47D1 /* BookListOutcomingRequestRow_old.swift */,
+				DC04798925FC244700CA47D1 /* BookListIncomingRequestRow.swift */,
 				DC84F76025FC1D980057CF76 /* BookListOutcomingRequestRow.swift */,
 				DC04799A25FC369600CA47D1 /* LogInView.swift */,
 				DC04799D25FC387F00CA47D1 /* CustomLabel.swift */,
@@ -319,7 +319,7 @@
 				DC84F76425FC1E8D0057CF76 /* BookListRowWithMenu.swift in Sources */,
 				DCABEB7B25FCCB77002F689F /* Stand.swift in Sources */,
 				DCA2670F2608F08F00E82035 /* ProfileMenu.swift in Sources */,
-				DC04798A25FC244700CA47D1 /* BookListOutcomingRequestRow_old.swift in Sources */,
+				DC04798A25FC244700CA47D1 /* BookListIncomingRequestRow.swift in Sources */,
 				DC28C0FE25FBEEED00D0C315 /* BookListRowBase.swift in Sources */,
 				DC2C9DF7260A72AC009E898F /* Requests.swift in Sources */,
 				DC04799025FC32FA00CA47D1 /* FilledRoundedButtonStyle.swift in Sources */,

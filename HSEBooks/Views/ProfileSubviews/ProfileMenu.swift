@@ -25,7 +25,7 @@ struct ProfileMenu: View {
                 }
 
                 Section {
-                    LinkItem(title: "My Requests", systemImage: "bubble.left.and.bubble.right", destination: Text("Requests"))
+                    LinkItem(title: "My Requests", systemImage: "bubble.left.and.bubble.right", destination: Requests(currentPage: .outcoming))
                 }
 
                 Section(title: "Preferences", systemImage: "gearshape") {

@@ -74,6 +74,7 @@ struct Requests: View {
             
             Spacer(minLength: 0)
         }
+        .navigationBarHidden(true)
     }
 }
 
