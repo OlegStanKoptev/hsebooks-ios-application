@@ -78,6 +78,7 @@
 		DC2C9DF6260A72AC009E898F /* Requests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requests.swift; sourceTree = "<group>"; };
 		DC2C9DFA260A72CD009E898F /* OutcomingRequestsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutcomingRequestsList.swift; sourceTree = "<group>"; };
 		DC2C9DFF260A7562009E898F /* IncomingRequestsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingRequestsList.swift; sourceTree = "<group>"; };
+		DC2C9E08260A8E5D009E898F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		DC34050F26091C9900A1807D /* MyBooks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBooks.swift; sourceTree = "<group>"; };
 		DC3A56D425FEA58B0057ABEE /* StandList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandList.swift; sourceTree = "<group>"; };
 		DC3A56D725FEA6650057ABEE /* NavigationBarBackgroundStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarBackgroundStyle.swift; sourceTree = "<group>"; };
@@ -132,6 +133,7 @@
 		DC28C08025FBBC6D00D0C315 = {
 			isa = PBXGroup;
 			children = (
+				DC2C9E08260A8E5D009E898F /* README.md */,
 				DC28C08B25FBBC6D00D0C315 /* HSEBooks */,
 				DC28C08A25FBBC6D00D0C315 /* Products */,
 			);
