@@ -82,7 +82,7 @@ struct BookRequest: View {
                             .opacity(0.25)
                     }
                 }
-                .padding(.horizontal, 8)
+                .padding(8)
             }
         }
         .navigationBarHidden(true)

@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var currentTab: Int = 0
     var body: some View {
-        TabView {
+        TabView(selection: $currentTab) {
             NavigationView {
                 Stand()
             }
@@ -17,6 +18,7 @@ struct ContentView: View {
                 Image(systemName: "house")
                 Text("Home")
             }
+            .tag(0)
             
             NavigationView {
                 Text("Page 2")
@@ -26,6 +28,7 @@ struct ContentView: View {
                 Image(systemName: "square.grid.2x2")
                 Text("Genres")
             }
+            .tag(1)
             
             NavigationView {
                 Text("Page 3")
@@ -35,6 +38,7 @@ struct ContentView: View {
                 Image(systemName: "heart")
                 Text("Favorites")
             }
+            .tag(2)
             
             NavigationView {
                 Profile()
@@ -43,6 +47,7 @@ struct ContentView: View {
                 Image(systemName: "person")
                 Text("Profile")
             }
+            .tag(3)
         }
         .accentColor(.orange)
     }

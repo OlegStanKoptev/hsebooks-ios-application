@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Profile: View {    
-    @State var authorized: Bool = true
+    @State var authorized: Bool = false
     @State var authPagePresented: Bool = false
     var body: some View {
         VStack(spacing: 0) {
@@ -19,9 +19,9 @@ struct Profile: View {
             Spacer(minLength: 0)
             
             if authorized {
-                ProfileMenu() {
+                ProfileMenu(logOutAction: {
                     authorized = false
-                }
+                })
             } else {
                 VStack {
                     Text("Authorize to request books or \nto give them away.")

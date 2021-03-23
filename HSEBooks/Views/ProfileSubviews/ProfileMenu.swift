@@ -15,7 +15,7 @@ struct ProfileMenu: View {
             VStack(spacing: 8) {
                 Section {
                     LinkItem(title: "Profile Information", systemImage: "key", destination: Text("Profile"))
-                    LinkItem(title: "Favorites", systemImage: "heart", destination: Text("Favorites"))
+                    LinkItem(title: "Favorites", systemImage: "heart", destination: Favorites())
                     LinkItem(title: "Notifications", systemImage: "bell", destination: Text("Notifications"))
                     LinkItem(title: "My Reviews", systemImage: "ellipsis.bubble", destination: Text("Reviews"))
                 }
@@ -186,7 +186,7 @@ struct ProfileMenuItemStyle: ViewModifier {
             content
                 .padding(.horizontal, 16)
                 .frame(height: UIFont.preferredFont(forTextStyle: .body).pointSize + 26)
-                .background(Color(.systemGray6))
+                .background(Color.gray.opacity(0.075))
                 .foregroundColor(.gray)
             Rectangle()
                 .fill(Color(.separator))

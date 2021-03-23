@@ -14,6 +14,7 @@ struct BookListRowWithMenu: View {
         var imageName: String?
         var onPressed: (() -> Void)?
     }
+    
     let title: String
     let author: String
     let publishYear: Int
