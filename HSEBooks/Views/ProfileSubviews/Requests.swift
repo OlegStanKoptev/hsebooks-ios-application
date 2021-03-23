@@ -30,7 +30,7 @@ struct Requests: View {
     var body: some View {
         VStack(spacing: 0) {
             NavigationBar(title: "Requests")
-                .padding(.vertical, 8)
+                .padding(.vertical, 4)
                 .navigationBarBackgroundStyle()
             
             HStack(spacing: 0) {

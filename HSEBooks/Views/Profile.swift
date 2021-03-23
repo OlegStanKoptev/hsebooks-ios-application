@@ -13,9 +13,8 @@ struct Profile: View {
     var body: some View {
         VStack(spacing: 0) {
             NavigationBar(title: "Profile", backButtonHidden: true)
-                .padding(.bottom, 4)
+                .padding(.vertical, 4)
                 .navigationBarBackgroundStyle()
-                .ignoresSafeArea(.keyboard, edges: .bottom)
             
             Spacer(minLength: 0)
             
