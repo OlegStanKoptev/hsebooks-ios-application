@@ -46,7 +46,6 @@
 		DCA2670F2608F08F00E82035 /* ProfileMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA2670E2608F08F00E82035 /* ProfileMenu.swift */; };
 		DCABEB7325FCC16A002F689F /* BookCover.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCABEB7225FCC16A002F689F /* BookCover.swift */; };
 		DCABEB7B25FCCB77002F689F /* Stand.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCABEB7A25FCCB77002F689F /* Stand.swift */; };
-		DCF9990925FF9153007A7BBB /* ProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF9990825FF9153007A7BBB /* ProfileScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -91,7 +90,6 @@
 		DCA2670E2608F08F00E82035 /* ProfileMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileMenu.swift; sourceTree = "<group>"; };
 		DCABEB7225FCC16A002F689F /* BookCover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCover.swift; sourceTree = "<group>"; };
 		DCABEB7A25FCCB77002F689F /* Stand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stand.swift; sourceTree = "<group>"; };
-		DCF9990825FF9153007A7BBB /* ProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,7 +187,6 @@
 				DC04799A25FC369600CA47D1 /* LogInView.swift */,
 				DC04799D25FC387F00CA47D1 /* CustomLabel.swift */,
 				DC77FCC32609270A003CD85B /* NewBookForm.swift */,
-				DCA2670E2608F08F00E82035 /* ProfileMenu.swift */,
 			);
 			path = ViewsLibrary;
 			sourceTree = "<group>";
@@ -198,7 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				DC9454F125FF8A920015BB16 /* AuthScreen.swift */,
-				DCF9990825FF9153007A7BBB /* ProfileScreen.swift */,
+				DCA2670E2608F08F00E82035 /* ProfileMenu.swift */,
 				DC34050F26091C9900A1807D /* MyBooks.swift */,
 				DC2C9DEC260A6B11009E898F /* NewBook.swift */,
 				DC2C9DF6260A72AC009E898F /* Requests.swift */,
@@ -336,7 +333,6 @@
 				DC2C9E00260A7562009E898F /* IncomingRequestsList.swift in Sources */,
 				DC04799425FC330800CA47D1 /* RoundedButtonStyle.swift in Sources */,
 				DC0DCC6825FEC8970045C4BA /* MenuItem.swift in Sources */,
-				DCF9990925FF9153007A7BBB /* ProfileScreen.swift in Sources */,
 				DC28C0F525FBE62000D0C315 /* HorizontalMenu.swift in Sources */,
 				DC0DCC7425FEDE6F0045C4BA /* Profile.swift in Sources */,
 				DC3A56D525FEA58B0057ABEE /* StandList.swift in Sources */,

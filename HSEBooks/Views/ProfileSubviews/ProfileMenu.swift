@@ -11,31 +11,33 @@ struct ProfileMenu: View {
     @State var loadOnlyWithWifi: Bool = false
     var logOutAction: () -> Void
     var body: some View {
-        VStack(spacing: 8) {
-            Section {
-                LinkItem(title: "Profile Information", systemImage: "key", destination: Text("Profile"))
-                LinkItem(title: "Favorites", systemImage: "heart", destination: Text("Favorites"))
-                LinkItem(title: "Notifications", systemImage: "bell", destination: Text("Notifications"))
-                LinkItem(title: "My Reviews", systemImage: "ellipsis.bubble", destination: Text("Reviews"))
-            }
-            
-            Section {
-                LinkItem(title: "My Books", systemImage: "book", destination: MyBooks())
-            }
+        ScrollView(.vertical)  {
+            VStack(spacing: 8) {
+                Section {
+                    LinkItem(title: "Profile Information", systemImage: "key", destination: Text("Profile"))
+                    LinkItem(title: "Favorites", systemImage: "heart", destination: Text("Favorites"))
+                    LinkItem(title: "Notifications", systemImage: "bell", destination: Text("Notifications"))
+                    LinkItem(title: "My Reviews", systemImage: "ellipsis.bubble", destination: Text("Reviews"))
+                }
+                
+                Section {
+                    LinkItem(title: "My Books", systemImage: "book", destination: MyBooks())
+                }
 
-            Section {
-                LinkItem(title: "My Requests", systemImage: "bubble.left.and.bubble.right", destination: Text("Requests"))
-            }
+                Section {
+                    LinkItem(title: "My Requests", systemImage: "bubble.left.and.bubble.right", destination: Text("Requests"))
+                }
 
-            Section(title: "Preferences", systemImage: "gearshape") {
-                ChooserItem(title: "Language", currentValue: "English")
-                SwitcherItem(title: "Load images only through Wi-Fi", isOn: $loadOnlyWithWifi)
-                LinkItem(title: "Help", destination: Text("Help"))
-            }
+                Section(title: "Preferences", systemImage: "gearshape") {
+                    ChooserItem(title: "Language", currentValue: "English")
+                    SwitcherItem(title: "Load images only through Wi-Fi", isOn: $loadOnlyWithWifi)
+                    LinkItem(title: "Help", destination: Text("Help"))
+                }
 
-            Section {
-                ButtonItem(title: "Log Out", systemImage: "escape") {
-                    logOutAction()
+                Section {
+                    ButtonItem(title: "Log Out", systemImage: "escape") {
+                        logOutAction()
+                    }
                 }
             }
         }

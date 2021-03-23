@@ -20,7 +20,7 @@ struct Profile: View {
             Spacer(minLength: 0)
             
             if authorized {
-                ProfileScreen() {
+                ProfileMenu() {
                     authorized = false
                 }
             } else {
