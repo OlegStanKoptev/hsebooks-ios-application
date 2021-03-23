@@ -21,8 +21,7 @@ struct ContentView: View {
             .tag(0)
             
             NavigationView {
-                Text("Page 2")
-                    .navigationBarHidden(true)
+                Stand(chosenMenuItem: Stand.MenuItems.Genres)
             }
             .tabItem {
                 Image(systemName: "square.grid.2x2")
@@ -31,8 +30,7 @@ struct ContentView: View {
             .tag(1)
             
             NavigationView {
-                Text("Page 3")
-                    .navigationBarHidden(true)
+                Favorites()
             }
             .tabItem {
                 Image(systemName: "heart")

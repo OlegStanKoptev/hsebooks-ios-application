@@ -17,7 +17,7 @@ struct Stand: View {
     }
     
     @State private var query: String = ""
-    @State private var chosenMenuItem: MenuItem = MenuItems.WhatToRead
+    @State var chosenMenuItem: MenuItem = MenuItems.WhatToRead
     @State private var initialChosenMenuSet = false
     var body: some View {
         VStack(spacing: 0) {
