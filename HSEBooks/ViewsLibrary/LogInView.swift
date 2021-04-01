@@ -54,7 +54,7 @@ struct LogInView: View {
             Button(action: { onSignupPressed?() }, label: {
                 Text("Sign Up")
             })
-            .buttonStyle(FilledRoundedButtonStyle(fillColor: Color("Orange"), verticalPadding: 32))
+            .buttonStyle(FilledRoundedButtonStyle(fillColor: .accentColor, verticalPadding: 32))
         }
         .padding(.vertical, 36)
     }

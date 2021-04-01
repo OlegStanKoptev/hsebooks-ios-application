@@ -8,46 +8,33 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var currentTab: Int = 0
+    enum Tab {
+        case home, /* genres, favorites, */profile
+    }
+    
+    @State private var currentTab = Tab.home
+    
     var body: some View {
         TabView(selection: $currentTab) {
             NavigationView {
-                Stand()
+                Stand(currentTab: $currentTab)
             }
             .tabItem {
                 Image(systemName: "house")
                 Text("Home")
             }
-            .tag(0)
+            .tag(Tab.home)
             
             NavigationView {
-                Stand(chosenMenuItem: Stand.MenuItems.Genres)
-            }
-            .tabItem {
-                Image(systemName: "square.grid.2x2")
-                Text("Genres")
-            }
-            .tag(1)
-            
-            NavigationView {
-                Favorites()
-            }
-            .tabItem {
-                Image(systemName: "heart")
-                Text("Favorites")
-            }
-            .tag(2)
-            
-            NavigationView {
-                Profile()
+                Profile(currentTab: $currentTab)
             }
             .tabItem {
                 Image(systemName: "person")
                 Text("Profile")
             }
-            .tag(3)
+            .tag(Tab.profile)
         }
-        .accentColor(.orange)
+        .ignoresSafeArea(.keyboard, edges: .bottom)
     }
 }
 

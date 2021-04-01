@@ -39,8 +39,8 @@ struct CustomLabel: View {
 struct CustomLabel_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            CustomLabel(text: "Name", image: Image(systemName: "person.circle.fill"), imageColor: Color("AccentColor"))
-            CustomLabel(text: "Moscow",image: Image(systemName: "pin.fill"), imageColor: Color("Orange"))
+            CustomLabel(text: "Name", image: Image(systemName: "person.circle.fill"), imageColor: Color("SecondColor"))
+            CustomLabel(text: "Moscow",image: Image(systemName: "pin.fill"), imageColor: .accentColor)
         }
         .padding()
         .previewLayout(.sizeThatFits)

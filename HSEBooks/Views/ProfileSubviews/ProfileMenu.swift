@@ -8,38 +8,49 @@
 import SwiftUI
 
 struct ProfileMenu: View {
+    @Binding var currentTab: ContentView.Tab
     @State var loadOnlyWithWifi: Bool = false
     var logOutAction: () -> Void
     var body: some View {
-        ScrollView(.vertical)  {
-            VStack(spacing: 8) {
-                Section {
-                    LinkItem(title: "Profile Information", systemImage: "key", destination: Text("Profile"))
-                    LinkItem(title: "Favorites", systemImage: "heart", destination: Favorites())
-                    LinkItem(title: "Notifications", systemImage: "bell", destination: Text("Notifications"))
-                    LinkItem(title: "My Reviews", systemImage: "ellipsis.bubble", destination: Text("Reviews"))
-                }
-                
-                Section {
-                    LinkItem(title: "My Books", systemImage: "book", destination: MyBooks())
-                }
+        VStack(spacing: 0) {
+            ScrollView(.vertical)  {
+                VStack(spacing: 8) {
+                    Section {
+                        LinkItem(title: "Profile Information", systemImage: "key", destination: Text("Profile"))
+                        LinkItem(title: "Favorites", systemImage: "heart", destination: Favorites())
+//                        FakeLinkItem(title: "Favorites", systemImage: "heart") {
+//                            currentTab = .favorites
+//                        }
+                        LinkItem(title: "Notifications", systemImage: "bell", destination: Text("Notifications"))
+                        LinkItem(title: "My Reviews", systemImage: "ellipsis.bubble", destination: Text("Reviews"))
+                    }
+                    
+                    Section {
+                        LinkItem(title: "My Books", systemImage: "book", destination: MyBooks())
+                    }
 
-                Section {
-                    LinkItem(title: "My Requests", systemImage: "bubble.left.and.bubble.right", destination: Requests(currentPage: .outcoming))
-                }
+                    Section {
+                        LinkItem(title: "My Requests", systemImage: "bubble.left.and.bubble.right", destination: Requests(
+    //                                tabBar: tabBar,
+                                    currentPage: .outcoming)
+                        )
+                    }
 
-                Section(title: "Preferences", systemImage: "gearshape") {
-                    ChooserItem(title: "Language", currentValue: "English")
-                    SwitcherItem(title: "Load images only through Wi-Fi", isOn: $loadOnlyWithWifi)
-                    LinkItem(title: "Help", destination: Text("Help"))
-                }
+                    Section(title: "Preferences", systemImage: "gearshape") {
+                        ChooserItem(title: "Language", currentValue: "English")
+                        SwitcherItem(title: "Load images only through Wi-Fi", isOn: $loadOnlyWithWifi)
+                        LinkItem(title: "Help", destination: Text("Help"))
+                    }
 
-                Section {
-                    ButtonItem(title: "Log Out", systemImage: "escape") {
-                        logOutAction()
+                    Section {
+                        ButtonItem(title: "Log Out", systemImage: "escape") {
+                            logOutAction()
+                        }
                     }
                 }
             }
+            
+//            TabBar(tabBarContext: tabBarContext)
         }
     }
     
@@ -129,6 +140,20 @@ struct ProfileMenu: View {
         }
     }
     
+    struct FakeLinkItem: View {
+        var title: String = "Item"
+        var systemImage: String?
+        var action: (() -> Void)?
+        var body: some View {
+            Button(action: { action?() }) {
+                MenuItemBase(title: title, systemImage: systemImage) {
+                    Image(systemName: "chevron.forward")
+                }
+            }
+            .profileMenuItemStyle()
+        }
+    }
+    
     struct ChooserItem: View {
         var title: String = "Item"
         var currentValue: String?
@@ -204,7 +229,6 @@ extension View {
 
 struct NewProfileScreen_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileMenu() {}
-            .accentColor(Color("Orange"))
+        ProfileMenu(currentTab: .constant(.profile)) {}
     }
 }

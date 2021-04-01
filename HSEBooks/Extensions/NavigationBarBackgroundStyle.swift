@@ -11,7 +11,7 @@ struct NavigationBarBackgroundStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
             .background(
-                Color("AccentColor")
+                Color("SecondColor")
                     .edgesIgnoringSafeArea(.top)
             )
     }

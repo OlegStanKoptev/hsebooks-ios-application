@@ -8,33 +8,35 @@
 import SwiftUI
 
 struct BookRequest: View {
-    var title: String
-    var author: String
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    var book: BookBase
     var sendRequestAction: ((String) -> Void)?
     
     @State var message: String = ""
     
-    func sendButtonPressed() {
+    private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+    
+    private func sendButtonPressed() {
+        hideKeyboard()
         sendRequestAction?(message)
+        presentationMode.wrappedValue.dismiss()
     }
     
     var body: some View {
         VStack(spacing: 0) {
             NavigationBar(title: "Title")
                 .padding(.vertical, 4)
-                .background(
-                    Color("AccentColor")
-                        .edgesIgnoringSafeArea(.top)
-                )
+                .navigationBarBackgroundStyle()
             
             
             HStack(spacing: 16) {
                 BookCover()
                     .frame(height: 100)
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(title)
-                    Text(author)
+                    Text(book.title)
+                    Text(book.author)
                 }
                 Spacer()
             }
@@ -49,8 +51,8 @@ struct BookRequest: View {
             
             ScrollView(.vertical) {
                 VStack {
-                    CustomLabel(text: "Username", image: Image(systemName: "person.circle.fill"), imageColor: Color("AccentColor"))
-                    CustomLabel(text: "City", image: Image(systemName: "map.fill"), imageColor: .orange)
+                    CustomLabel(text: "Username", image: Image(systemName: "person.circle.fill"), imageColor: Color("SecondColor"))
+                    CustomLabel(text: "City", image: Image(systemName: "map.fill"), imageColor: .accentColor)
                     
                     VStack(spacing: 4) {
                         HStack {
@@ -83,6 +85,9 @@ struct BookRequest: View {
                     }
                 }
                 .padding(8)
+                .onTapGesture {
+                    hideKeyboard()
+                }
             }
         }
         .navigationBarHidden(true)
@@ -91,6 +96,6 @@ struct BookRequest: View {
 
 struct BookRequest_Previews: PreviewProvider {
     static var previews: some View {
-        BookRequest(title: "Title", author: "Author")
+        BookRequest(book: BookBase.previewInstance)
     }
 }

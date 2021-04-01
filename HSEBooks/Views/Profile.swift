@@ -7,9 +7,11 @@
 
 import SwiftUI
 
-struct Profile: View {    
-    @State var authorized: Bool = false
-    @State var authPagePresented: Bool = false
+struct Profile: View {
+//    @EnvironmentObject var tabBarContext: TabBarContext
+    @Binding var currentTab: ContentView.Tab
+    @State private var authorized: Bool = false
+    @State private var authPagePresented: Bool = false
     var body: some View {
         VStack(spacing: 0) {
             NavigationBar(title: "Profile", backButtonHidden: true)
@@ -19,9 +21,12 @@ struct Profile: View {
             Spacer(minLength: 0)
             
             if authorized {
-                ProfileMenu(logOutAction: {
-                    authorized = false
-                })
+                ProfileMenu(
+                    currentTab: $currentTab,
+                    logOutAction: {
+                        authorized = false
+                    }
+                )
             } else {
                 VStack {
                     Text("Authorize to request books or \nto give them away.")
@@ -31,7 +36,7 @@ struct Profile: View {
                     Button(action: { authPagePresented = true }) {
                         Text("Authorize")
                     }
-                    .buttonStyle(FilledRoundedButtonStyle(fillColor: Color("Orange"), verticalPadding: 24))
+                    .buttonStyle(FilledRoundedButtonStyle(fillColor: .accentColor, verticalPadding: 24))
                     .accentColor(.orange)
                     .padding(.horizontal, 32)
                 }
@@ -41,7 +46,9 @@ struct Profile: View {
             Spacer(minLength: 0)
         }
         .sheet(isPresented: $authPagePresented, onDismiss: {}, content: {
-            AuthScreen(authorized: $authorized, presented: $authPagePresented)
+            AuthScreen(presented: $authPagePresented) { result in
+                authorized = result == .success
+            }
         })
         .ignoresSafeArea(.keyboard, edges: .bottom)
         .navigationBarHidden(true)
@@ -50,7 +57,8 @@ struct Profile: View {
 
 struct Profile_Previews: PreviewProvider {
     static var previews: some View {
-        Profile()
+        Profile(currentTab: .constant(.profile))
             .accentColor(Color("Orange"))
+//            .environmentObject(TabBarContext())
     }
 }

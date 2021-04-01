@@ -38,6 +38,7 @@ struct NavigationBar: View {
             }
         }
         .padding(.horizontal, 8)
+        .background(Color("SecondColor"))
     }
 }
 

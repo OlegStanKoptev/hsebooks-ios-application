@@ -13,7 +13,7 @@ struct RatingView: View {
         HStack(spacing: 0) {
             ForEach(0..<5) { index in
                 Image(systemName: "star.fill")
-                    .foregroundColor(Double(index) + 0.49 < rating ? Color("Orange") : Color(.lightGray))
+                    .foregroundColor(Double(index) + 0.49 < rating ? .accentColor : Color(.lightGray))
             }
             .font(.system(size: 14))
         }

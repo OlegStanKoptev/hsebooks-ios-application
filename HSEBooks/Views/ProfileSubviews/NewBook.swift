@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct NewBook: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     init() {
         UITextView.appearance().backgroundColor = .clear
         UITextView.appearance().contentInset.top = -8
@@ -22,6 +23,11 @@ struct NewBook: View {
     @State var city: String = ""
     @State var description: String = ""
     @State var images: [String] = [ "Image1.jpg" ]
+    
+    private func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
             NavigationBar(title: "Add a Book")
@@ -32,10 +38,13 @@ struct NewBook: View {
                     .padding(.vertical, 24)
                 
                 
-                Button(action: {}) {
+                Button(action: {
+                    hideKeyboard()
+                    presentationMode.wrappedValue.dismiss()
+                }) {
                     Text("SEND")
                 }
-                .buttonStyle(FilledRoundedButtonStyle(fillColor: Color("Orange"), verticalPadding: 24))
+                .buttonStyle(FilledRoundedButtonStyle(fillColor: .accentColor, verticalPadding: 24))
                 .padding(.horizontal, 80)
                 
                 GeometryReader { _ in
@@ -46,7 +55,11 @@ struct NewBook: View {
                         .opacity(0.25)
                 }
             }
+            .onTapGesture {
+                hideKeyboard()
+            }
         }
+        .navigationBarHidden(true)
     }
 }
 

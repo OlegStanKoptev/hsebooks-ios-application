@@ -64,7 +64,7 @@ struct SearchBar: View {
 struct SearchBar_Previews: PreviewProvider {
     static var previews: some View {
         SearchBar(query: .constant(""))
-            .background(Color("AccentColor"))
+            .background(Color("SecondColor"))
             .previewLayout(.sizeThatFits)
     }
 }

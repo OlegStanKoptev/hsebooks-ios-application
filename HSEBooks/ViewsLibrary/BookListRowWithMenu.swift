@@ -15,11 +15,7 @@ struct BookListRowWithMenu: View {
         var onPressed: (() -> Void)?
     }
     
-    let title: String
-    let author: String
-    let publishYear: Int
-    let rating: Double
-    var image: Image?
+    let book: BookBase
     let height: CGFloat
     var actions: [Action]?
     
@@ -27,20 +23,20 @@ struct BookListRowWithMenu: View {
         ZStack {
             NavigationLink(
                 destination:
-                    BookPage(title: title, author: author, rating: rating),
+                    BookPage(book: book),
                 label: {
-                    BookListRowBase(title: title, author: author, height: height, trailingPadding: 16) {
+                    BookListRowBase(title: book.title, author: book.author, photoId: book.photoId, height: height, trailingPadding: 16) {
                         VStack(alignment: .leading, spacing: 4) {
                             HStack(spacing: 4) {
                                 Image(systemName: "calendar.circle.fill")
-                                    .foregroundColor(Color("Orange"))
+                                    .foregroundColor(.accentColor)
                                     .font(.system(size: 14))
-                                Text(String(publishYear))
+                                Text(String(book.publishYear))
                             }
                             
                             HStack(spacing: 4) {
-                                RatingView(rating: rating)
-                                Text(String(rating))
+                                RatingView(rating: book.rating)
+                                Text(String(book.rating))
                             }
                         }
                     }
@@ -93,7 +89,7 @@ struct BookListRowWithMenu_Previews: PreviewProvider {
     ]
     
     static var previews: some View {
-        BookListRowWithMenu(title: "Title", author: "Author", publishYear: 2020, rating: 5.0, height: 120, actions: actions)
+        BookListRowWithMenu(book: BookBase.previewInstance, height: 120, actions: actions)
         .previewLayout(.sizeThatFits)
     }
 }

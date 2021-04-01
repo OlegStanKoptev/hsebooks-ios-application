@@ -19,12 +19,11 @@ struct OutcomingRequestsList: View {
     }
     
     @Binding var requests: [Request]
-    
     var body: some View {
         ScrollView(.vertical) {
             VStack(spacing: 0) {
                 ForEach(requests) { request in
-                    BookListOutcomingRequestRow(title: request.title, author: request.author, username: request.username, city: request.city, date: request.date, status: request.status)
+                    BookListOutcomingRequestRow(title: request.title, author: request.author, username: request.username, city: request.city, date: request.date, status: request.status, destination: Chat())
                 }
             }
             .padding(.vertical, 8)

@@ -19,7 +19,6 @@ struct IncomingRequestsList: View {
     }
     
     @Binding var requests: [Request]
-        
     var body: some View {
         ScrollView(.vertical) {
             VStack(spacing: 0) {
@@ -31,6 +30,7 @@ struct IncomingRequestsList: View {
                         city: request.city,
                         date: request.date,
                         status: request.status,
+                        destination: Chat(),
                         onAccept: {
                             
                         },

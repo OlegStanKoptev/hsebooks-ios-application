@@ -8,16 +8,21 @@
 import SwiftUI
 
 struct AuthScreen: View {
-    @Binding var authorized: Bool
+    enum Result {
+        case success, cancel
+    }
+    
     var presented: Binding<Bool>?
+    var handleDismiss: ((Result) -> Void)?
+    
     func handleLogIn(username: String, password: String) -> Bool {
         presented?.wrappedValue = false
-        authorized = true
+        handleDismiss?(.success)
         return true
     }
     
     func handleSignUp() {
-        
+        handleDismiss?(.success)
     }
     
     var body: some View {
@@ -63,6 +68,6 @@ struct AuthScreen: View {
 
 struct AuthScreen_Previews: PreviewProvider {
     static var previews: some View {
-        AuthScreen(authorized: .constant(false))
+        AuthScreen()
     }
 }

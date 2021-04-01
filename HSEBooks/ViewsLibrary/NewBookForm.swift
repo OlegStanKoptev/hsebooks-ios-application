@@ -13,7 +13,7 @@ struct NewBookForm: View {
     @Binding var genre: String
     @Binding var city: String
     @Binding var description: String
-    @Binding var images: [String]
+    @Binding var images: [String]    
     var body: some View {
         VStack(spacing: 12) {
             TextField("Book name", text: $name)
@@ -72,9 +72,8 @@ struct NewBookForm: View {
 struct NewBookForm_Previews: PreviewProvider {
     static var previews: some View {
         NewBookForm(name: .constant(""), author: .constant(""), genre: .constant(""), city: .constant(""), description: .constant(""), images: .constant([ "Cover1.jpg" ]))
-            .accentColor(Color("Orange"))
-            .onAppear {
-                UITextView.appearance().backgroundColor = .clear
-            }
+//            .onAppear {
+//                UITextView.appearance().backgroundColor = .clear
+//            }
     }
 }

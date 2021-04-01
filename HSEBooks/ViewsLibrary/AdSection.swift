@@ -8,48 +8,58 @@
 import SwiftUI
 
 struct AdSection: View {
-    var images: [Image]?
-    var colors: [Color]?
+    var images: [Image]
     @State private var currentIndex: Int = 0
     private let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
     private let height: CGFloat = 128
-    private var count: Int {
-        return images?.count ?? colors?.count ?? 0
-    }
+    
     var body: some View {
         VStack {
             TabView(selection: $currentIndex) {
-                Group {
-                    if let images = images {
-                        ForEach(0..<images.count) { index in
-                            GeometryReader { geo in
-                                images[index]
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: geo.size.width, height: height)
-                                    .clipped()
-                            }
-                        }
-                    } else if let colors = colors {
-                        ForEach(0..<colors.count) { index in
-                            colors[index]
-                        }
-                    }
+                ForEach(0..<images.count) { index in
+                    AdImage(image: images[index])
                 }
             }
-            .frame(height: height)
+            .frame(height: 128)
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-            HStack {
-                ForEach(0..<count) { index in
-                    Circle()
-                        .fill(index == currentIndex ? Color("AccentColor") : Color(.systemGray5))
-                        .frame(width: 8, height: 8)
-                }
-            }
+            
+            AdIndexator(currentIndex: $currentIndex, overallAmount: images.count)
         }
         .onReceive(timer) { _ in
             withAnimation {
-                currentIndex = (currentIndex + 1) % count
+                currentIndex = (currentIndex + 1) % images.count
+            }
+        }
+    }
+}
+
+// Отформатированное рекламное изображение
+struct AdImage: View {
+    var image: Image
+    var body: some View {
+        GeometryReader { geo in
+            image
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: geo.size.width, height: 128)
+                .clipped()
+        }
+    }
+}
+
+// Индексатор для рекламного блока
+struct AdIndexator: View {
+    @Binding var currentIndex: Int
+    var overallAmount: Int
+    var body: some View {
+        HStack {
+            ForEach(0..<overallAmount) { index in
+                Circle()
+                    .fill(
+                        index == currentIndex ? Color("SecondColor") :
+                            Color(.systemGray5)
+                    )
+                    .frame(width: 8, height: 8)
             }
         }
     }
@@ -62,19 +72,11 @@ struct AdSection_Previews: PreviewProvider {
         Image("Ad3"),
         Image("Ad4")
     ]
-    static let colors: [Color] = [
-        Color.blue,
-        Color.purple,
-        Color.red,
-        Color.orange,
-        Color.yellow,
-        Color.green
-    ]
     static var previews: some View {
         Group {
             AdSection(images: images)
-            AdSection(colors: colors)
         }
-            .previewLayout(.sizeThatFits)
+        .previewLayout(.sizeThatFits)
+        .padding()
     }
 }

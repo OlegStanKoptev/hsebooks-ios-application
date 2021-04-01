@@ -10,17 +10,20 @@ import SwiftUI
 struct HorizontalMenu: View {
     let items: [MenuItem]?
     var chosenItem: Binding<MenuItem>?
+    var handler: ((MenuItem) -> Void)?
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 16) {
                 if let items = items {
                     ForEach(items, id: \.rawValue) { item in
-                        Button(action: { chosenItem?.wrappedValue = item }, label: {
+                        Button(action: {
+                            handler?(item)
+                        }, label: {
                             Text(item.rawValue)
-                                .font(.system(size: 16))
+                                .font(.system(size: 15))
                                 .textCase(.uppercase)
-                                .foregroundColor(item.rawValue == chosenItem?.wrappedValue.rawValue ?? "" ? Color("Orange") : .white)
+                                .foregroundColor(item.rawValue == chosenItem?.wrappedValue.rawValue ?? "" ? .accentColor : .white)
                         })
                         .buttonStyle(PlainButtonStyle())
                     }
@@ -42,7 +45,7 @@ struct HorizontalMenu_Previews: PreviewProvider {
     }
     static var previews: some View {
         HorizontalMenu(items: MenuItems.allCases, chosenItem: .constant(MenuItems.Genres))
-            .background(Color("AccentColor"))
             .previewLayout(.sizeThatFits)
+            .background(Color("SecondColor"))
     }
 }

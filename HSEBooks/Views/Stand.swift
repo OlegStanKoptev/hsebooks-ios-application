@@ -8,31 +8,25 @@
 import SwiftUI
 
 struct Stand: View {
-    enum MenuItems: String, MenuItem, CaseIterable {
-        case Genres
-        case WhatToRead = "What to read"
-        case Popular
-        case Collection
-        case New
-    }
-    
+    @Binding var currentTab: ContentView.Tab
+    @StateObject var viewModel = StandViewModel(initialMenuPage: StandViewModel.MenuItems.WhatToRead)
     @State private var query: String = ""
-    @State var chosenMenuItem: MenuItem = MenuItems.WhatToRead
-    @State private var initialChosenMenuSet = false
     var body: some View {
         VStack(spacing: 0) {
             Group {
-                SearchBar(placeholderText: "Search...", query: $query)
-                HorizontalMenu(items: MenuItems.allCases, chosenItem: $chosenMenuItem)
+                SearchBar(query: $query)
+                HorizontalMenu(items: StandViewModel.MenuItems.allCases, chosenItem: $viewModel.chosenMenuItem) { menuItem in
+                    viewModel.chosenMenuItem = menuItem
+                }
             }
             .navigationBarBackgroundStyle()
             
             Spacer(minLength: 0)
             
-            switch chosenMenuItem {
-            case MenuItems.Genres:
+            switch viewModel.chosenMenuItem {
+            case StandViewModel.MenuItems.Genres:
                 GenresStand()
-            case MenuItems.WhatToRead:
+            case StandViewModel.MenuItems.WhatToRead:
                 WhatToReadStand()
             default:
                 Text("Not ready yet!")
@@ -46,6 +40,6 @@ struct Stand: View {
 
 struct Stand_Previews: PreviewProvider {
     static var previews: some View {
-        Stand()
+        Stand(currentTab: .constant(.home))
     }
 }

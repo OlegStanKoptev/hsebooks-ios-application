@@ -42,14 +42,14 @@ struct Requests: View {
                             .fill(
                                 currentPage == page ?
                                     Color.white :
-                                    Color("AccentColor").opacity(0.75)
+                                    Color("SecondColor").opacity(0.75)
                             )
                             .overlay(
                                 Text(page.rawValue)
                                     .textCase(.uppercase)
                                     .foregroundColor(
                                         currentPage == page ?
-                                            Color("Orange") :
+                                            .accentColor :
                                             .white
                                     )
                             )
@@ -60,15 +60,19 @@ struct Requests: View {
             .frame(height: UIFont.preferredFont(forTextStyle: .body).pointSize + 24)
             
             Rectangle()
-                .fill(Color("AccentColor"))
+                .fill(Color("SecondColor"))
                 .frame(height: 0.5)
             
             Group {
                 switch currentPage {
                 case .incoming:
-                    IncomingRequestsList(requests: $incomingRequests)
+                    IncomingRequestsList(
+                        requests: $incomingRequests
+                    )
                 case .outcoming:
-                    OutcomingRequestsList(requests: $outcomingRequests)
+                    OutcomingRequestsList(
+                        requests: $outcomingRequests
+                    )
                 }
             }
             

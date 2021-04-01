@@ -9,26 +9,34 @@ import SwiftUI
 
 /// BookCover takes image: Image as the only optional argument
 struct BookCover: View {
-    var image: Image?
+    var photoId: Int?
+    @State private var image: Image?
     private let placeHolder = Image(systemName: "xmark.circle")
     var body: some View {
-        Group {
+        GeometryReader { geo in
             if let image = image {
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fit)
+                    .padding(4)
+                    .frame(width: geo.size.width, height: geo.size.height)
             } else {
-                GeometryReader { geo in
-                    placeHolder
-                        .resizable()
-                        .foregroundColor(Color(.systemGray3))
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: geo.size.width * 0.5)
-                        .position(x: geo.size.width / 2, y: geo.size.height / 2)
-                }
+                placeHolder
+                    .resizable()
+                    .foregroundColor(Color(.systemGray3))
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: geo.size.width * 0.5)
+                    .position(x: geo.size.width / 2, y: geo.size.height / 2)
             }
         }
         .aspectRatio(75 / 100, contentMode: .fit)
+        .onAppear {
+            if let photoId = photoId {
+                Networking.shared.loadBookBasePhoto(id: photoId) { bookBasePhoto in
+                    image = Image(uiImage: UIImage(data: Data(base64Encoded: bookBasePhoto.image)!)!)
+                }
+            }
+        }
     }
 }
 

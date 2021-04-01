@@ -10,15 +10,15 @@ import SwiftUI
 struct BookListRowBase<Content: View>: View {
     let title: String
     let author: String
-    let image: Image?
+    let photoId: Int?
     let height: CGFloat
     let trailingPadding: CGFloat
     let bottomView: Content
     
-    init(title: String, author: String, image: Image? = nil, height: CGFloat, trailingPadding: CGFloat, @ViewBuilder bottom: () -> Content) {
+    init(title: String, author: String, photoId: Int? = nil, height: CGFloat, trailingPadding: CGFloat, @ViewBuilder bottom: () -> Content) {
         self.title = title
         self.author = author
-        self.image = image
+        self.photoId = photoId
         self.height = height
         self.trailingPadding = trailingPadding
         bottomView = bottom()
@@ -32,7 +32,7 @@ struct BookListRowBase<Content: View>: View {
                 .padding(.vertical, 6)
                 .shadow(color: Color.black.opacity(0.5), radius: 4)
             HStack {
-                BookCover(image: image)
+                BookCover(photoId: photoId)
                 .frame(width: 88)
                 VStack(alignment: .leading, spacing: 4) {
                     Text(title)

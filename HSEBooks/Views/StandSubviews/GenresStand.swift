@@ -9,6 +9,7 @@ import SwiftUI
 
 struct GenresStand: View {
     typealias ItemData = String
+//    @EnvironmentObject var tabBarContext: TabBarContext
     let items: [String] = [
         .init("Genre 1"),
         .init("Genre 2"),
@@ -45,6 +46,8 @@ struct GenresStand: View {
                     }
                 }
             }
+            
+//            TabBar(tabBarContext: tabBarContext)
         }
     }
 }
@@ -52,5 +55,6 @@ struct GenresStand: View {
 struct GenresStand_Previews: PreviewProvider {
     static var previews: some View {
         GenresStand()
+//            .environmentObject(TabBarContext())
     }
 }

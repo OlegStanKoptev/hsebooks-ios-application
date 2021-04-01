@@ -10,15 +10,13 @@ import SwiftUI
 struct MyBooks: View {
     struct ListRowData: Identifiable {
         let id = UUID()
-        var title: String = "Title"
-        var author: String = "Author"
-        var rating: Double = 0.0
-        var publishYear: Int = 2021
+        var base: BookBase = .previewInstance
     }
     
     typealias RowData = ListRowData
     typealias MenuItem = BookListRowWithMenu.Action
     
+//    @EnvironmentObject var tabBarContext: TabBarContext
     let title: String = "My Books"
     @State var query: String = ""
     
@@ -45,7 +43,7 @@ struct MyBooks: View {
         ZStack {
             VStack(spacing: 0) {
                 Group {
-                    SearchBar(placeholderText: "Search...", query: $query)
+                    SearchBar(query: $query)
                     NavigationBar(title: title)
                 }
                 .navigationBarBackgroundStyle()
@@ -53,13 +51,15 @@ struct MyBooks: View {
                 ScrollView(.vertical) {
                     VStack(spacing: 0) {
                         ForEach(items) { item in
-                            BookListRowWithMenu(title: item.title, author: item.author, publishYear: item.publishYear, rating: item.rating, image: nil, height: 120, actions: contextMenu)
+                            BookListRowWithMenu(book: item.base, height: 120, actions: contextMenu)
                         }
                     }
                     .padding(.vertical, 4)
                 }
                 
                 Spacer(minLength: 0)
+                
+//                TabBar(tabBarContext: tabBarContext)
             }
             
             VStack {
@@ -75,7 +75,7 @@ struct MyBooks: View {
                                 .padding(12)
                                 .background(
                                     Circle()
-                                        .fill(Color("Orange"))
+                                        .fill(Color("AccentColor"))
                                         .shadow(radius: 3, y: 2)
                                 )
                         }

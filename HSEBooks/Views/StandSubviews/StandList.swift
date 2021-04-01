@@ -8,29 +8,21 @@
 import SwiftUI
 
 struct StandList: View {
-    struct BookStandListRowData: Identifiable {
+    struct BookStandListRowData: Equatable, Identifiable {
         let id = UUID()
-        var title: String = "Title"
-        var author: String = "Author"
-        var rating: Double = 0.0
-        var publishYear: Int = 2021
+        var base: BookBase = .previewInstance
     }
     
     typealias RowData = BookStandListRowData
     typealias MenuItem = BookListRowWithMenu.Action
     
+//    @EnvironmentObject var tabBarContext: TabBarContext
     var title: String
     @State var query: String = ""
     
-    let items: [RowData] = [
-        .init(),
-        .init(),
-        .init(),
-        .init(),
-        .init(),
-        .init(),
-        .init(),
-    ]
+    @State var items: [RowData] = []
+    
+    @State var moreBooks: Bool = true
     
     let contextMenu: [MenuItem] = [
         .init(label: "Request", imageName: "paperplane", onPressed: {
@@ -41,31 +33,68 @@ struct StandList: View {
         })
     ]
     
+    func getMoreBooks() {
+        Networking.shared.loadBookBase(limit: 10, skip: items.count) { books in
+            if books.isEmpty {
+                moreBooks = false
+            } else {
+                items.append(contentsOf: books.map { book in
+                    BookStandListRowData(base: book)
+                })
+            }
+        }
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
             Group {
-                SearchBar(placeholderText: "Search...", query: $query)
+                SearchBar(query: $query)
                 NavigationBar(title: title)
             }
             .navigationBarBackgroundStyle()
             
             ScrollView(.vertical) {
-                VStack(spacing: 0) {
-                    ForEach(items) { item in
-                        BookListRowWithMenu(title: item.title, author: item.author, publishYear: item.publishYear, rating: item.rating, image: nil, height: 120, actions: contextMenu)
+                LazyVStack(spacing: 0) {
+                    if items.isEmpty {
+                        ProgressView()
+                            .padding(.top, 32)
+                    } else {
+                        ForEach(items) { item in
+                            BookListRowWithMenu(book: item.base, height: 120, actions: contextMenu)
+                                .onAppear {
+                                    if items.last! == item && moreBooks {
+                                        getMoreBooks()
+                                    }
+                                }
+                        }
+                        
+                        if moreBooks {
+                            ProgressView()
+                                .padding(.vertical, 16)
+                        }
                     }
                 }
                 .padding(.vertical, 4)
             }
             
             Spacer(minLength: 0)
+        
+//            TabBar(tabBarContext: tabBarContext)
         }
         .navigationBarHidden(true)
+        .onAppear {
+            Networking.shared.loadBookBase(limit: 10) { books in
+                items = books.map { book in
+                    BookStandListRowData(base: book)
+                }
+            }
+        }
     }
 }
 
 struct StandList_Previews: PreviewProvider {
     static var previews: some View {
         StandList(title: "Title")
+//            .environmentObject(TabBarContext())
     }
 }

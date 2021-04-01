@@ -7,18 +7,24 @@
 
 import SwiftUI
 
+protocol MenuItem {
+    var rawValue: String { get }
+}
+
 struct BookPage: View {
     enum BookPageTabs: String, MenuItem, CaseIterable {
         case About, Reviews, OtherBooks = "Other Books"
     }
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    var title: String
-    var author: String
-    var rating: Double
+    var book: BookBase
     
     @State var chosenTab: MenuItem = BookPageTabs.About
     let backColor: Color = Color.white.opacity(0.25)
+    
+    var genre: String {
+        return book.genreIds.map { String($0) }.joined(separator: ", ")
+    }
     
     func requestBook(with message: String) {
         print("Requesting a book with a message \"\(message)\"")
@@ -50,27 +56,27 @@ struct BookPage: View {
                     HStack {
                         Spacer()
                         
-                        BookCover()
+                        BookCover(photoId: book.photoId)
                             .background(backColor)
                             .cornerRadius(12)
                             .padding(.top, 16)
-                            .frame(width: UIScreen.main.bounds.width * 0.45)
+                            .frame(height: 200)
                         
                         Spacer()
                     }
                 }
-                Text(title)
+                Text(book.title)
                     .font(.system(size: 20))
                     .padding(.top, 8)
                     .lineLimit(2)
-                Text(author)
+                Text(book.author)
                     .font(.system(size: 16))
                     .foregroundColor(Color(.systemGray4))
                     .lineLimit(2)
                 
                 HStack {
-                    RatingView(rating: rating)
-                    Text(String(rating))
+                    RatingView(rating: book.rating)
+                    Text(String(book.rating))
                         .foregroundColor(Color(.systemGray4))
                 }
                 .padding(.bottom, 6)
@@ -82,7 +88,7 @@ struct BookPage: View {
                             Label("User name", systemImage: "person.circle")
                         )
                     NavigationLink(
-                        destination: BookRequest(title: title, author: author, sendRequestAction: requestBook),
+                        destination: BookRequest(book: book, sendRequestAction: requestBook),
                         label: {
                             Text("Request")
                         })
@@ -99,7 +105,7 @@ struct BookPage: View {
             }
             .foregroundColor(.white)
             .background(
-                Color("AccentColor")
+                Color("SecondColor")
                     .edgesIgnoringSafeArea(.top)
             )
             
@@ -127,13 +133,33 @@ struct BookPage: View {
             .lineLimit(2)
             .frame(height: UIFont.preferredFont(forTextStyle: .body).pointSize + 26)
             .padding(8)
-            .background(Color("AccentColor"))
+            .background(Color("SecondColor"))
             
             Spacer(minLength: 0)
             
             switch chosenTab {
             case BookPageTabs.About:
-                Text("About")
+                VStack {
+                    HStack {
+                        Text("Genre: \(genre)")
+                        Spacer()
+                    }
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 16)
+                    .background(
+                        Color(.systemGray6)
+                            .shadow(radius: 4)
+                    )
+                    
+                    HStack {
+                        Text(book.description ?? "There is no description")
+                        Spacer(minLength: 0)
+                    }
+                    .padding(.horizontal, 16)
+                    
+                    Spacer()
+                }
+                .background(Color(.systemGray6))
             case BookPageTabs.Reviews:
                 Text("Reviews")
             case BookPageTabs.OtherBooks:
@@ -143,6 +169,8 @@ struct BookPage: View {
             }
             
             Spacer(minLength: 0)
+            
+//            TabBar(tabBarContext: tabBarContext)
         }
         .navigationBarHidden(true)
     }
@@ -150,6 +178,7 @@ struct BookPage: View {
 
 struct BookPage_Previews: PreviewProvider {
     static var previews: some View {
-        BookPage(title: "Title", author: "Author", rating: 5.0)
+        BookPage(book: BookBase(id: 2, creationDate: "", author: "", language: "", title: "title", numberOfPages: 1, publishYear: 1, description: "Description", genreIds: [1, 2, 3], rating: 1.0, bookIds: [], wishersIds: [], photoId: nil))
+//            .environmentObject(TabBarContext())
     }
 }
