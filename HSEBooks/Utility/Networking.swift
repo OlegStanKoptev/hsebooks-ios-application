@@ -16,15 +16,20 @@ class Networking {
     static let shared = Networking()
     
     private init() {}
+    
+    let useLocalServer = true
 
     var myAccount = Account(username: "OlegStan", password: "superSecret")
     var authToken: String = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJPbGVnU3RhbiIsImV4cCI6MTYxNzc1NTE3N30.kI0lnwWrMEawfNzL6RV3fj9K1NVETUlooPqTe5SDgwUA45JrIlaGgGcILYaehYaEDrfMWKX6nYgAnsETR-Z0zg"
     let serverUrl = URL(string: "https://books.infostrategic.com")!
+    let localServerUrl = URL(string: "http://192.168.1.3:80")!
     var cachedBookBasePhotos: [BookBasePhoto] = []
     var cachedStandWhatToRead: [(String, [BookBase])] = []
     
+    var getServerUrl: URL { return useLocalServer ? localServerUrl : serverUrl }
+    
     private func makeRequest(to endpoint: String, with params: [String: String] = [:], handler: @escaping (Data) -> Void) {
-        var components = URLComponents(string: serverUrl.appendingPathComponent(endpoint).absoluteString)!
+        var components = URLComponents(string: getServerUrl.appendingPathComponent(endpoint).absoluteString)!
         components.queryItems = [ URLQueryItem(name: "latest", value: "true") ]
         if !params.isEmpty {
             components.queryItems?.append(contentsOf: params.map {
