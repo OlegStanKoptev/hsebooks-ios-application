@@ -12,6 +12,7 @@ struct HSEBooksApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(WhatToReadStandStore())
         }
     }
 }

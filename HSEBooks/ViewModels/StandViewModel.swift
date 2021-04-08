@@ -5,7 +5,7 @@
 //  Created by Oleg Koptev on 28.03.2021.
 //
 
-import SwiftUI
+import Foundation
 
 class StandViewModel: ObservableObject {
     enum MenuItems: String, MenuItem, CaseIterable {
@@ -21,6 +21,4 @@ class StandViewModel: ObservableObject {
     init(initialMenuPage: MenuItem) {
         chosenMenuItem = initialMenuPage
     }
-    
-    
 }

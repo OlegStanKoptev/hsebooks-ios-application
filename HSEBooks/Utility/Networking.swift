@@ -6,7 +6,8 @@
 //
 
 import Foundation
-
+/*
+@available(*, deprecated)
 class Networking {
     struct Account {
         var username: String
@@ -134,3 +135,4 @@ class Networking {
         }
     }
 }
+*/

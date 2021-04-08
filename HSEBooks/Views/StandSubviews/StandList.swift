@@ -34,15 +34,16 @@ struct StandList: View {
     ]
     
     func getMoreBooks() {
-        Networking.shared.loadBookBase(limit: 10, skip: items.count) { books in
-            if books.isEmpty {
-                moreBooks = false
-            } else {
-                items.append(contentsOf: books.map { book in
-                    BookStandListRowData(base: book)
-                })
-            }
-        }
+        
+//        Networking.shared.loadBookBase(limit: 10, skip: items.count) { books in
+//            if books.isEmpty {
+//                moreBooks = false
+//            } else {
+//                items.append(contentsOf: books.map { book in
+//                    BookStandListRowData(base: book)
+//                })
+//            }
+//        }
     }
     
     var body: some View {

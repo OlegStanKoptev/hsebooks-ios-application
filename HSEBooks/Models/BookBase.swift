@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-struct BookBase: Identifiable, Equatable, Codable {
+struct BookBase: Identifiable, Equatable, Decodable {
     var id: Int
     var creationDate: String
     var author: String

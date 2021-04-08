@@ -6,45 +6,10 @@
 //
 
 import SwiftUI
-import Combine
-
-class WhatToReadStandLoader: ObservableObject {
-    struct BookStandRowItemData: Identifiable {
-        let id = UUID()
-        var book: BookBase
-    }
-    struct BookStandRowData: Identifiable {
-        let id = UUID()
-        var title: String = "Row Title"
-        var items: [BookStandRowItemData]
-    }
-    
-    @Published var books: [BookStandRowData] = []
-    
-    init() { getNewData() }
-    
-    func getNewData() {
-        print("Getting new data for What To Read stand!")
-        Networking.shared.loadStandRows { rows in
-            self.books =
-                rows.map { row in
-                    .init(
-                        title: row.0,
-                        items:
-                            row.1.map { book in
-                                BookStandRowItemData(book: book)
-                            }
-                    )
-                }
-            
-            print("Data for What To Read stand succesfully loaded!")
-        }
-    }
-}
 
 struct WhatToReadStand: View {
-    typealias BookStandRowItemData = WhatToReadStandLoader.BookStandRowItemData
-    typealias RowData = WhatToReadStandLoader.BookStandRowData
+    typealias RowItemData = WhatToReadStandStore.RowItemData
+    typealias RowData = WhatToReadStandStore.RowData
     
     let adContent: [Image] = [
         Image("Ad1"),
@@ -53,24 +18,24 @@ struct WhatToReadStand: View {
         Image("Ad4"),
     ]
     
-    @StateObject var loader: WhatToReadStandLoader = WhatToReadStandLoader()
+    @EnvironmentObject var store: WhatToReadStandStore
     
     var body: some View {
         VStack(spacing: 0) {
             ScrollView(.vertical) {
                 AdSection(images: adContent)
                 
-                if loader.books.isEmpty {
+                if store.isLoading {
                     ProgressView()
                         .padding(.top, 64)
                 } else {
-                    ForEach(loader.books) { row in
+                    ForEach(store.shelves) { shelve in
                         VStack(spacing: 4) {
                             NavigationLink(
-                                destination: StandList(title: row.title),
+                                destination: StandList(title: shelve.title),
                                 label: {
                                     HStack(spacing: 4) {
-                                        Text(row.title)
+                                        Text(shelve.title)
                                             .font(.system(size: 15))
                                             .textCase(.uppercase)
                                             .foregroundColor(.orange)
@@ -84,7 +49,7 @@ struct WhatToReadStand: View {
                             .padding(.horizontal, 16)
                             
                             HStack {
-                                ForEach(row.items) { item in
+                                ForEach(shelve.items) { item in
                                     NavigationLink(
                                         destination: BookPage(book: item.book),
                                         label: {
@@ -101,31 +66,26 @@ struct WhatToReadStand: View {
                 Color.clear
                     .frame(height: 16)
             }
-            
-//            TabBar(tabBarContext: tabBarContext)
         }
-        .onAppear {
-//            Networking.shared.loadStandRows { rows in
-//                standRows =
-//                    rows.map { row in
-//                        .init(
-//                            title: row.0,
-//                            items:
-//                                row.1.map { book in
-//                                    BookStandRowItemData(book: book)
-//                                }
-//                        )
-//                    }
-//            }
-        }
+        .overlay(
+            Group {
+                if let error = store.error {
+                    Text(error.localizedDescription)
+                        .padding()
+                        .multilineTextAlignment(.center)
+                        .background(Color(.secondarySystemFill))
+                        .cornerRadius(4)
+                        .padding(64)
+                }
+            }
+        )
+        .onAppear { store.fetch() }
     }
 }
 
 struct WhatToReadStand_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
-            WhatToReadStand()
-        }
-//            .environmentObject(TabBarContext())
+        WhatToReadStand()
+            .environmentObject(WhatToReadStandStore())
     }
 }

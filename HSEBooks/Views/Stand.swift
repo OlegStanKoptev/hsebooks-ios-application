@@ -41,5 +41,6 @@ struct Stand: View {
 struct Stand_Previews: PreviewProvider {
     static var previews: some View {
         Stand(currentTab: .constant(.home))
+            .environmentObject(WhatToReadStandStore())
     }
 }

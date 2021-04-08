@@ -32,7 +32,7 @@ struct BookCover: View {
         .aspectRatio(75 / 100, contentMode: .fit)
         .onAppear {
             if let photoId = photoId {
-                Networking.shared.loadBookBasePhoto(id: photoId) { bookBasePhoto in
+                BookCoverService.shared.loadBookBasePhoto(id: photoId) { bookBasePhoto in
                     image = Image(uiImage: UIImage(data: Data(base64Encoded: bookBasePhoto.image)!)!)
                 }
             }
