@@ -17,9 +17,7 @@ struct HSEBooksiOSApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(AuthData())
-                .environmentObject(HomeData())
-                .environmentObject(GenreData())
+                .environmentObject(AppState())
         }
     }
 }

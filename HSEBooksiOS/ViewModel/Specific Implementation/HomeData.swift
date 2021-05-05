@@ -1,34 +1,34 @@
 //
 //  HomeData.swift
-//  HSEBooksiOSApp
+//  HSEBooksiOS
 //
-//  Created by Oleg Koptev on 23.04.2021.
+//  Created by Oleg Koptev on 04.05.2021.
 //
 
 import Foundation
 
 class HomeData: ObservableObject {
-    @Published var books: [(RemoteDataCredentials, [BookBase])] = []
+    @Published var sections: [(RemoteDataCredentials, [BookBase])] = []
     @Published var viewState: ViewState = .none
     private var isPreview: Bool = false
     
     static let preview: HomeData = {
         let model = HomeData()
         model.isPreview = true
-        model.books = [
-            (BookBase.new, BookBase.getBooks(amount: 3))
+        model.sections = [
+            (BookBase.new, BookBase.getItems(amount: 3))
         ]
         return model
     }()
     
-    private func loadBooks(_ credentials: RemoteDataCredentials, with authToken: String, previousData: [(RemoteDataCredentials, [BookBase])] = []) -> Result<[(RemoteDataCredentials, [BookBase])], RequestService.RequestError> {
-        var result: Result<[(RemoteDataCredentials, [BookBase])], RequestService.RequestError>!
+    private func loadBooks(_ credentials: RemoteDataCredentials, with authToken: String, previousData: [(RemoteDataCredentials, [BookBase])] = []) -> Result<[(RemoteDataCredentials, [BookBase])], RequestError> {
+        var result: Result<[(RemoteDataCredentials, [BookBase])], RequestError>!
         let semaphore = DispatchSemaphore(value: 0)
         
         var params = credentials.params
         params["limit"] = "3"
         
-        RequestService.shared.makeRequest(to: credentials.endpoint, with: params, using: authToken) { (localResult: Result<[BookBase], RequestService.RequestError>) in
+        RequestService.shared.makeRequest(to: credentials.endpoint, with: params, using: authToken) { (localResult: Result<[BookBase], RequestError>) in
             switch localResult {
             case .failure(let error):
                 result = .failure(error)
@@ -47,7 +47,7 @@ class HomeData: ObservableObject {
     func fetch(with auth: AuthData) {
         guard !isPreview, viewState != .loading, viewState != .result else { return }
         guard let authToken = auth.token, auth.isLoggedIn else {
-            books = []
+            sections = []
             viewState = .error("Not Logged In")
             return
         }
@@ -55,7 +55,7 @@ class HomeData: ObservableObject {
         viewState = .loading
         
         DispatchQueue.global(qos: .userInteractive).async {
-            var result: Result<[(RemoteDataCredentials, [BookBase])], RequestService.RequestError> = .success([])
+            var result: Result<[(RemoteDataCredentials, [BookBase])], RequestError> = .success([])
             for section in BookBase.home.sections {
                 result = result.flatMap { self.loadBooks(section, with: authToken, previousData: $0) }
             }
@@ -65,10 +65,15 @@ class HomeData: ObservableObject {
                 case .failure(let error):
                     self.viewState = .error(error.description)
                 case .success(let books):
-                    self.books = books
+                    self.sections = books
                     self.viewState = .result
                 }
             }
         }
+    }
+    
+    func clearCache() {
+        sections = []
+        viewState = .none
     }
 }

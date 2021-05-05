@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct User: Identifiable, Decodable {
+struct User: RemoteEntity {
     var id: Int
     var creationDate: String
     var role: String
@@ -21,12 +21,27 @@ struct User: Identifiable, Decodable {
     var incomingBookExchangeRequestIds: [Int]
     var exchangeListIds: [Int]
     
+    static func getItems(amount: Int) -> [User] {
+        var array = [User]()
+        for i in 0..<amount {
+            array.append(
+                User(id: i, creationDate: "2021-04-23T11:55:59.622+00:00", role: "User", username: "Keker", name: "Keker Olegovich", bookBaseAddRequestIds: [], wishListIds: [], complaintsIds: [], avatarId: nil, outcomingBookExchangeRequestIds: [], incomingBookExchangeRequestIds: [], exchangeListIds: [])
+            )
+        }
+        return array
+    }
+    
     static let `default` = User(id: 2, creationDate: "2021-04-23T11:55:59.622+00:00", role: "Admin", username: "OlegStan", name: "Oleg Koptev", bookBaseAddRequestIds: [], wishListIds: [], complaintsIds: [], avatarId: nil, outcomingBookExchangeRequestIds: [], incomingBookExchangeRequestIds: [], exchangeListIds: [])
     
     
     static let all = RemoteDataCredentials(
         name: "All Users",
         endpoint: "user"
+    )
+    
+    static let me = RemoteDataCredentials(
+        name: "Me",
+        endpoint: "user/me"
     )
     
     static let login = RemoteDataCredentials(

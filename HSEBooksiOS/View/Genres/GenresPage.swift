@@ -8,26 +8,15 @@
 import SwiftUI
 
 struct GenresPage: View {
-    @EnvironmentObject var model: GenreData
+    @EnvironmentObject var appState: AppState
     var body: some View {
         NavigationView {
-            List(model.genres) { genre in
+            List(appState.genresData.items) { genre in
                 NavigationLink(destination: BookList(credentials: Genre.genreCredentials(for: genre.id, title: genre.name))) {
                     Text(genre.name)
                 }
             }
-            .overlay(
-                Group {
-                    switch model.viewState {
-                    case .none, .result:
-                        EmptyView()
-                    case .loading:
-                        SpinnerView()
-                    case .error(let message):
-                        TextOverlay(text: message)
-                    }
-                }
-            )
+            .overlay(StatusOverlay(viewState: $appState.genresData.viewState))
             .navigationTitle(Genre.all.name)
             .navigationBarTitleDisplayMode(.inline)
         }
@@ -37,6 +26,6 @@ struct GenresPage: View {
 struct GenresPage_Previews: PreviewProvider {
     static var previews: some View {
         GenresPage()
-            .environmentObject(GenreData.preview)
+                .environmentObject(AppState.preview)
     }
 }

@@ -8,44 +8,44 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var auth: AuthData
-    @EnvironmentObject var model: HomeData
+    @EnvironmentObject var appState: AppState
     @State var authScreenPresented: Bool = false
     
     var body: some View {
-        TabView {
+        TabView(selection: $appState.chosenTab) {
             HomePage()
+                .tag(AppState.TabPage.home)
                 .tabItem {
-                    Image(systemName: "house")
-                    Text("Home")
+                    Label("Home", systemImage: "house")
                 }
             
             GenresPage()
+                .tag(AppState.TabPage.genres)
                 .tabItem {
-                    Image(systemName: "square.grid.2x2")
-                    Text("Genres")
+                    Label("Genres", systemImage: "square.grid.2x2")
                 }
             
             WishlistPage()
+                .tag(AppState.TabPage.favorites)
                 .tabItem {
-                    Image(systemName: "list.star")
-                    Text("Wishlist")
+                    Label("Wishlist", systemImage: "list.star")
                 }
             
             ProfilePage()
+                .tag(AppState.TabPage.profile)
                 .tabItem {
-                    Image(systemName: "person")
-                    Text("Profile")
+                    Label("Profile", systemImage: "person")
                 }
         }
         .fullScreenCover(isPresented: $authScreenPresented) {
             AuthPage()
+                .environmentObject(appState)
         }
-        .onChange(of: auth.isLoggedIn, perform: { value in
+        .onChange(of: appState.authData.isLoggedIn, perform: { value in
             authScreenPresented = !value
         })
         .onAppear {
-            authScreenPresented = !auth.isLoggedIn
+            authScreenPresented = !appState.authData.isLoggedIn
         }
     }
 }
@@ -53,7 +53,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environmentObject(AuthData.preview)
-            .environmentObject(HomeData.preview)
+            .environmentObject(AppState.preview)
     }
 }

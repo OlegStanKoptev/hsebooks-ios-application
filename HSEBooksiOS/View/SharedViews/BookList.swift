@@ -8,29 +8,27 @@
 import SwiftUI
 
 struct BookList: View {
-    @EnvironmentObject var authData: AuthData
-    @StateObject var model = BooksListViewModel()
+    @EnvironmentObject var appState: AppState
+    @StateObject var model: DynamicDataViewModel<BookBase> = RealDynamicDataViewModel()
     let credentials: RemoteDataCredentials
     
     private func fetch() {
-        model.fetch(with: credentials, and: authData)
+        model.fetch(from: credentials, with: appState)
     }
     
     var body: some View {
         List {
-            ForEach(model.books) { book in
+            ForEach(model.items) { book in
                 NavigationLink(destination: Text(book.title)) {
-                    HStack {
-                        Text(String(book.photoId ?? 0))
-                        VStack(alignment: .leading) {
-                            Text(book.title)
-                            Text(book.author)
-                        }
-                        Text(String(book.rating))
+                    Text(String(book.photoId ?? 0))
+                    VStack(alignment: .leading) {
+                        Text(book.title)
+                        Text(book.author)
                     }
+                    Text(String(book.rating))
                 }
                 .onAppear {
-                    if book == model.books.last! {
+                    if book == model.items.last! {
                         fetch()
                     }
                 }
@@ -53,8 +51,8 @@ struct BookList: View {
 struct BookList_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            BookList(model: .preview, credentials: Genre.genreCredentials(for: 41, title: "Some Genre"))
-                .environmentObject(AuthData.preview)
+            BookList(credentials: Genre.genreCredentials(for: 41, title: "Some Genre"))
+                .environmentObject(AppState.preview)
         }
     }
 }

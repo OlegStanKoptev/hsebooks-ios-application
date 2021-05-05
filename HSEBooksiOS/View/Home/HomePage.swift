@@ -8,20 +8,18 @@
 import SwiftUI
 
 struct HomePage: View {
-    @EnvironmentObject var auth: AuthData
-    @EnvironmentObject var model: HomeData
-    @EnvironmentObject var genresModel: GenreData
+    @EnvironmentObject var appState: AppState
     @State var query: String = ""
     
     func fetchData() {
-        model.fetch(with: auth)
-        genresModel.fetch(with: auth)
+        appState.homeData.fetch(with: appState.authData)
+        appState.genresData.fetch(from: Genre.all, with: appState)
     }
     
     var body: some View {
         NavigationView {
             ScrollView(.vertical) {
-                ForEach(model.books, id: \.0.name) { row in
+                ForEach(appState.homeData.sections, id: \.0.name) { row in
                     VStack(spacing: 6) {
                         NavigationLink(destination: BookList(credentials: row.0)) {
                             HStack(spacing: 6) {
@@ -49,18 +47,9 @@ struct HomePage: View {
                 .padding(.vertical)
             }
             .overlay(
-                Group {
-                    switch model.viewState {
-                    case .none, .result:
-                        EmptyView()
-                    case .loading:
-                        SpinnerView()
-                    case .error(let message):
-                        TextOverlay(text: message)
-                    }
-                }
+                StatusOverlay(viewState: $appState.homeData.viewState)
             )
-            .onChange(of: auth.isLoggedIn) { _ in
+            .onChange(of: appState.authData.isLoggedIn) { _ in
                 fetchData()
             }
             .onAppear {
@@ -83,8 +72,6 @@ struct HomePage: View {
 struct HomePage_Previews: PreviewProvider {
     static var previews: some View {
         HomePage()
-            .environmentObject(AuthData.preview)
-            .environmentObject(HomeData.preview)
-            .environmentObject(GenreData.preview)
+            .environmentObject(AppState.preview)
     }
 }

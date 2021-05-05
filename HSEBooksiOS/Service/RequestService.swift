@@ -7,33 +7,35 @@
 
 import Foundation
 
-class RequestService {
-    enum RequestError: Error {
-        case client(Error)
-        case server(HTTPURLResponse)
-        case expiredToken
-        case notAuthorized
-        case other(String)
-        
-        var description: String {
-            switch self {
-            case .client(let error): return "Client: \(error)"
-            case .server(let response): return "Server error \(response.statusCode)"
-            case .expiredToken: return "Expired Bearer Token"
-            case .notAuthorized: return "Not Logged In"
-            case .other(let value): return "\(value)"
-            }
+enum RequestError: Error {
+    case client(Error)
+    case server(HTTPURLResponse)
+    case expiredToken
+    case notAuthorized
+    case other(String)
+    
+    var description: String {
+        switch self {
+        case .client(let error): return "Client: \(error)"
+        case .server(let response): return "Server error \(response.statusCode)"
+        case .expiredToken: return "Expired Bearer Token"
+        case .notAuthorized: return "Not Logged In"
+        case .other(let value): return "\(value)"
         }
     }
-    
+}
+
+class RequestService {
     static let shared = RequestService()
     private let session: URLSession
     private let decoder: JSONDecoder
+    private let encoder: JSONEncoder
     private let serverUrl = URL(string: "http://olegk.site")!
     
-    private init(session: URLSession = .shared, decoder: JSONDecoder = .init()) {
+    private init(session: URLSession = .shared, decoder: JSONDecoder = .init(), encoder: JSONEncoder = .init()) {
         self.session = session
         self.decoder = decoder
+        self.encoder = encoder
     }
     
     func makeRequest<T: Decodable>(to endpoint: String, with params: [String: String] = [:], using authToken: String, handler: @escaping (Result<T, RequestError>) -> Void) {
@@ -56,6 +58,8 @@ class RequestService {
         var request = URLRequest(url: url)
         
         request.setValue(authToken, forHTTPHeaderField: "Authorization")
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")  // the request is JSON
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")        // the expected response is also JSON
         
         session.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
@@ -85,10 +89,12 @@ class RequestService {
     }
     
     func makeAuthRequest<T: Decodable>(to endpoint: String, with body: [String: String], handler: @escaping (Result<(T, String), RequestError>) -> Void) {
-        let jsonBody = "{ \(body.map{ "\"\($0.key)\": \"\($0.value)\"" }.joined(separator: ", ")) }"
+        let jsonBody = try! encoder.encode(body)
         let endpointUrl = serverUrl.appendingPathComponent(endpoint)
         var request = URLRequest(url: endpointUrl)
-        request.httpBody = jsonBody.data(using: .utf8)
+        request.httpBody = jsonBody
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")  // the request is JSON
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")        // the expected response is also JSON
         request.httpMethod = "POST"
         
         session.dataTask(with: request) { data, response, error in

@@ -8,7 +8,7 @@
 import Foundation
 
 struct RemoteDataCredentials {
-    let name: String
+    var name: String = ""
     let endpoint: String
     var params: [String: String] = [:]
 }

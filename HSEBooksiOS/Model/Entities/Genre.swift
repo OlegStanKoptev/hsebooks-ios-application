@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct Genre: Identifiable, Decodable {
+struct Genre: RemoteEntity {
     var id: Int
     var creationDate: String
     var name: String
     var bookBaseIds: [Int]
     
-    static func getGenres(amount: Int) -> [Genre] {
+    static func getItems(amount: Int) -> [Genre] {
         var array = [Genre]()
         for i in 0..<amount {
             array.append(

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct BookBase: Identifiable, Equatable, Decodable {
+struct BookBase: RemoteEntity {
     var id: Int
     var creationDate: String
     var author: String
@@ -22,7 +22,7 @@ struct BookBase: Identifiable, Equatable, Decodable {
     var wishersIds: [Int]
     var photoId: Int?
     
-    static func getBooks(amount: Int) -> [BookBase] {
+    static func getItems(amount: Int) -> [BookBase] {
         var array = [BookBase]()
         for i in 0..<amount {
             array.append(
@@ -31,6 +31,8 @@ struct BookBase: Identifiable, Equatable, Decodable {
         }
         return array
     }
+    
+    static let book = RemoteDataCredentials(name: "BookBase", endpoint: "bookBase")
     
     static let home = (
         name: "Home",
@@ -63,10 +65,5 @@ struct BookBase: Identifiable, Equatable, Decodable {
         params: [
             "sortBy": "rate"
         ]
-    )
-    
-    static let wishlist = RemoteDataCredentials(
-        name: "Wish List",
-        endpoint: "bookBase"
     )
 }

@@ -8,24 +8,35 @@
 import SwiftUI
 
 struct WishlistPage: View {
-    @EnvironmentObject var auth: AuthData
-    @StateObject var model = WishedBooksListViewModel()
+    @EnvironmentObject var appState: AppState
+    @StateObject var model: PreloadedDataViewModel<BookBase> = RealPreloadedDataViewModel()
     
     func fetchData() {
-        model.fetch(with: BookBase.wishlist, and: auth)
+        model.fetch(appState.authData.currentUser?.wishListIds, from: BookBase.book, with: appState)
     }
     
     var body: some View {
         NavigationView {
-            List {
-                ForEach(model.wishlist) { book in
-                    Text(book.title)
+            Group {
+                if model.items.isEmpty && appState.authData.authState != .loading {
+                    Text("You wishlist is empty!")
+                        .foregroundColor(.secondary)
+                } else {
+                    List {
+                        ForEach(model.items) { book in
+                            Text(book.title)
+                        }
+                    }
                 }
+            }
+            .overlay(StatusOverlay(viewState: $model.viewState))
+            .onChange(of: appState.authData.isLoggedIn) { _ in
+                fetchData()
             }
             .onAppear {
                 fetchData()
             }
-            .navigationTitle(BookBase.wishlist.name)
+            .navigationTitle("Wishlist")
             .navigationBarTitleDisplayMode(.inline)
         }
     }
@@ -33,7 +44,7 @@ struct WishlistPage: View {
 
 struct FavoritesPage_Previews: PreviewProvider {
     static var previews: some View {
-        WishlistPage(model: .preview)
-            .environmentObject(AuthData.preview)
+        WishlistPage(model: MockPreloadedDataViewModel<BookBase>())
+            .environmentObject(AppState.preview)
     }
 }
