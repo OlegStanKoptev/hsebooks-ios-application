@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BookPage: View {
-    @EnvironmentObject var appState: AppState
+//    @EnvironmentObject var appState: AppState
     let book: BookBase
     @State var requestPresented = true
     var body: some View {
@@ -53,6 +53,5 @@ struct RequestPage: View {
 struct BookPage_Previews: PreviewProvider {
     static var previews: some View {
         BookPage(book: BookBase.getItems(amount: 1).first!)
-            .environmentObject(AppState.preview)
     }
 }

@@ -21,6 +21,5 @@ struct ReviewsPage: View {
 struct ReviewsPage_Previews: PreviewProvider {
     static var previews: some View {
         ReviewsPage()
-            .environmentObject(AppState.preview)
     }
 }

@@ -9,10 +9,8 @@ import SwiftUI
 
 
 struct ProfilePage: View {
-    @EnvironmentObject var appState: AppState
-    
     func logout() {
-        appState.logOut()
+//        appState.logOut()
     }
     
     var body: some View {
@@ -23,7 +21,7 @@ struct ProfilePage: View {
                         Label("Profile Information", systemImage: "key")
                     }
                     
-                    Button(action: { appState.chosenTab = .favorites }) {
+                    Button(action: {}) {
                         Label("Favorites", systemImage: "heart")
                     }
 
@@ -36,17 +34,17 @@ struct ProfilePage: View {
                     }
                 }
                 
-                Section {
-                    NavigationLink(destination: MyBooksPage()) {
-                        Label("My Books", systemImage: "book")
-                    }
-                }
-
-                Section {
-                    NavigationLink(destination: MyRequestsPage()) {
-                        Label("My Requests", systemImage: "bubble.left.and.bubble.right")
-                    }
-                }
+//                Section {
+//                    NavigationLink(destination: MyBooksPage()) {
+//                        Label("My Books", systemImage: "book")
+//                    }
+//                }
+//
+//                Section {
+//                    NavigationLink(destination: MyRequestsPage()) {
+//                        Label("My Requests", systemImage: "bubble.left.and.bubble.right")
+//                    }
+//                }
 
                 Section(header: Text("Settings")) {
                     NavigationLink(destination: Text("Destination")) {
@@ -81,6 +79,5 @@ struct ProfilePage: View {
 struct ProfilePage_Previews: PreviewProvider {
     static var previews: some View {
         ProfilePage()
-            .environmentObject(AppState.preview)
     }
 }

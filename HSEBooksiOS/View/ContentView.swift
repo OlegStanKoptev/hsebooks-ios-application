@@ -8,44 +8,39 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var authData: AuthData
     @State var authScreenPresented: Bool = false
     
     var body: some View {
-        TabView(selection: $appState.chosenTab) {
+        TabView {
             HomePage()
-                .tag(AppState.TabPage.home)
                 .tabItem {
                     Label("Home", systemImage: "house")
                 }
             
-            GenresPage()
-                .tag(AppState.TabPage.genres)
-                .tabItem {
-                    Label("Genres", systemImage: "square.grid.2x2")
-                }
+//            MyBooksPage()
+//                .tabItem {
+//                    Label("My Books", systemImage: "square.grid.2x2")
+//                }
             
-            WishlistPage()
-                .tag(AppState.TabPage.favorites)
-                .tabItem {
-                    Label("Wishlist", systemImage: "list.star")
-                }
+//            WishlistPage()
+//                .tabItem {
+//                    Label("Wishlist", systemImage: "list.star")
+//                }
             
             ProfilePage()
-                .tag(AppState.TabPage.profile)
                 .tabItem {
                     Label("Profile", systemImage: "person")
                 }
         }
         .fullScreenCover(isPresented: $authScreenPresented) {
             AuthPage()
-                .environmentObject(appState)
         }
-        .onChange(of: appState.authData.isLoggedIn, perform: { value in
+        .onChange(of: authData.isLoggedIn, perform: { value in
             authScreenPresented = !value
         })
         .onAppear {
-            authScreenPresented = !appState.authData.isLoggedIn
+            authScreenPresented = !authData.isLoggedIn
         }
     }
 }
@@ -53,6 +48,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environmentObject(AppState.preview)
+            .environmentObject(AuthData.preview)
     }
 }

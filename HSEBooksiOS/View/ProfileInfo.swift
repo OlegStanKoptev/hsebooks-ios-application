@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct ProfileInfo: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var authData: AuthData
     var fields: [(label: String, value: Any)] {
-        Mirror(reflecting: appState.authData.currentUser ?? Void.self).children.map { (label: $0.label!, value: $0.value) }
+        Mirror(reflecting: authData.credentials?.user ?? Void.self).children.map { (label: $0.label!, value: $0.value) }
     }
     
     var body: some View {
@@ -21,12 +21,12 @@ struct ProfileInfo: View {
                 .foregroundColor(.secondary)
         }
         .listStyle(GroupedListStyle())
-        .overlay(
-            StatusOverlay(viewState: $appState.authData.authState)
-        )
-        .onAppear {
-            appState.authData.updateProfileInfo()
-        }
+//        .overlay(
+//            StatusOverlay(viewState: $authData.authState)
+//        )
+//        .onAppear {
+//            appState.authData.updateProfileInfo()
+//        }
         .navigationTitle("Profile Information")
     }
 }
@@ -34,6 +34,5 @@ struct ProfileInfo: View {
 struct ProfileInfo_Previews: PreviewProvider {
     static var previews: some View {
         ProfileInfo()
-            .environmentObject(AppState.preview)
     }
 }

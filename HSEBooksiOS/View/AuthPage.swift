@@ -8,16 +8,12 @@
 import SwiftUI
 
 struct AuthPage: View {
-    @EnvironmentObject var appState: AppState
-    @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var authData: AuthData
     @State var username: String = "Keker"//"OlegStan"
     @State var password: String = "1234"//"superSecret"
     
     func login() {
-        appState.authData.login(
-            username: username,
-            password: password
-        )
+        authData.login(username: username, password: password)
     }
     
     var body: some View {
@@ -28,9 +24,7 @@ struct AuthPage: View {
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
                     
-                    SecureField("Password", text: $password) {
-                        login()
-                    }
+                    SecureField("Password", text: $password) { login() }
                 }
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
@@ -45,14 +39,9 @@ struct AuthPage: View {
                 
                 Spacer()
             }
-            .onChange(of: appState.authData.authState, perform: { value in
-                if value == .result {
-                    presentationMode.wrappedValue.dismiss()
-                }
-            })
-            .disabled(appState.authData.authState == .loading)
+            .disabled(authData.authState == .loading)
             .overlay(
-                StatusOverlay(viewState: $appState.authData.authState)
+                StatusOverlay(viewState: $authData.authState)
             )
             .navigationTitle("Log In")
             .navigationBarTitleDisplayMode(.inline)
@@ -61,18 +50,13 @@ struct AuthPage: View {
 }
 
 struct SignUpPage: View {
-    @EnvironmentObject var appState: AppState
-    @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var authData: AuthData
     @State var name: String = "Default Name"
     @State var username: String = "NewUser"
     @State var password: String = "1234"
     
     func signup() {
-        appState.authData.signup(
-            name: name,
-            username: username,
-            password: password
-        )
+        authData.signup(name: name, username: username, password: password)
     }
     
     
@@ -87,9 +71,7 @@ struct SignUpPage: View {
                 .autocapitalization(.none)
                 .disableAutocorrection(true)
                 
-                SecureField("Password", text: $password) {
-                    signup()
-                }
+                SecureField("Password", text: $password) { signup() }
             }
             .textFieldStyle(RoundedBorderTextFieldStyle())
             .padding()
@@ -100,14 +82,9 @@ struct SignUpPage: View {
             
             Spacer()
         }
-        .onChange(of: appState.authData.authState, perform: { value in
-            if value == .result {
-                presentationMode.wrappedValue.dismiss()
-            }
-        })
-        .disabled(appState.authData.authState == .loading)
+        .disabled(authData.authState == .loading)
         .overlay(
-            StatusOverlay(viewState: $appState.authData.authState)
+            StatusOverlay(viewState: $authData.authState)
         )
         .navigationTitle("Sign Up")
         .navigationBarTitleDisplayMode(.inline)
@@ -117,6 +94,6 @@ struct SignUpPage: View {
 struct AuthPage_Previews: PreviewProvider {
     static var previews: some View {
         AuthPage()
-            .environmentObject(AppState.preview)
+            .environmentObject(AuthData.preview)
     }
 }
