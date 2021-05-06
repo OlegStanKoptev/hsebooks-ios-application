@@ -14,7 +14,6 @@
 		DC14FA86264172DC0084B915 /* RemoteEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC14FA85264172DC0084B915 /* RemoteEntity.swift */; };
 		DC178573263A257E00977562 /* AuthPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC178572263A257E00977562 /* AuthPage.swift */; };
 		DC178575263A25A700977562 /* ProfilePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC178574263A25A700977562 /* ProfilePage.swift */; };
-		DC178578263A25D500977562 /* WishlistPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC178577263A25D500977562 /* WishlistPage.swift */; };
 		DC17857C263A260100977562 /* HomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC17857B263A260100977562 /* HomePage.swift */; };
 		DC1A55772630DF6B000492ED /* HSEBooksiOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1A55762630DF6B000492ED /* HSEBooksiOSApp.swift */; };
 		DC1A55792630DF6B000492ED /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1A55782630DF6B000492ED /* ContentView.swift */; };
@@ -33,6 +32,8 @@
 		DC4F01B1263329F100DCD808 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4F01B0263329F100DCD808 /* User.swift */; };
 		DC6C5792263BA10900DB7F49 /* RemoteDataCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6C5791263BA10900DB7F49 /* RemoteDataCredentials.swift */; };
 		DC6C5797263BA97B00DB7F49 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6C5796263BA97B00DB7F49 /* ViewState.swift */; };
+		DC998CEB264420A000948362 /* MyBooksPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC998CEA264420A000948362 /* MyBooksPage.swift */; };
+		DC998CED264420D200948362 /* MyRequestsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC998CEC264420D200948362 /* MyRequestsPage.swift */; };
 		DCA1770C2643566600F3DBAA /* AuthData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA1770B2643566600F3DBAA /* AuthData.swift */; };
 		DCA1770E264366B000F3DBAA /* HomePageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA1770D264366B000F3DBAA /* HomePageViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -45,7 +46,6 @@
 		DC14FA85264172DC0084B915 /* RemoteEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteEntity.swift; sourceTree = "<group>"; };
 		DC178572263A257E00977562 /* AuthPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPage.swift; sourceTree = "<group>"; };
 		DC178574263A25A700977562 /* ProfilePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePage.swift; sourceTree = "<group>"; };
-		DC178577263A25D500977562 /* WishlistPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishlistPage.swift; sourceTree = "<group>"; };
 		DC17857B263A260100977562 /* HomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePage.swift; sourceTree = "<group>"; };
 		DC1A55732630DF6B000492ED /* HSEBooksiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HSEBooksiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC1A55762630DF6B000492ED /* HSEBooksiOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSEBooksiOSApp.swift; sourceTree = "<group>"; };
@@ -66,6 +66,8 @@
 		DC4F01B0263329F100DCD808 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		DC6C5791263BA10900DB7F49 /* RemoteDataCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteDataCredentials.swift; sourceTree = "<group>"; };
 		DC6C5796263BA97B00DB7F49 /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
+		DC998CEA264420A000948362 /* MyBooksPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBooksPage.swift; sourceTree = "<group>"; };
+		DC998CEC264420D200948362 /* MyRequestsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRequestsPage.swift; sourceTree = "<group>"; };
 		DCA1770B2643566600F3DBAA /* AuthData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthData.swift; sourceTree = "<group>"; };
 		DCA1770D264366B000F3DBAA /* HomePageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -164,7 +166,8 @@
 				DC1A55782630DF6B000492ED /* ContentView.swift */,
 				DC17857B263A260100977562 /* HomePage.swift */,
 				DCA1770D264366B000F3DBAA /* HomePageViewModel.swift */,
-				DC178577263A25D500977562 /* WishlistPage.swift */,
+				DC998CEA264420A000948362 /* MyBooksPage.swift */,
+				DC998CEC264420D200948362 /* MyRequestsPage.swift */,
 				DC178574263A25A700977562 /* ProfilePage.swift */,
 				DC327EBF26421A90005B993B /* ProfileInfo.swift */,
 				DC327EC126421BE9005B993B /* NotificationsPage.swift */,
@@ -276,7 +279,6 @@
 			files = (
 				DC178573263A257E00977562 /* AuthPage.swift in Sources */,
 				DC368E8D26337EEB003466CB /* RequestService.swift in Sources */,
-				DC178578263A25D500977562 /* WishlistPage.swift in Sources */,
 				DC099C3D263CA7D4009D5047 /* Genre.swift in Sources */,
 				DCA1770E264366B000F3DBAA /* HomePageViewModel.swift in Sources */,
 				DC14FA86264172DC0084B915 /* RemoteEntity.swift in Sources */,
@@ -291,8 +293,10 @@
 				DC327EC026421A90005B993B /* ProfileInfo.swift in Sources */,
 				DC6C5792263BA10900DB7F49 /* RemoteDataCredentials.swift in Sources */,
 				DCA1770C2643566600F3DBAA /* AuthData.swift in Sources */,
+				DC998CEB264420A000948362 /* MyBooksPage.swift in Sources */,
 				DC4F01B1263329F100DCD808 /* User.swift in Sources */,
 				DC1A55792630DF6B000492ED /* ContentView.swift in Sources */,
+				DC998CED264420D200948362 /* MyRequestsPage.swift in Sources */,
 				DC14FA8226416B0B0084B915 /* BookPage.swift in Sources */,
 				DC14FA8026415EE80084B915 /* StatusOverlay.swift in Sources */,
 				DC368E9D263389EC003466CB /* Color+Extension.swift in Sources */,

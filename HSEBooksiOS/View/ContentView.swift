@@ -18,15 +18,15 @@ struct ContentView: View {
                     Label("Home", systemImage: "house")
                 }
             
-//            MyBooksPage()
-//                .tabItem {
-//                    Label("My Books", systemImage: "square.grid.2x2")
-//                }
+            MyBooksPage()
+                .tabItem {
+                    Label("My Books", systemImage: "square.grid.2x2")
+                }
             
-//            WishlistPage()
-//                .tabItem {
-//                    Label("Wishlist", systemImage: "list.star")
-//                }
+            MyRequestsPage()
+                .tabItem {
+                    Label("My Requests", systemImage: "bubble.left.and.bubble.right")
+                }
             
             ProfilePage()
                 .tabItem {

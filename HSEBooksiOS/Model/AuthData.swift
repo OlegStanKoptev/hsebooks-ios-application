@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class AuthData: ObservableObject {
     @Published var credentials: AuthCredentials?
@@ -13,6 +14,19 @@ class AuthData: ObservableObject {
     private(set) var isPreview = false
     var isLoggedIn: Bool {
         credentials != nil
+    }
+    
+    func updateUserInfo(handler: @escaping (Result<Void, RequestError>) -> Void) {
+        guard !isPreview, let token = credentials?.token else { return }
+        RequestService.shared.makeRequest(to: User.me.endpoint, using: token) { [weak self] (result: Result<User, RequestError>) in
+            switch result {
+            case .failure(let error):
+                handler(.failure(error))
+            case .success(let user):
+                self?.credentials = AuthCredentials(user: user, token: token)
+                handler(.success(Void()))
+            }
+        }
     }
     
     #warning("TODO: LogIn")

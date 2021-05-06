@@ -13,6 +13,29 @@ extension HomePage {
         @Published var viewState: ViewState = .none
         private let queue = DispatchQueue(label: "HomePageSectionsLoading")
         
+        private func loadBooks(_ credentials: RemoteDataCredentials, with authToken: String, previousData: [(RemoteDataCredentials, [BookBase])] = []) -> Result<[(RemoteDataCredentials, [BookBase])], RequestError> {
+            var result: Result<[(RemoteDataCredentials, [BookBase])], RequestError>!
+            let semaphore = DispatchSemaphore(value: 0)
+            
+            var params = credentials.params
+            params["limit"] = "3"
+            
+            RequestService.shared.makeRequest(to: credentials.endpoint, with: params, using: authToken) { (localResult: Result<[BookBase], RequestError>) in
+                switch localResult {
+                case .failure(let error):
+                    result = .failure(error)
+                case .success(let books):
+                    var newData = previousData
+                    newData.append((credentials, books))
+                    result = .success(newData)
+                }
+                semaphore.signal()
+            }
+            
+            _ = semaphore.wait(wallTimeout: .distantFuture)
+            return result
+        }
+        
         func fetch(with authData: AuthData) {
             guard !authData.isPreview else {
                 sections = [
@@ -22,8 +45,8 @@ extension HomePage {
                 ]
                 return
             }
-            guard viewState != .loading else { return }
-            guard authData.isLoggedIn, let token = authData.credentials?.token else {
+            guard viewState != .loading, viewState != .result else { return }
+            guard let authToken = authData.credentials?.token, authData.isLoggedIn else {
                 sections = []
                 viewState = .error("Not Logged In")
                 return
@@ -31,69 +54,27 @@ extension HomePage {
             
             viewState = .loading
             
-            DispatchQueue.global().async {
-                <#code#>
+            DispatchQueue.global(qos: .userInteractive).async {
+                var result: Result<[(RemoteDataCredentials, [BookBase])], RequestError> = .success([])
+                for section in BookBase.home.sections {
+                    result = result.flatMap { self.loadBooks(section, with: authToken, previousData: $0) }
+                }
+                
+                DispatchQueue.main.async {
+                    switch result {
+                    case .failure(let error):
+                        self.viewState = .error(error.description)
+                    case .success(let books):
+                        self.sections = books
+                        self.viewState = .result
+                    }
+                }
             }
-            
-//            DispatchQueue.global().async {
-//                let group = DispatchGroup()
-//                var result: Result<[(RemoteDataCredentials, [BookBase])], RequestError> = .success([])
-//
-//                for section in BookBase.home.sections {
-//                    self.queue.async {
-//                        var params = section.params
-//                        params["limit"] = "3"
-//
-//                        let semaphore = DispatchSemaphore(value: 0)
-//
-//                        RequestService.shared.makeRequest(to: section.endpoint, with: params, using: token) { (requestResult: Result<[BookBase], RequestError>) in
-//                            switch requestResult {
-//                            case .failure(let error):
-//                                result = .failure(error)
-//                            case .success(let books):
-//                                switch result {
-//                                case .failure(_):
-//                                    return
-//                                case .success(let oldResult):
-//                                    var newData = oldResult
-//                                    newData.append((section, books))
-//                                    result = .success(newData)
-//                                }
-//                            }
-//                            semaphore.signal()
-//                        }
-//
-//                        _ = semaphore.wait(timeout: .distantFuture)
-//                    }
-//                }
-//
-//                group.wait()
-//
-//                DispatchQueue.main.async {
-//                    switch result {
-//                    case .failure(let error):
-//                        self.viewState = .error(error.description)
-//                    case .success(let data):
-//                        self.sections = data
-//                        self.viewState = .result
-//                    }
-//                }
-//
-//                print("All tasks done")
-//            }
+        }
+        
+        func clearCache() {
+            sections = []
+            viewState = .none
         }
     }
 }
-
-//extension HomePage.HomePageViewModel {
-//    static let preview: HomePage.HomePageViewModel = {
-//        let model = HomePage.HomePageViewModel()
-//        model.isPreview = true
-//        model.sections = [
-//            ("Title 1", BookBase.getItems(amount: 3)),
-//            ("Title 2", BookBase.getItems(amount: 3)),
-//            ("Title 3", BookBase.getItems(amount: 3))
-//        ]
-//        return model
-//    }()
-//}

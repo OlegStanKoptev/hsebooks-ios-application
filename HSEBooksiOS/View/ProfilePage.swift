@@ -21,8 +21,8 @@ struct ProfilePage: View {
                         Label("Profile Information", systemImage: "key")
                     }
                     
-                    Button(action: {}) {
-                        Label("Favorites", systemImage: "heart")
+                    NavigationLink(destination: Text("Wishlist")) {
+                        Label("Wishlist", systemImage: "list.star")
                     }
 
                     NavigationLink(destination: NotificationsPage()) {
@@ -33,18 +33,6 @@ struct ProfilePage: View {
                         Label("My Reviews", systemImage: "ellipses.bubble")
                     }
                 }
-                
-//                Section {
-//                    NavigationLink(destination: MyBooksPage()) {
-//                        Label("My Books", systemImage: "book")
-//                    }
-//                }
-//
-//                Section {
-//                    NavigationLink(destination: MyRequestsPage()) {
-//                        Label("My Requests", systemImage: "bubble.left.and.bubble.right")
-//                    }
-//                }
 
                 Section(header: Text("Settings")) {
                     NavigationLink(destination: Text("Destination")) {
