@@ -9,6 +9,8 @@ import SwiftUI
 
 @main
 struct HSEBooksiOSApp: App {
+    @StateObject var authData = AuthData()
+    
     init() {
         UINavigationBar.appearance().barTintColor = UIColor(Color.tertiaryColor)
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white]
@@ -17,6 +19,7 @@ struct HSEBooksiOSApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(authData)
         }
     }
 }

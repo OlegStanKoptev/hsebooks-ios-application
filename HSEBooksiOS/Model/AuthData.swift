@@ -10,7 +10,7 @@ import Foundation
 class AuthData: ObservableObject {
     @Published var credentials: AuthCredentials?
     @Published var authState: ViewState = .none
-    private var isPreview = false
+    private(set) var isPreview = false
     var isLoggedIn: Bool {
         credentials != nil
     }
