@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Genre: RemoteEntity {
+struct Genre: Hashable, RemoteEntity {
     var id: Int
     var creationDate: String
     var name: String
@@ -15,7 +15,7 @@ struct Genre: RemoteEntity {
     
     static func getItems(amount: Int) -> [Genre] {
         var array = [Genre]()
-        for i in 0..<amount {
+        for i in 1...amount {
             array.append(
                 Genre(id: i, creationDate: "", name: "Genre \(i)", bookBaseIds: Array(0...i))
             )

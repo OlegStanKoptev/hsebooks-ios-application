@@ -38,7 +38,7 @@ class RequestService {
         self.encoder = encoder
     }
     
-    func makeRequest<T: Decodable>(to endpoint: String, with params: [String: String] = [:], using authToken: String, handler: @escaping (Result<T, RequestError>) -> Void) {
+    func makeRequest<T: Decodable>(to endpoint: String, method: String = "GET", with params: [String: String] = [:], using authToken: String, handler: @escaping (Result<T, RequestError>) -> Void) {
         guard
             var urlComponents =
                 URLComponents(
@@ -60,6 +60,7 @@ class RequestService {
         request.setValue(authToken, forHTTPHeaderField: "Authorization")
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")  // the request is JSON
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")        // the expected response is also JSON
+        request.httpMethod = method
         
         session.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
@@ -88,7 +89,7 @@ class RequestService {
         
     }
     
-    func makeAuthRequest<T: Decodable>(to endpoint: String, with body: [String: String], handler: @escaping (Result<(T, String), RequestError>) -> Void) {
+    func makeAuthRequest(to endpoint: String, with body: [String: String], handler: @escaping (Result<(User, String), RequestError>) -> Void) {
         let jsonBody = try! encoder.encode(body)
         let endpointUrl = serverUrl.appendingPathComponent(endpoint)
         var request = URLRequest(url: endpointUrl)
@@ -106,13 +107,13 @@ class RequestService {
                 guard let httpResponse = response as? HTTPURLResponse else {
                     fatalError("Reponse couldn't be casted to HTTPURLResponse, I have no idea why...")
                 }
-                if (200...299).contains(httpResponse.statusCode),
-                   let authToken = httpResponse.value(forHTTPHeaderField: "Authorization"),
-                   let data = data {
+                if let data = data {
+                    if let authToken = httpResponse.value(forHTTPHeaderField: "Authorization"),
+                       (200...299).contains(httpResponse.statusCode) {
                         do {
-                            handler(.success((try self.decoder.decode(T.self, from: data), authToken)))
+                            handler(.success((try self.decoder.decode(User.self, from: data), authToken)))
                         } catch {
-                            self.makeRequest(to: "user/me", with: [:], using: authToken) { (result: Result<T, RequestError>) in
+                            self.makeRequest(to: "user/me", with: [:], using: authToken) { (result: Result<User, RequestError>) in
                                 switch result {
                                 case .failure(let error):
                                     handler(.failure(error))
@@ -121,6 +122,107 @@ class RequestService {
                                 }
                             }
                         }
+                    } else if let data = String(data: data, encoding: .utf8),
+                              httpResponse.statusCode == 403 {
+                        handler(.failure(.other(data)))
+                    } else {
+                        handler(.failure(.notAuthorized))
+                    }
+                } else {
+                    handler(.failure(.server(httpResponse)))
+                }
+            }
+        }.resume()
+    }
+    
+    func makePostRequest<T: Decodable, U: Encodable>(to endpoint: String, with authToken: String, body: U, params: [String: String] = [:], handler: @escaping (Result<T, RequestError>) -> Void) {
+        let jsonBody = try! encoder.encode(body)
+        guard
+            var urlComponents =
+                URLComponents(
+                    url: serverUrl.appendingPathComponent(endpoint),
+                    resolvingAgainstBaseURL: false
+                )
+        else { preconditionFailure("Can't create url components...") }
+        
+        urlComponents.queryItems = params.map {
+            URLQueryItem(name: $0.key, value: $0.value)
+        }
+        
+        guard
+            let url = urlComponents.url
+        else { preconditionFailure("Can't create url from url components...") }
+        
+        var request = URLRequest(url: url)
+        
+        request.httpBody = jsonBody
+        request.setValue(authToken, forHTTPHeaderField: "Authorization")
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")  // the request is JSON
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")        // the expected response is also JSON
+        request.httpMethod = "POST"
+        
+        session.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    handler(.failure(.client(error)))
+                    return
+                }
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    fatalError("Reponse couldn't be casted to HTTPURLResponse, I have no idea why...")
+                }
+                if let data = data {
+                    if (200...299).contains(httpResponse.statusCode) {
+                        do {
+                            handler(.success(try self.decoder.decode(T.self, from: data)))
+                        } catch {}
+                    } else if let data = String(data: data, encoding: .utf8),
+                              httpResponse.statusCode == 403 {
+                        handler(.failure(.other(data)))
+                    } else {
+                        handler(.failure(.notAuthorized))
+                    }
+                } else {
+                    handler(.failure(.server(httpResponse)))
+                }
+            }
+        }.resume()
+    }
+    
+    func makeRequestWithoutResponse(to endpoint: String, authToken: String, method: String, params: [String: String], handler: @escaping (Result<Void, RequestError>) -> Void) {
+        guard
+            var urlComponents =
+                URLComponents(
+                    url: serverUrl.appendingPathComponent(endpoint),
+                    resolvingAgainstBaseURL: false
+                )
+        else { preconditionFailure("Can't create url components...") }
+        
+        urlComponents.queryItems = params.map {
+            URLQueryItem(name: $0.key, value: $0.value)
+        }
+        
+        guard
+            let url = urlComponents.url
+        else { preconditionFailure("Can't create url from url components...") }
+        
+        var request = URLRequest(url: url)
+        
+        request.setValue(authToken, forHTTPHeaderField: "Authorization")
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")  // the request is JSON
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")        // the expected response is also JSON
+        request.httpMethod = method
+        
+        session.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    handler(.failure(.client(error)))
+                    return
+                }
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    fatalError("Reponse couldn't be casted to HTTPURLResponse, I have no idea why...")
+                }
+                if (200...299).contains(httpResponse.statusCode) {
+                    handler(.success(()))
                 } else if httpResponse.statusCode == 403 {
                     handler(.failure(.notAuthorized))
                 } else {
@@ -130,10 +232,104 @@ class RequestService {
         }.resume()
     }
     
-    func someFunc() -> Result<String, RequestError> {
+//    func makeDeleteRequest(to endpoint: String, authToken: String, params: [String: String], handler: @escaping (Result<Void, RequestError>) -> Void) {
+//        guard
+//            var urlComponents =
+//                URLComponents(
+//                    url: serverUrl.appendingPathComponent(endpoint),
+//                    resolvingAgainstBaseURL: false
+//                )
+//        else { preconditionFailure("Can't create url components...") }
+//
+//        urlComponents.queryItems = params.map {
+//            URLQueryItem(name: $0.key, value: $0.value)
+//        }
+//
+//        guard
+//            let url = urlComponents.url
+//        else { preconditionFailure("Can't create url from url components...") }
+//
+//        var request = URLRequest(url: url)
+//
+//        request.setValue(authToken, forHTTPHeaderField: "Authorization")
+//        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")  // the request is JSON
+//        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")        // the expected response is also JSON
+//        request.httpMethod = "DELETE"
+//
+//        session.dataTask(with: request) { data, response, error in
+//            DispatchQueue.main.async {
+//                if let error = error {
+//                    handler(.failure(.client(error)))
+//                    return
+//                }
+//                guard let httpResponse = response as? HTTPURLResponse else {
+//                    fatalError("Reponse couldn't be casted to HTTPURLResponse, I have no idea why...")
+//                }
+//                if (200...299).contains(httpResponse.statusCode) {
+//                    handler(.success(()))
+//                } else if httpResponse.statusCode == 403 {
+//                    handler(.failure(.notAuthorized))
+//                } else {
+//                    handler(.failure(.server(httpResponse)))
+//                }
+//            }
+//        }.resume()
+//    }
+    
+    func makePutRequest<T: Decodable, U: Encodable>(to endpoint: String, with authToken: String, body: U, params: [String: String] = [:], handler: @escaping (Result<T, RequestError>) -> Void) {
+        let jsonBody = try! encoder.encode(body)
+        guard
+            var urlComponents =
+                URLComponents(
+                    url: serverUrl.appendingPathComponent(endpoint),
+                    resolvingAgainstBaseURL: false
+                )
+        else { preconditionFailure("Can't create url components...") }
         
+        urlComponents.queryItems = params.map {
+            URLQueryItem(name: $0.key, value: $0.value)
+        }
         
-//        return .success("String type")
-        return .failure(RequestError.notAuthorized)
+        guard
+            let url = urlComponents.url
+        else { preconditionFailure("Can't create url from url components...") }
+        
+        var request = URLRequest(url: url)
+        
+        request.httpBody = jsonBody
+        request.setValue(authToken, forHTTPHeaderField: "Authorization")
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")  // the request is JSON
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")        // the expected response is also JSON
+        request.httpMethod = "PUT"
+        
+        session.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    handler(.failure(.client(error)))
+                    return
+                }
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    fatalError("Reponse couldn't be casted to HTTPURLResponse, I have no idea why...")
+                }
+                guard let data = data  else { handler(.failure(.other("Data is null"))); return }
+                if (200...299).contains(httpResponse.statusCode) {
+                    do {
+                        handler(.success(try self.decoder.decode(T.self, from: data)))
+                    } catch {}
+                } else if httpResponse.statusCode == 403 {
+                    if let body = String(data: data, encoding: .utf8) {
+                        handler(.failure(.other(body)))
+                    } else {
+                        handler(.failure(.notAuthorized))
+                    }
+                } else {
+                    handler(.failure(.server(httpResponse)))
+                }
+            }
+        }.resume()
+    }
+    
+    func makePatchRequest<T: Decodable>(to endpoint: String, with authToken: String, handler: @escaping (Result<T, RequestError>) -> Void) {
+        self.makeRequest(to: endpoint, method: "PATCH", using: authToken, handler: handler)
     }
 }

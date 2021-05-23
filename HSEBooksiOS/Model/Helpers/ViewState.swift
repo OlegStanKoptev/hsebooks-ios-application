@@ -10,6 +10,5 @@ import Foundation
 enum ViewState: Equatable {
     case none
     case loading
-    case result
     case error(String)
 }

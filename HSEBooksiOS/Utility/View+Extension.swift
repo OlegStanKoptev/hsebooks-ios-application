@@ -11,3 +11,12 @@ extension View {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
+
+extension View {
+    func showHorizontalGuideLines() -> some View {
+        self.overlay(
+            Divider()
+                .position(x: 100, y: 62)
+        )
+    }
+}

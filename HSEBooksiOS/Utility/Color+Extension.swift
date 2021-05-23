@@ -14,7 +14,4 @@ extension Color {
     static var tertiaryColor: Color {
         return .init("TertiaryColor")
     }
-    static var quaternaryColor: Color {
-        return .init("QuaternaryColor")
-    }
 }

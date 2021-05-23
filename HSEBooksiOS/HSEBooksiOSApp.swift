@@ -9,17 +9,18 @@ import SwiftUI
 
 @main
 struct HSEBooksiOSApp: App {
-    @StateObject var authData = AuthData()
-    
     init() {
-        UINavigationBar.appearance().barTintColor = UIColor(Color.tertiaryColor)
-        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white]
+        UINavigationBar.setupAppColorTheme()
+        
+        UISegmentedControl.appearance().selectedSegmentTintColor = .white
+        UISegmentedControl.appearance().backgroundColor = UIColor(white: 1, alpha: 0.25)
+        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor : UIColor(named: "AccentColor")!], for: .selected)
+        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor : UIColor.white], for: .normal)
     }
     
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(authData)
         }
     }
 }

@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol RemoteEntity: Identifiable, Equatable, Decodable {
+protocol RemoteEntity: Identifiable, Equatable, Codable {
     static func getItems(amount: Int) -> [Self]
 }

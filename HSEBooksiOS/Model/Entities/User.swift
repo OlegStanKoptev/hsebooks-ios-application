@@ -13,6 +13,7 @@ struct User: RemoteEntity {
     var role: String
     var username: String
     var name: String
+    var townId: Int?
     var bookBaseAddRequestIds: [Int]
     var wishListIds: [Int]
     var complaintsIds: [Int]
@@ -23,19 +24,19 @@ struct User: RemoteEntity {
     
     static func getItems(amount: Int) -> [User] {
         var array = [User]()
-        for i in 0..<amount {
+        for i in 1...amount {
             array.append(
-                User(id: i, creationDate: "2021-04-23T11:55:59.622+00:00", role: "User", username: "Keker", name: "Keker Olegovich", bookBaseAddRequestIds: [], wishListIds: [], complaintsIds: [], avatarId: nil, outcomingBookExchangeRequestIds: [], incomingBookExchangeRequestIds: [], exchangeListIds: [])
+                User(id: i, creationDate: "2021-04-23T11:55:59.622+00:00", role: "User", username: "Ivanov", name: "Ivan Olegovich", townId: 1, bookBaseAddRequestIds: [], wishListIds: [], complaintsIds: [], avatarId: nil, outcomingBookExchangeRequestIds: [], incomingBookExchangeRequestIds: [], exchangeListIds: [])
             )
         }
         return array
     }
     
-    static let `default` = User(id: 2, creationDate: "2021-04-23T11:55:59.622+00:00", role: "Admin", username: "OlegStan", name: "Oleg Koptev", bookBaseAddRequestIds: [], wishListIds: [], complaintsIds: [], avatarId: nil, outcomingBookExchangeRequestIds: [], incomingBookExchangeRequestIds: [], exchangeListIds: [])
+    static let `default` = User(id: 2, creationDate: "2021-04-23T11:55:59.622+00:00", role: "Admin", username: "OlegStan", name: "Oleg Koptev", townId: 1, bookBaseAddRequestIds: [], wishListIds: [], complaintsIds: [], avatarId: nil, outcomingBookExchangeRequestIds: [], incomingBookExchangeRequestIds: [], exchangeListIds: [])
     
     
-    static let all = RemoteDataCredentials(
-        name: "All Users",
+    static let user = RemoteDataCredentials(
+        name: "Users",
         endpoint: "user"
     )
     
@@ -52,5 +53,10 @@ struct User: RemoteEntity {
     static let signup = RemoteDataCredentials(
         name: "Sign Up",
         endpoint: "signup"
+    )
+    
+    static let wishlist = RemoteDataCredentials(
+        name: "Wishlist",
+        endpoint: "user/wishlist"
     )
 }

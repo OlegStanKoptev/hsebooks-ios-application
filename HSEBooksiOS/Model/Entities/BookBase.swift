@@ -11,7 +11,7 @@ struct BookBase: RemoteEntity {
     var id: Int
     var creationDate: String
     var author: String
-    var language: String
+    var language: Language
     var title: String
     var numberOfPages: Int
     var publishYear: Int
@@ -24,12 +24,16 @@ struct BookBase: RemoteEntity {
     
     static func getItems(amount: Int) -> [BookBase] {
         var array = [BookBase]()
-        for i in 0..<amount {
+        for i in 1...amount {
             array.append(
-                BookBase(id: i, creationDate: "2021-04-23T11:55:59.622+00:00", author: "Author \(i)", language: "RUS", title: "Title \(i)", numberOfPages: 200+i, publishYear: 2000+i, description: "Some random description", genreIds: [], rating: Double(i) * 5.0 / Double(amount), bookIds: [], wishersIds: [], photoId: nil)
+                BookBase(id: i, creationDate: "2021-04-23T11:55:59.622+00:00", author: "Author \(i)", language: .RU, title: "Title \(i)", numberOfPages: 200+i, publishYear: 2000+i, description: "Some random description", genreIds: [1, 2, 3], rating: Double(i) * 5.0 / Double(amount), bookIds: [1, 2, 3], wishersIds: [], photoId: nil)
             )
         }
         return array
+    }
+    
+    var availability: String {
+        bookIds.isEmpty ? "None available" : "\(bookIds.count) available"
     }
     
     static let book = RemoteDataCredentials(name: "BookBase", endpoint: "bookBase")
@@ -66,4 +70,8 @@ struct BookBase: RemoteEntity {
             "sortBy": "rate"
         ]
     )
+    
+    static let search = RemoteDataCredentials(endpoint: "bookBase/search")
+    
+    static let request = RemoteDataCredentials(endpoint: "bookBase/request")
 }
