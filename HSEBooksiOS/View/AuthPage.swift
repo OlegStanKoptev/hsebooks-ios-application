@@ -74,13 +74,13 @@ struct AuthPage: View {
             }
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Menu("Test") {
+                    Menu("Test Auth") {
                         Button("Ivanov", action: {
                             appContext.login(username: "Ivanov", password: "1234")
                         })
                         
                         Button("Petrov", action: {
-                            appContext.login(username: "Ivanov", password: "1234")
+                            appContext.login(username: "Petrov", password: "1234")
                         })
                     }
                 }
