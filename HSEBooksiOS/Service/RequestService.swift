@@ -63,7 +63,7 @@ class RequestService {
         request.httpMethod = method
         
         session.dataTask(with: request) { data, response, error in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
                 if let error = error {
                         handler(.failure(.client(error)))
                     return
@@ -75,7 +75,11 @@ class RequestService {
                     let mimeType = httpResponse.mimeType, mimeType == "application/json",
                     let data = data {
                         do {
-                            handler(.success(try self.decoder.decode(T.self, from: data)))
+                            if let self = self {
+                                handler(.success(try self.decoder.decode(T.self, from: data)))
+                            } else {
+                                handler(.failure(.other("RequestService is nil")))
+                            }
                         } catch {
                             handler(.failure(.client(error)))
                         }
@@ -99,7 +103,7 @@ class RequestService {
         request.httpMethod = "POST"
         
         session.dataTask(with: request) { data, response, error in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
                 if let error = error {
                     handler(.failure(.client(error)))
                     return
@@ -111,9 +115,13 @@ class RequestService {
                     if let authToken = httpResponse.value(forHTTPHeaderField: "Authorization"),
                        (200...299).contains(httpResponse.statusCode) {
                         do {
-                            handler(.success((try self.decoder.decode(User.self, from: data), authToken)))
+                            if let self = self {
+                                handler(.success((try self.decoder.decode(User.self, from: data), authToken)))
+                            } else {
+                                handler(.failure(.other("RequestService is nil")))
+                            }
                         } catch {
-                            self.makeRequest(to: "user/me", with: [:], using: authToken) { (result: Result<User, RequestError>) in
+                            self?.makeRequest(to: "user/me", with: [:], using: authToken) { (result: Result<User, RequestError>) in
                                 switch result {
                                 case .failure(let error):
                                     handler(.failure(error))
@@ -126,7 +134,7 @@ class RequestService {
                               httpResponse.statusCode == 403 {
                         handler(.failure(.other(data)))
                     } else {
-                        handler(.failure(.notAuthorized))
+                        handler(.failure(.other("Wrong username or password.")))
                     }
                 } else {
                     handler(.failure(.server(httpResponse)))
@@ -162,7 +170,7 @@ class RequestService {
         request.httpMethod = "POST"
         
         session.dataTask(with: request) { data, response, error in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
                 if let error = error {
                     handler(.failure(.client(error)))
                     return
@@ -173,7 +181,11 @@ class RequestService {
                 if let data = data {
                     if (200...299).contains(httpResponse.statusCode) {
                         do {
-                            handler(.success(try self.decoder.decode(T.self, from: data)))
+                            if let self = self {
+                                handler(.success(try self.decoder.decode(T.self, from: data)))
+                            } else {
+                                handler(.failure(.other("RequestService is nil")))
+                            }
                         } catch {}
                     } else if let data = String(data: data, encoding: .utf8),
                               httpResponse.statusCode == 403 {
@@ -257,7 +269,7 @@ class RequestService {
 //        request.httpMethod = "DELETE"
 //
 //        session.dataTask(with: request) { data, response, error in
-//            DispatchQueue.main.async {
+//            DispatchQueue.main.async { [weak self] in
 //                if let error = error {
 //                    handler(.failure(.client(error)))
 //                    return
@@ -303,7 +315,7 @@ class RequestService {
         request.httpMethod = "PUT"
         
         session.dataTask(with: request) { data, response, error in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
                 if let error = error {
                     handler(.failure(.client(error)))
                     return
@@ -314,7 +326,11 @@ class RequestService {
                 guard let data = data  else { handler(.failure(.other("Data is null"))); return }
                 if (200...299).contains(httpResponse.statusCode) {
                     do {
-                        handler(.success(try self.decoder.decode(T.self, from: data)))
+                        if let self = self {
+                            handler(.success(try self.decoder.decode(T.self, from: data)))
+                        } else {
+                            handler(.failure(.other("RequestService is nil")))
+                        }
                     } catch {}
                 } else if httpResponse.statusCode == 403 {
                     if let body = String(data: data, encoding: .utf8) {

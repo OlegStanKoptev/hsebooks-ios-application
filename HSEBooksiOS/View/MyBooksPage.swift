@@ -187,7 +187,7 @@ extension MyBooksPage {
             }
             
             viewState = .loading
-            DispatchQueue.global(qos: .userInteractive).async {
+            DispatchQueue.global(qos: .userInteractive).async { [weak self] in
                 let semaphore = DispatchSemaphore(value: 0)
                 
                 appContext.updateUserInfo { [weak self] result in
@@ -201,9 +201,9 @@ extension MyBooksPage {
                 
                 semaphore.wait()
                 
-                guard self.viewState == .loading, let user = appContext.credentials?.user else {
-                    DispatchQueue.main.async {
-                        self.books = []
+                guard self?.viewState == .loading, let user = appContext.credentials?.user else {
+                    DispatchQueue.main.async { [weak self] in
+                        self?.books = []
                     }
                     return
                 }
@@ -223,9 +223,9 @@ extension MyBooksPage {
                 
                 semaphore.wait()
                 
-                guard self.viewState == .loading else {
-                    DispatchQueue.main.async {
-                        self.books = []
+                guard self?.viewState == .loading else {
+                    DispatchQueue.main.async { [weak self] in
+                        self?.books = []
                     }
                     return
                 }
@@ -245,19 +245,19 @@ extension MyBooksPage {
                 
                 semaphore.wait()
                 
-                guard self.viewState == .loading else {
-                    DispatchQueue.main.async {
-                        self.books = []
+                guard self?.viewState == .loading else {
+                    DispatchQueue.main.async { [weak self] in
+                        self?.books = []
                     }
                     return
                 }
                 
-                DispatchQueue.main.async {
-                    self.books = []
+                DispatchQueue.main.async { [weak self] in
+                    self?.books = []
                     for i in 0..<realBooks.count {
-                        self.books.append((book: realBooks[i], base: bookBases[i]))
+                        self?.books.append((book: realBooks[i], base: bookBases[i]))
                     }
-                    self.viewState = .none
+                    self?.viewState = .none
                 }
             }
         }
@@ -495,10 +495,10 @@ extension MyBooksPage.NewBookMenu.NewBook {
             
             viewState = .loading
             
-            DispatchQueue.global(qos: .userInteractive).async {
+            DispatchQueue.global(qos: .userInteractive).async { [weak self] in
                 guard let imageData = image.jpegData(compressionQuality: 0.3) else {
-                    DispatchQueue.main.async {
-                        self.viewState = .error("Problem occurred while processing the image!")
+                    DispatchQueue.main.async { [weak self] in
+                        self?.viewState = .error("Problem occurred while processing the image!")
                     }
                     return
                 }
@@ -545,8 +545,8 @@ extension MyBooksPage.NewBookMenu.NewBook {
                 semaphore.wait()
                 guard let _ = imageRes else { return }
                 
-                DispatchQueue.main.async {
-                    self.viewState = .none
+                DispatchQueue.main.async { [weak self] in
+                    self?.viewState = .none
                     presented.wrappedValue = false
                 }
             }

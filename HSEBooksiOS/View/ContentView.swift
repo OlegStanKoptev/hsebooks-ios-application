@@ -44,9 +44,9 @@ struct ContentView: View {
         .sheet(isPresented: $appContext.searchIsPresented) {
             SearchPage() { appContext.searchIsPresented = false }
         }
-        .onChange(of: appContext.isLoggedIn, perform: { value in
+        .onChange(of: appContext.isLoggedIn) { value in
             authScreenPresented = !value
-        })
+        }
         .onAppear {
             authScreenPresented = !appContext.isLoggedIn
         }

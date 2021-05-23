@@ -86,7 +86,7 @@ extension HomePage {
                 ForEach(viewModel.sections, id: \.0.name) { row in
                     ThreeBooksSectionWithHeader(credentials: row.0) {
                         ForEach(row.1) { item in
-                            ThreeBooksSectionItemLink(bookBase: item)
+                            ThreeBooksSectionItemLink(bookBase: item, rating: item.rating)
                         }
                     }
                     .padding(.bottom, 8)
@@ -149,9 +149,10 @@ extension HomePage {
 extension HomePage {
     struct ThreeBooksSectionItemLink: View {
         @State var bookBase: BookBase
+        @State var rating: Double
         var body: some View {
-            NavigationLink(destination: BookPage(bookBase: $bookBase)) {
-                ThreeBooksSectionItem(title: bookBase.title, author: bookBase.author, rating: bookBase.rating, publishYear: bookBase.publishYear, photoId: bookBase.photoId)
+            NavigationLink(destination: BookPage(bookBase: $bookBase, rating: $rating)) {
+                ThreeBooksSectionItem(title: bookBase.title, author: bookBase.author, rating: rating, publishYear: bookBase.publishYear, photoId: bookBase.photoId)
             }
         }
     }
@@ -288,19 +289,19 @@ extension HomePage.WhatToReadTab {
             
             viewState = .loading
             
-            DispatchQueue.global(qos: .userInteractive).async {
+            DispatchQueue.global(qos: .userInteractive).async { [weak self] in
                 var result: Result<[(RemoteDataCredentials, [BookBase])], RequestError> = .success([])
                 for section in BookBase.home.sections {
-                    result = result.flatMap { self.loadBooks(section, with: authToken, previousData: $0) }
+                    result = result.flatMap { self?.loadBooks(section, with: authToken, previousData: $0) ?? .success([]) }
                 }
                 
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [weak self] in
                     switch result {
                     case .failure(let error):
-                        self.viewState = .error(error.description)
+                        self?.viewState = .error(error.description)
                     case .success(let books):
-                        self.sections = books
-                        self.viewState = .none
+                        self?.sections = books
+                        self?.viewState = .none
                     }
                 }
             }

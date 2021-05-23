@@ -167,7 +167,7 @@ extension Chat {
             
             viewState = .loading
             
-            DispatchQueue.global(qos: .userInteractive).async {
+            DispatchQueue.global(qos: .userInteractive).async { [weak self] in
                 let semaphore = DispatchSemaphore(value: 0)
                 
                 RequestService.shared.makeRequest(to: "\(BookExchangeRequest.request.endpoint)/\(requestId)", using: credentials.token) { [weak self] (result: Result<BookExchangeRequest, RequestError>) in
@@ -180,9 +180,9 @@ extension Chat {
                     semaphore.signal()
                 }
                 semaphore.wait()
-                guard let request = self.request, self.viewState == .loading else { return }
+                guard let request = self?.request, self?.viewState == .loading else { return }
                 guard request.status == .Pending else {
-                    self.viewState = .error(
+                    self?.viewState = .error(
                         request.status == .Accepted ? "The owner of the book has confirmed the success of this exchange. You cannot send messages anymore" :
                             "The owner of the book has declined this exchange. You cannot send messages anymore"
                     )
@@ -200,9 +200,9 @@ extension Chat {
                     semaphore.signal()
                 }
                 semaphore.wait()
-                guard let dialog = dialog, self.viewState == .loading else { return }
+                guard let dialog = dialog, self?.viewState == .loading else { return }
                 
-                let newMessages = dialog.messageIds.filter{ id in !self.messages.contains(where: { $0.id == id })}
+                let newMessages = dialog.messageIds.filter{ id in !(self?.messages.contains(where: { $0.id == id }) ?? false)}
                 let params = [
                     "ids": newMessages.map{String($0)}.joined(separator: ",")
                 ]

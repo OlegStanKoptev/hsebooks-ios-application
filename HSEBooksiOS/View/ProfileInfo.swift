@@ -205,7 +205,7 @@ extension ProfileInfo {
                 return
             }
             viewState = .loading
-            DispatchQueue.global(qos: .userInteractive).async {
+            DispatchQueue.global(qos: .userInteractive).async { [weak self] in
                 let semaphore = DispatchSemaphore(value: 0)
                 
                 if name != credentials.user.name {

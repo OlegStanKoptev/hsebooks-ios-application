@@ -58,7 +58,7 @@ struct SearchPage: View {
                                         )
                                     }
                                 } else {
-                                    RowWithNavigationLink(bookBase: bookBase)
+                                    RowWithNavigationLink(bookBase: bookBase, rating: bookBase.rating)
                                 }
                             }
                             .onAppear {
@@ -82,8 +82,9 @@ struct SearchPage: View {
 extension SearchPage {
     struct RowWithNavigationLink: View {
         @State var bookBase: BookBase
+        @State var rating: Double
         var body: some View {
-            NavigationLink(destination: BookPage(bookBase: $bookBase)) {
+            NavigationLink(destination: BookPage(bookBase: $bookBase, rating: $rating)) {
                 BookListRow(
                     title: bookBase.title,
                     author: bookBase.author,

@@ -41,7 +41,7 @@ struct PhotoPicker: UIViewControllerRepresentable {
             
             if itemProvider.canLoadObject(ofClass: UIImage.self) {
                 itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
-                    DispatchQueue.main.async {
+                    DispatchQueue.main.async { [weak self] in
                         if let image = image as? UIImage {
                             self?.parent.onImport(image)
                             self?.parent.isPresented = false

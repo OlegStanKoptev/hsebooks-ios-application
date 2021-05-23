@@ -22,7 +22,7 @@ struct Wishlist: View {
             ScrollView(.vertical) {
                 LazyVStack(spacing: 0) {
                     ForEach(viewModel.books) { bookBase in
-                        Row(bookBase: bookBase)
+                        Row(bookBase: bookBase, rating: bookBase.rating)
                     }
                 }
                 
@@ -40,8 +40,9 @@ struct Wishlist: View {
 extension Wishlist {
     struct Row: View {
         @State var bookBase: BookBase
+        @State var rating: Double
         var body: some View {
-            NavigationLink(destination: BookPage(bookBase: $bookBase)) {
+            NavigationLink(destination: BookPage(bookBase: $bookBase, rating: $rating)) {
                 BookListRow(
                     title: bookBase.title,
                     author: bookBase.author,
@@ -80,7 +81,7 @@ extension Wishlist {
             books = []
             viewState = .loading
             
-            DispatchQueue.global(qos: .userInteractive).async {
+            DispatchQueue.global(qos: .userInteractive).async { [weak self] in
                 let semaphore = DispatchSemaphore(value: 0)
                 context.updateUserInfo { [weak self] result in
                     switch result {

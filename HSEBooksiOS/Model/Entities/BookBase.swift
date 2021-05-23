@@ -72,6 +72,6 @@ struct BookBase: RemoteEntity {
     )
     
     static let search = RemoteDataCredentials(endpoint: "bookBase/search")
-    
     static let request = RemoteDataCredentials(endpoint: "bookBase/request")
+    static let rating = RemoteDataCredentials(endpoint: "bookBase/rate")
 }

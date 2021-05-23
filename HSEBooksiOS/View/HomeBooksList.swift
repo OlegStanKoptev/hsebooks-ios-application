@@ -27,7 +27,7 @@ struct HomeBooksList: View {
             ScrollView(.vertical) {
                 LazyVStack(spacing: 0) {
                     ForEach(viewModel.books) { book in
-                        Row(bookBase: book)
+                        Row(bookBase: book, rating: book.rating)
                             .onAppear {
                                 if (viewModel.books.last! == book) {
                                     fetch()
@@ -50,17 +50,18 @@ struct HomeBooksList: View {
 extension HomeBooksList {
     struct Row: View {
         @State var bookBase: BookBase
+        @State var rating: Double
         
         @ObservedObject var appContext = AppContext.shared
-        @State var isWished: Bool = false
+//        @State var isWished: Bool = false
         @State var destinationPresented: Bool = false
         @State var requestIsToPresent: Bool = false
         var body: some View {
-            NavigationLink(destination: BookPage(bookBase: $bookBase, requestPresented: requestIsToPresent), isActive: $destinationPresented) {
+            NavigationLink(destination: BookPage(bookBase: $bookBase, rating: $rating, requestPresented: requestIsToPresent), isActive: $destinationPresented) {
                 BookListRow(
                     title: bookBase.title,
                     author: bookBase.author,
-                    isHearted: isWished,
+                    isHearted: appContext.isWished(bookBase),//isWished,
                     photoId: bookBase.photoId,
                     coverType: .bookBasePhoto,
                     thirdLine:
@@ -115,9 +116,9 @@ extension HomeBooksList {
                 .padding(.top, 14)
                 .padding(.trailing, 8)
             )
-            .onAppear {
-                isWished = appContext.isWished(bookBase)
-            }
+//            .onAppear {
+//                isWished = appContext.isWished(bookBase)
+//            }
         }
     }
 }

@@ -11,6 +11,7 @@ import SwiftUI
 class AppContext: ObservableObject {
     static let shared = AppContext()
     
+    @Published var splashScreenPresented: Bool = true
     @Published var searchIsPresented: Bool = false
     
     // Variables for authorization logic
@@ -32,7 +33,7 @@ class AppContext: ObservableObject {
 
 // MARK: - Authorization Logic
 extension AppContext {
-    struct AuthCredentials {
+    struct AuthCredentials: Codable {
         var user: User
         var token: String
     }
@@ -45,18 +46,16 @@ extension AppContext {
         guard !isPreview, authViewState != .loading else { return }
         authViewState = .loading
         RequestService.shared.makeAuthRequest(to: endpoint, with: body) { [weak self] result in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
                 switch result {
                 case .failure(let error):
                     self?.authViewState = .error(error.description)
                 case .success(let (user, token)):
-                    self?.credentials = AuthCredentials(user: user, token: token)
-                    self?.fetchGenres() {
-                        self?.fetchTowns() {
-                            self?.fetchQualities() {
-                                if self?.authViewState == .loading {
-                                    self?.authViewState = .none
-                                }
+                    self?.fetchGenres(token: token) {
+                        self?.fetchTowns(token: token) {
+                            self?.fetchQualities(token: token) {
+                                self?.credentials = AuthCredentials(user: user, token: token)
+                                self?.authViewState = .none
                             }
                         }
                     }
@@ -65,10 +64,30 @@ extension AppContext {
         }
     }
     
-    func updateUserInfo(handler: @escaping (Result<Void, RequestError>) -> Void) {
+    func fullUpdate(with token: String, handler: @escaping () -> Void) {
+        guard !isPreview, authViewState != .loading else { return }
+        RequestService.shared.makeRequest(to: User.me.endpoint, using: token) { [weak self] (result: Result<User, RequestError>) in
+            DispatchQueue.main.async { [weak self] in
+                switch result {
+                case .failure(_): break
+                case .success(let user):
+                    self?.fetchGenres(token: token) {
+                        self?.fetchTowns(token: token) {
+                            self?.fetchQualities(token: token) {
+                                self?.credentials = AuthCredentials(user: user, token: token)
+                                handler()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func updateUserInfo(handler: @escaping (Result<Void, RequestError>) -> Void = {_ in}) {
         guard !isPreview, let token = credentials?.token else { return }
         RequestService.shared.makeRequest(to: User.me.endpoint, using: token) { [weak self] (result: Result<User, RequestError>) in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
                 switch result {
                 case .failure(let error):
                     handler(.failure(error))
@@ -101,9 +120,8 @@ extension AppContext {
 
 // MARK: - Genres loader
 extension AppContext {
-    func fetchGenres(handler: @escaping () -> Void = {}) {
+    func fetchGenres(token: String, handler: @escaping () -> Void = {}) {
         guard !isPreview else { return }
-        guard let token = credentials?.token else { return }
         RequestService.shared.makeRequest(to: Genre.all.endpoint, with: Genre.all.params, using: token) { [weak self] (result: Result<[Genre], RequestError>) in
             switch result {
             case .failure(let error):
@@ -118,9 +136,8 @@ extension AppContext {
 
 // MARK: - Towns Loader
 extension AppContext {
-    func fetchTowns(handler: @escaping () -> Void = {}) {
+    func fetchTowns(token: String, handler: @escaping () -> Void = {}) {
         guard !isPreview else { return }
-        guard let token = credentials?.token else { return }
         RequestService.shared.makeRequest(to: Town.all.endpoint, with: Town.all.params, using: token) { [weak self] (result: Result<[Town], RequestError>) in
             switch result {
             case .failure(let error):
@@ -135,9 +152,8 @@ extension AppContext {
 
 // MARK: - Exterior Qualities Loader
 extension AppContext {
-    func fetchQualities(handler: @escaping () -> Void = {}) {
+    func fetchQualities(token: String, handler: @escaping () -> Void = {}) {
         guard !isPreview else { return }
-        guard let token = credentials?.token else { return }
         RequestService.shared.makeRequest(to: ExteriorQuality.all.endpoint, with: ExteriorQuality.all.params, using: token) { [weak self] (result: Result<[ExteriorQuality], RequestError>) in
             switch result {
             case .failure(let error):
@@ -167,6 +183,24 @@ extension AppContext {
                 viewState.wrappedValue = .error(error.description)
             case .success(_):
                 handler(!self.isWished(bookBase))
+                viewState.wrappedValue = .none
+            }
+        }
+    }
+}
+
+extension AppContext {
+    func rateBook(_ bookBase: BookBase, viewState: Binding<ViewState>, stars: Int, handler: @escaping (Double) -> Void) {
+        guard !isPreview, let token = credentials?.token else { return }
+        viewState.wrappedValue = .loading
+        let body = Review.PostReview(ratedBookBaseId: bookBase.id, rate: Double(stars), body: "")
+        
+        RequestService.shared.makePostRequest(to: BookBase.rating.endpoint, with: token, body: body) { (result: Result<Review, RequestError>) in
+            switch result {
+            case .failure(let error):
+                viewState.wrappedValue = .error(error.description)
+            case .success(let review):
+                handler(review.rate)
                 viewState.wrappedValue = .none
             }
         }

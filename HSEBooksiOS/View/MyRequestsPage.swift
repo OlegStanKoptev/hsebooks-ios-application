@@ -65,7 +65,7 @@ extension MyRequestsPage {
         }
         
         private func fetch() {
-            viewModel.fetch(list: appContext.credentials?.user.outcomingBookExchangeRequestIds, page: .incoming, with: appContext)
+            viewModel.fetch(page: .incoming, with: appContext)
         }
         
         var body: some View {
@@ -162,7 +162,7 @@ extension MyRequestsPage {
         @StateObject private var viewModel = ViewModel()
         
         private func fetch() {
-            viewModel.fetch(list: appContext.credentials?.user.incomingBookExchangeRequestIds, page: .outcoming, with: appContext)
+            viewModel.fetch(page: .outcoming, with: appContext)
         }
         
         var body: some View {
@@ -231,7 +231,7 @@ extension MyRequestsPage {
             return items
         }
         
-        func fetch(list: [Int]?, page: Page, with context: AppContext) {
+        func fetch(page: Page, with context: AppContext) {
             guard !context.isPreview else {
                 requests = [(
                     BookExchangeRequest.getItems(amount: 1)[0],
@@ -243,20 +243,16 @@ extension MyRequestsPage {
                 return
             }
             guard viewState != .loading else { return }
-            guard let list = list, !list.isEmpty else {
-                requests = []
-                return
-            }
             
             guard let token = context.credentials?.token else {
                 requests = []
                 viewState = .error("Not Logged In")
                 return
             }
-            requests = []
+//            requests = []
             viewState = .loading
             
-            DispatchQueue.global(qos: .userInteractive).async {
+            DispatchQueue.global(qos: .userInteractive).async { [weak self] in
                 let semaphore = DispatchSemaphore(value: 0)
                 context.updateUserInfo { [weak self] result in
                     switch result {
@@ -267,21 +263,23 @@ extension MyRequestsPage {
                     semaphore.signal()
                 }
                 semaphore.wait()
-                guard self.viewState == .loading else { return }
+                guard let user = context.credentials?.user, self?.viewState == .loading else { return }
+                
+                let list = page == .incoming ? user.outcomingBookExchangeRequestIds : user.incomingBookExchangeRequestIds
                 
                 let tempRequests: [BookExchangeRequest] =
-                    self.fetch(ids: list, to: BookExchangeRequest.request, with: token)
+                    self?.fetch(ids: list, to: BookExchangeRequest.request, with: token) ?? []
 
                 let tempBooks: [Book] =
-                    self.fetch(ids: tempRequests.map{$0.exchangingBookId}, to: Book.book, with: token)
+                    self?.fetch(ids: tempRequests.map{$0.exchangingBookId}, to: Book.book, with: token) ?? []
 
                 let tempBookBases: [BookBase] =
-                    self.fetch(ids: tempBooks.map{$0.baseId}, to: BookBase.book, with: token)
+                    self?.fetch(ids: tempBooks.map{$0.baseId}, to: BookBase.book, with: token) ?? []
 
                 let tempUsers: [User] =
-                    self.fetch(ids: tempRequests.map{ page == .incoming ? $0.userToId : $0.userFromId}, to: User.user, with: token)
+                    self?.fetch(ids: tempRequests.map{ page == .incoming ? $0.userToId : $0.userFromId}, to: User.user, with: token) ?? []
 
-                guard self.viewState == .loading else { return }
+                guard self?.viewState == .loading else { return }
 
                 var result = [(BookExchangeRequest, Book, BookBase, Town, User)]()
                 
@@ -296,9 +294,9 @@ extension MyRequestsPage {
                 }
                 
 
-                DispatchQueue.main.async {
-                    self.requests = result
-                    self.viewState = .none
+                DispatchQueue.main.async { [weak self] in
+                    self?.requests = result
+                    self?.viewState = .none
                 }
             }
         }

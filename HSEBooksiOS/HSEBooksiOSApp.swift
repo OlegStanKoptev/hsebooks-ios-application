@@ -9,6 +9,9 @@ import SwiftUI
 
 @main
 struct HSEBooksiOSApp: App {
+    @AppStorage("hsebooks-auth-token") var token: String = ""
+    @ObservedObject var appContext = AppContext.shared
+    
     init() {
         UINavigationBar.setupAppColorTheme()
         
@@ -20,7 +23,16 @@ struct HSEBooksiOSApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Group {
+                if appContext.splashScreenPresented {
+                    SplashScreen(token: token)
+                } else {
+                    ContentView()
+                }
+            }
+            .onChange(of: appContext.isLoggedIn) { value in
+                token = value ? appContext.credentials?.token ?? "" : ""
+            }
         }
     }
 }

@@ -55,6 +55,8 @@
 		DC74E3FD26590AA100519989 /* Dialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC74E3FC26590AA100519989 /* Dialog.swift */; };
 		DC74E3FF26590AF600519989 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC74E3FE26590AF600519989 /* Message.swift */; };
 		DC814B23264D6CCA004CDA62 /* FilledRoundedButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC814B22264D6CCA004CDA62 /* FilledRoundedButtonStyle.swift */; };
+		DC845D5D265A9D5C00C4EF9E /* SplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC845D5C265A9D5C00C4EF9E /* SplashScreen.swift */; };
+		DC845D5F265AAA6C00C4EF9E /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC845D5E265AAA6C00C4EF9E /* Review.swift */; };
 		DC998CEB264420A000948362 /* MyBooksPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC998CEA264420A000948362 /* MyBooksPage.swift */; };
 		DC998CED264420D200948362 /* MyRequestsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC998CEC264420D200948362 /* MyRequestsPage.swift */; };
 		DC998CF126448CD000948362 /* BookExchangeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC998CF026448CCF00948362 /* BookExchangeRequest.swift */; };
@@ -120,6 +122,8 @@
 		DC74E3FC26590AA100519989 /* Dialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dialog.swift; sourceTree = "<group>"; };
 		DC74E3FE26590AF600519989 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		DC814B22264D6CCA004CDA62 /* FilledRoundedButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilledRoundedButtonStyle.swift; sourceTree = "<group>"; };
+		DC845D5C265A9D5C00C4EF9E /* SplashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreen.swift; sourceTree = "<group>"; };
+		DC845D5E265AAA6C00C4EF9E /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
 		DC998CEA264420A000948362 /* MyBooksPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBooksPage.swift; sourceTree = "<group>"; };
 		DC998CEC264420D200948362 /* MyRequestsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRequestsPage.swift; sourceTree = "<group>"; };
 		DC998CF026448CCF00948362 /* BookExchangeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookExchangeRequest.swift; sourceTree = "<group>"; };
@@ -229,6 +233,7 @@
 				DC2730D92651F41500A8C4B9 /* SearchPage.swift */,
 				DC0D043E265752C70046853A /* Wishlist.swift */,
 				DC0DD8332658ED7E00287797 /* Chat.swift */,
+				DC845D5C265A9D5C00C4EF9E /* SplashScreen.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -259,6 +264,7 @@
 				DC59B1CE2658C64C00745B74 /* Avatar.swift */,
 				DC74E3FC26590AA100519989 /* Dialog.swift */,
 				DC74E3FE26590AF600519989 /* Message.swift */,
+				DC845D5E265AAA6C00C4EF9E /* Review.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -367,6 +373,7 @@
 				DC814B23264D6CCA004CDA62 /* FilledRoundedButtonStyle.swift in Sources */,
 				DC368E8D26337EEB003466CB /* RequestService.swift in Sources */,
 				DC260DE32659600E00746DD4 /* MailView.swift in Sources */,
+				DC845D5F265AAA6C00C4EF9E /* Review.swift in Sources */,
 				DC59B1D12658D01A00745B74 /* UserAvatarView.swift in Sources */,
 				DC099C3D263CA7D4009D5047 /* Genre.swift in Sources */,
 				DC998CF52644B89700948362 /* Town.swift in Sources */,
@@ -416,6 +423,7 @@
 				DC0DD8362658ED9000287797 /* ChatBubble.swift in Sources */,
 				DC0DD8382658EDBD00287797 /* RoundedCorner.swift in Sources */,
 				DC17857C263A260100977562 /* HomePage.swift in Sources */,
+				DC845D5D265A9D5C00C4EF9E /* SplashScreen.swift in Sources */,
 				DCF23F06264FE94D003DE8ED /* BookBasePhoto.swift in Sources */,
 				DCF23EFE264FE697003DE8ED /* RatingView.swift in Sources */,
 				DC3CACBC26570D8700A56C71 /* BookListOutcomingRequestRow.swift in Sources */,
