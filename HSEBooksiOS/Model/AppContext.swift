@@ -9,6 +9,8 @@ import Foundation
 import SwiftUI
 
 class AppContext: ObservableObject {
+    private let defaultServerAddress = "http://olegk.site"
+    private let settingsServerAddressId = "server_address"
     static let shared = AppContext()
     
     @Published var splashScreenPresented: Bool = true
@@ -210,11 +212,8 @@ extension AppContext {
 // MARK: - Read Custom Values From Settings Bundle
 extension AppContext {
     func getSettingsValues() {
-        let defaultServerAddress = "http://olegk.site"
-        let settingsServerAddressId = "server_address"
         if let serverAddress = UserDefaults.standard.string(forKey: settingsServerAddressId),
-           let url = URL(string: serverAddress),
-           UIApplication.shared.canOpenURL(url) {
+           let url = URL(string: serverAddress) {
 //            print("Found custom settings: server address is \(serverAddress)")
             RequestService.configure(serverUrl: url)
         } else {
