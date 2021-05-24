@@ -339,6 +339,13 @@ extension MyBooksPage.NewBookMenu {
             viewModel.addBook(bookBase: bookBase, quality: quality, town: town, image: selectedImage, context: appContext, presented: $presented)
         }
         
+        private func setDefaultTown() {
+            if let user = appContext.credentials?.user,
+               let cachedTown = appContext.towns.first(where: {$0.id == user.townId}) {
+                town = cachedTown
+            }
+        }
+        
         var body: some View {
             VStack {
                 if let bookBase = bookBase {
@@ -403,6 +410,9 @@ extension MyBooksPage.NewBookMenu {
                                 Image(systemName: "chevron.forward")
                                     .font(.system(size: 13.5, weight: .semibold, design: .default))
                                     .foregroundColor(.init(.systemGray3))
+                            }
+                            .onAppear {
+                                setDefaultTown()
                             }
                         }
                         

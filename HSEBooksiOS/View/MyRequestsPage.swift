@@ -102,6 +102,7 @@ extension MyRequestsPage {
                     }
                 }
             }
+            .disabled(viewModel.viewState == .loading)
             .overlay(StatusOverlay(viewState: $viewModel.viewState))
             .onAppear { fetch() }
             .onChange(of: currentPage, perform: { value in
@@ -191,6 +192,7 @@ extension MyRequestsPage {
                     }
                 }
             }
+            .disabled(viewModel.viewState == .loading)
             .onChange(of: currentPage, perform: { value in
                 if value == .outcoming {
                     fetch()

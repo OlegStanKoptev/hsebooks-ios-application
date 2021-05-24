@@ -73,7 +73,7 @@ extension Wishlist {
                 return
             }
             guard viewState != .loading else { return }
-            guard let credentials = context.credentials else {
+            guard context.credentials != nil else {
                 viewState = .error("Not Logged In")
                 return
             }
@@ -92,6 +92,7 @@ extension Wishlist {
                     semaphore.signal()
                 }
                 semaphore.wait()
+                guard let credentials = context.credentials else { return }
             
                 let params = [
                     "ids": credentials.user.wishListIds

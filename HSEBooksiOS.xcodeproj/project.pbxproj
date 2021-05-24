@@ -35,6 +35,9 @@
 		DC368E8D26337EEB003466CB /* RequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC368E8C26337EEB003466CB /* RequestService.swift */; };
 		DC368E912633867E003466CB /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC368E902633867E003466CB /* View+Extension.swift */; };
 		DC368E9D263389EC003466CB /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC368E9C263389EC003466CB /* Color+Extension.swift */; };
+		DC3AB808265B1F4600416F27 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DC3AB807265B1F4600416F27 /* Settings.bundle */; };
+		DC3AB80A265B323600416F27 /* Complaint.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3AB809265B323600416F27 /* Complaint.swift */; };
+		DC3AB80C265B378C00416F27 /* UISegmentedControl+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3AB80B265B378C00416F27 /* UISegmentedControl+Extension.swift */; };
 		DC3B21592656C6BC00C92D70 /* BookBaseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3B21582656C6BC00C92D70 /* BookBaseRequest.swift */; };
 		DC3B215B2656C7B900C92D70 /* RequestStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3B215A2656C7B900C92D70 /* RequestStatus.swift */; };
 		DC3B215D2656CFAA00C92D70 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3B215C2656CFAA00C92D70 /* String+Extension.swift */; };
@@ -48,6 +51,7 @@
 		DC4F01B1263329F100DCD808 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4F01B0263329F100DCD808 /* User.swift */; };
 		DC5017C52651197800F77769 /* BookListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5017C42651197800F77769 /* BookListRow.swift */; };
 		DC540C2726515ACE00DBFE8D /* ExteriorQuality.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC540C2626515ACE00DBFE8D /* ExteriorQuality.swift */; };
+		DC566AED265B3C71002B5F1A /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC566AEC265B3C71002B5F1A /* Array+Extension.swift */; };
 		DC59B1CF2658C64C00745B74 /* Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC59B1CE2658C64C00745B74 /* Avatar.swift */; };
 		DC59B1D12658D01A00745B74 /* UserAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC59B1D02658D01A00745B74 /* UserAvatarView.swift */; };
 		DC6C5792263BA10900DB7F49 /* RemoteDataCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6C5791263BA10900DB7F49 /* RemoteDataCredentials.swift */; };
@@ -102,6 +106,9 @@
 		DC368E8C26337EEB003466CB /* RequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestService.swift; sourceTree = "<group>"; };
 		DC368E902633867E003466CB /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		DC368E9C263389EC003466CB /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
+		DC3AB807265B1F4600416F27 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		DC3AB809265B323600416F27 /* Complaint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Complaint.swift; sourceTree = "<group>"; };
+		DC3AB80B265B378C00416F27 /* UISegmentedControl+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISegmentedControl+Extension.swift"; sourceTree = "<group>"; };
 		DC3B21582656C6BC00C92D70 /* BookBaseRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookBaseRequest.swift; sourceTree = "<group>"; };
 		DC3B215A2656C7B900C92D70 /* RequestStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestStatus.swift; sourceTree = "<group>"; };
 		DC3B215C2656CFAA00C92D70 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
@@ -115,6 +122,7 @@
 		DC4F01B0263329F100DCD808 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		DC5017C42651197800F77769 /* BookListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListRow.swift; sourceTree = "<group>"; };
 		DC540C2626515ACE00DBFE8D /* ExteriorQuality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExteriorQuality.swift; sourceTree = "<group>"; };
+		DC566AEC265B3C71002B5F1A /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		DC59B1CE2658C64C00745B74 /* Avatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Avatar.swift; sourceTree = "<group>"; };
 		DC59B1D02658D01A00745B74 /* UserAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAvatarView.swift; sourceTree = "<group>"; };
 		DC6C5791263BA10900DB7F49 /* RemoteDataCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteDataCredentials.swift; sourceTree = "<group>"; };
@@ -177,6 +185,7 @@
 				DC1A557A2630DF6B000492ED /* Assets.xcassets */,
 				DC1A557F2630DF6B000492ED /* Info.plist */,
 				DC1A557C2630DF6B000492ED /* Preview Content */,
+				DC3AB807265B1F4600416F27 /* Settings.bundle */,
 			);
 			path = HSEBooksiOS;
 			sourceTree = "<group>";
@@ -201,6 +210,8 @@
 				DC3B215C2656CFAA00C92D70 /* String+Extension.swift */,
 				DC0DD8372658EDBD00287797 /* RoundedCorner.swift */,
 				DC260DE4265962FF00746DD4 /* UINavigationBar+Extension.swift */,
+				DC3AB80B265B378C00416F27 /* UISegmentedControl+Extension.swift */,
+				DC566AEC265B3C71002B5F1A /* Array+Extension.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -265,6 +276,7 @@
 				DC74E3FC26590AA100519989 /* Dialog.swift */,
 				DC74E3FE26590AF600519989 /* Message.swift */,
 				DC845D5E265AAA6C00C4EF9E /* Review.swift */,
+				DC3AB809265B323600416F27 /* Complaint.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -357,6 +369,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC1A557E2630DF6B000492ED /* Preview Assets.xcassets in Resources */,
+				DC3AB808265B1F4600416F27 /* Settings.bundle in Resources */,
 				DC1A557B2630DF6B000492ED /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -383,6 +396,8 @@
 				DC26BC9F264AD53A006BE068 /* UINavigationController+Extension.swift in Sources */,
 				DC74E3FD26590AA100519989 /* Dialog.swift in Sources */,
 				DC260DE5265962FF00746DD4 /* UINavigationBar+Extension.swift in Sources */,
+				DC3AB80A265B323600416F27 /* Complaint.swift in Sources */,
+				DC3AB80C265B378C00416F27 /* UISegmentedControl+Extension.swift in Sources */,
 				DC178575263A25A700977562 /* ProfilePage.swift in Sources */,
 				DC74E3FF26590AF600519989 /* Message.swift in Sources */,
 				DC4F01A82633052400DCD808 /* BookBase.swift in Sources */,
@@ -405,6 +420,7 @@
 				DCF23F02264FE7B7003DE8ED /* BookCover.swift in Sources */,
 				DC3B21592656C6BC00C92D70 /* BookBaseRequest.swift in Sources */,
 				DCF988BC2656A9B700CC816B /* Language.swift in Sources */,
+				DC566AED265B3C71002B5F1A /* Array+Extension.swift in Sources */,
 				DC14FA8026415EE80084B915 /* StatusOverlay.swift in Sources */,
 				DC368E9D263389EC003466CB /* Color+Extension.swift in Sources */,
 				DC998CF126448CD000948362 /* BookExchangeRequest.swift in Sources */,
@@ -565,7 +581,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.koptev.HSEBooksiOS;
+				PRODUCT_BUNDLE_IDENTIFIER = com.koptev.HSEBooks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -587,7 +603,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.koptev.HSEBooksiOS;
+				PRODUCT_BUNDLE_IDENTIFIER = com.koptev.HSEBooks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

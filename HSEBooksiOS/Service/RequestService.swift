@@ -26,11 +26,15 @@ enum RequestError: Error {
 }
 
 class RequestService {
-    static let shared = RequestService()
+    static let shared: RequestService = RequestService()
+    static func configure(serverUrl: URL) {
+        shared.serverUrl = serverUrl
+    }
+    
     private let session: URLSession
     private let decoder: JSONDecoder
     private let encoder: JSONEncoder
-    private let serverUrl = URL(string: "http://olegk.site")!
+    private var serverUrl: URL!
     
     private init(session: URLSession = .shared, decoder: JSONDecoder = .init(), encoder: JSONEncoder = .init()) {
         self.session = session

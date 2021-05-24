@@ -13,6 +13,7 @@ struct ProfileInfo: View {
     @State private var imageSelectorPresented: Bool = false
     @State private var editingImage: UIImage?
     @State private var editingName: String = ""
+    @State private var chosenTown: Town?
     
     private func showImageSelector() {
         imageSelectorPresented = true
@@ -25,6 +26,7 @@ struct ProfileInfo: View {
     private func edit() {
         guard let user = appContext.credentials?.user else { return }
         editingName = user.name
+        chosenTown = appContext.towns.first(where: {$0.id == user.townId})
         viewModel.isEditing = true
     }
     
@@ -33,7 +35,7 @@ struct ProfileInfo: View {
     }
     
     private func done() {
-        viewModel.updateUser(name: editingName, image: editingImage, context: appContext)
+        viewModel.updateUser(name: editingName, image: editingImage, town: chosenTown, context: appContext)
     }
     
     var normalView: some View {
@@ -51,6 +53,16 @@ struct ProfileInfo: View {
                         
                         Text(user.username)
                             .font(.subheadline)
+                        
+                        Group {
+                            if let town = appContext.towns.first(where: {$0.id == user.townId}) {
+                                Text(town.name)
+                            } else {
+                                Text("No default town selected")
+                            }
+                        }
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
                     }
                     .padding(.trailing)
                     
@@ -104,6 +116,18 @@ struct ProfileInfo: View {
                         Text("Name: ")
                         Divider()
                         TextField("Name", text: $editingName)
+                    }
+                    
+                    HStack {
+                        Text("Town:  ")
+                        Divider()
+//                        TextField("Name", text: $editingName)
+                        Menu(chosenTown?.name ?? "None") {
+                            ForEach(appContext.towns) { town in
+                                Button(town.name, action: { chosenTown = town })
+                            }
+                        }
+                        .foregroundColor(.primary)
                     }
                 }
             } else {
@@ -177,24 +201,27 @@ extension ProfileInfo {
 
 extension ProfileInfo {
     class ViewModel: ObservableObject {
-        @Published var user: User?
+//        @Published var user: User?
         @Published var viewState: ViewState = .none
         @Published var isEditing: Bool = false
         
         func fetch(context: AppContext) {
             guard !context.isPreview else { return }
-            viewState = .loading
+            DispatchQueue.main.async { [weak self] in
+                self?.viewState = .loading
+            }
             context.updateUserInfo { [weak self] result in
                 switch result {
                 case .failure(let error):
                     self?.viewState = .error(error.description)
                 case .success(_):
+                    self?.isEditing = false
                     self?.viewState = .none
                 }
             }
         }
         
-        func updateUser(name: String, image: UIImage?, context: AppContext) {
+        func updateUser(name: String, image: UIImage?, town: Town?, context: AppContext) {
             guard !context.isPreview else { return }
             guard let credentials = context.credentials else {
                 viewState = .error("Not Logged In")
@@ -208,14 +235,15 @@ extension ProfileInfo {
             DispatchQueue.global(qos: .userInteractive).async { [weak self] in
                 let semaphore = DispatchSemaphore(value: 0)
                 
-                if name != credentials.user.name {
+                if name != credentials.user.name ||
+                    town?.id != credentials.user.townId {
                     var userRes: User?
-                    let userBody = [
+                    var userBody = [
                         "name": "\(name)"
                     ]
-                        
-//                    credentials.user
-//                    userBody.name = name
+                    if let town = town {
+                        userBody["townId"] = String(town.id)
+                    }
                     
                     RequestService.shared.makePutRequest(to: "\(User.user.endpoint)/\(credentials.user.id)", with: credentials.token, body: userBody) { [weak self] (result: Result<User, RequestError>) in
                         switch result {
@@ -235,6 +263,7 @@ extension ProfileInfo {
                 
                 guard let image = image,
                     let imageData = image.jpegData(compressionQuality: 0.3) else {
+                    self?.fetch(context: context)
                     return
                 }
                 let imageString = imageData.base64EncodedString()
@@ -260,7 +289,6 @@ extension ProfileInfo {
                     case .failure(let error):
                         self?.viewState = .error(error.description)
                     case .success(_):
-                        self?.isEditing = false
                         self?.fetch(context: context)
                     }
                 }

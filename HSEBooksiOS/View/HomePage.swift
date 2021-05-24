@@ -101,6 +101,9 @@ extension HomePage {
                     }
                 }
             )
+            .onChange(of: appContext.credentials != nil) { notNull in
+                if notNull { fetchData() }
+            }
             .onChange(of: appContext.isLoggedIn) { value in
                 if (value) { fetchData() }
             }

@@ -29,4 +29,8 @@ struct BookExchangeRequest: RemoteEntity {
         name: "Book Exchange Request",
         endpoint: "book/request"
     )
+    
+    static func complaint(for id: Int) -> RemoteDataCredentials {
+        RemoteDataCredentials(endpoint: "book/request/\(id)/addComplaint")
+    }
 }

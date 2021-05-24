@@ -13,12 +13,9 @@ struct HSEBooksiOSApp: App {
     @ObservedObject var appContext = AppContext.shared
     
     init() {
+        appContext.getSettingsValues()
         UINavigationBar.setupAppColorTheme()
-        
-        UISegmentedControl.appearance().selectedSegmentTintColor = .white
-        UISegmentedControl.appearance().backgroundColor = UIColor(white: 1, alpha: 0.25)
-        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor : UIColor(named: "AccentColor")!], for: .selected)
-        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor : UIColor.white], for: .normal)
+        UISegmentedControl.setupAppColorTheme()
     }
     
     var body: some Scene {
@@ -26,10 +23,12 @@ struct HSEBooksiOSApp: App {
             Group {
                 if appContext.splashScreenPresented {
                     SplashScreen(token: token)
+                } else if !appContext.isLoggedIn {
+                    AuthPage()
                 } else {
                     ContentView()
                 }
-            }
+            }            
             .onChange(of: appContext.isLoggedIn) { value in
                 token = value ? appContext.credentials?.token ?? "" : ""
             }

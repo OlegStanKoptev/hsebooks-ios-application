@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var appContext = AppContext.shared
-    @State var authScreenPresented: Bool = false
+//    @State var authScreenPresented: Bool = false
     @State var selectedTab: Int = 1
     
     var body: some View {
@@ -38,18 +38,19 @@ struct ContentView: View {
                     Label("Profile", systemImage: "person")
                 }
         }
-        .fullScreenCover(isPresented: $authScreenPresented) {
-            AuthPage()
-        }
+//        .animation(.none)
+//        .fullScreenCover(isPresented: $authScreenPresented) {
+//            AuthPage()
+//        }
         .sheet(isPresented: $appContext.searchIsPresented) {
             SearchPage() { appContext.searchIsPresented = false }
         }
-        .onChange(of: appContext.isLoggedIn) { value in
-            authScreenPresented = !value
-        }
-        .onAppear {
-            authScreenPresented = !appContext.isLoggedIn
-        }
+//        .onChange(of: appContext.isLoggedIn) { value in
+//            authScreenPresented = !value
+//        }
+//        .onAppear {
+//            authScreenPresented = !appContext.isLoggedIn
+//        }
     }
 }
 

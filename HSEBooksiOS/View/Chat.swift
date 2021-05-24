@@ -16,6 +16,7 @@ struct Chat: View {
     @ObservedObject var appContext = AppContext.shared
     @StateObject private var viewModel = ViewModel()
     @State private var messageText: String = ""
+    @State private var reportFormPresent: Bool = false
     @State private var scrollViewReader: ScrollViewProxy?
     
     private let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
@@ -149,6 +150,17 @@ struct Chat: View {
         }
         .overlay(StatusOverlay(viewState: $viewModel.viewState, ignoreLoading: true))
         .onAppear { fetch() }
+        .sheet(isPresented: $reportFormPresent) {
+            ReportForm(requestId: requestId, presented: $reportFormPresent)
+        }
+        .navigationTitle(user.name)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Menu("Actions") {
+                    Button("Report User", action: { reportFormPresent = true })
+                }
+            }
+        }
     }
 }
 
@@ -246,6 +258,88 @@ extension Chat {
                         self?.viewState = .none
                         handler()
                     }
+                }
+            }
+        }
+    }
+}
+
+extension Chat {
+    struct ReportForm: View {
+        let requestId: Int
+        @Binding var presented: Bool
+        @ObservedObject var appContext = AppContext.shared
+        @StateObject var viewModel = ViewModel()
+        @State var text: String = ""
+        
+        private func send() {
+            viewModel.sendReport(requestId: requestId, message: text, presented: $presented, context: appContext)
+        }
+        
+        var body: some View {
+            NavigationView {
+                VStack(spacing: 4) {
+                    HStack {
+                        Text("Please state your reason:")
+                        Spacer()
+                    }
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+                    .padding(.horizontal, 4)
+                    
+                    TextEditor(text: $text)
+                        .border(Color(.systemGray4), width: 4)
+                        .frame(minHeight: 120, maxHeight: 250)
+                        .disabled(viewModel.viewState == .loading)
+                    
+                    Spacer(minLength: 0)
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 24)
+                .disabled(viewModel.viewState == .loading)
+                .overlay(StatusOverlay(viewState: $viewModel.viewState))
+                .navigationTitle("Report Form")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Cancel", action: { presented = false })
+                    }
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("Send", action: { send() })
+                    }
+                }
+            }
+        }
+    }
+}
+
+extension Chat.ReportForm {
+    class ViewModel: ObservableObject {
+        @Published var viewState: ViewState = .none
+        
+        func sendReport(requestId: Int, message: String, presented: Binding<Bool>, context: AppContext) {
+            guard !context.isPreview, viewState != .loading else { return }
+            guard let token = context.credentials?.token else {
+                viewState = .error("Not Logged In")
+                return
+            }
+            guard !message.isEmpty else {
+                viewState = .error("Message cannot be empty!")
+                return
+            }
+            viewState = .loading
+            
+            let body = [
+                "text": message
+            ]
+            let endpoint = BookExchangeRequest.complaint(for: requestId).endpoint
+            RequestService.shared.makePostRequest(to: endpoint, with: token, body: body) { [weak self] (result: Result<Complaint, RequestError>) in
+                switch result {
+                case .failure(let error):
+                    self?.viewState = .error(error.description)
+                case .success(_):
+                    self?.viewState = .none
+                    presented.wrappedValue = false
                 }
             }
         }

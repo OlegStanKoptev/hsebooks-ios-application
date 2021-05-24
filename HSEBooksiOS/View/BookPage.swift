@@ -19,7 +19,6 @@ struct BookPage: View {
     
     private var title: String { bookBase.title }
     private var author: String { bookBase.author }
-//    private var rating: Double { bookBase.rating }
     private var photoId: Int? { bookBase.photoId }
     private var year: Int { bookBase.publishYear }
     private var language: String { bookBase.language.rawValue }

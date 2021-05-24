@@ -20,11 +20,15 @@ struct SpinnerView: View {
 struct TextOverlay: View {
     let text: String
     var body: some View {
-        Text(text)
-            .padding()
-            .background(Color(.systemGray5).cornerRadius(12))
-            .transition(.opacity)
-            .animation(.easeInOut)
+        VStack {
+            Image(systemName: "xmark.circle")
+                .font(.system(size: 24))
+            Text(text)
+        }
+        .padding()
+        .background(Color(.systemGray5).cornerRadius(12))
+        .transition(.opacity)
+        .animation(.easeInOut)
     }
 }
 

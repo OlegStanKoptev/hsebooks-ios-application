@@ -207,6 +207,24 @@ extension AppContext {
     }
 }
 
+// MARK: - Read Custom Values From Settings Bundle
+extension AppContext {
+    func getSettingsValues() {
+        let defaultServerAddress = "http://olegk.site"
+        let settingsServerAddressId = "server_address"
+        if let serverAddress = UserDefaults.standard.string(forKey: settingsServerAddressId),
+           let url = URL(string: serverAddress),
+           UIApplication.shared.canOpenURL(url) {
+//            print("Found custom settings: server address is \(serverAddress)")
+            RequestService.configure(serverUrl: url)
+        } else {
+//            print("Custom settings were incorrect: server address is set to \(defaultServerAddress)")
+            UserDefaults.standard.setValue(defaultServerAddress, forKey: settingsServerAddressId)
+            RequestService.configure(serverUrl: URL(string: defaultServerAddress)!)
+        }
+    }
+}
+
 // MARK: - Preview Setup
 extension AppContext {
     static let preview: AppContext = {

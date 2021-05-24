@@ -49,12 +49,12 @@ extension SplashScreen {
             guard !context.isPreview else { return }
             guard !token.isEmpty else {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    withAnimation { context.splashScreenPresented = false }
+                    context.splashScreenPresented = false
                 }
                 return
             }
             AppContext.shared.fullUpdate(with: token) {
-                withAnimation { context.splashScreenPresented = false }
+                context.splashScreenPresented = false
             }
         }
     }
