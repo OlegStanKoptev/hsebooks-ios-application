@@ -20,39 +20,43 @@ struct AuthPage: View {
         NavigationView {
             VStack {
                 VStack(spacing: 24) {
-                    VStack(spacing: 2) {
-                        TextField("Username", text: $username)
-                            .autocapitalization(.none)
-                            .disableAutocorrection(true)
-                            .padding(.horizontal, 8)
-                            .frame(height: UIFont.preferredFont(forTextStyle: .body).lineHeight)
+                    VStack(spacing: 16) {
+                        VStack(spacing: 2) {
+                            TextField("Username", text: $username)
+                                .autocapitalization(.none)
+                                .disableAutocorrection(true)
+                                .padding(.horizontal, 8)
+                                .frame(height: UIFont.preferredFont(forTextStyle: .body).lineHeight)
 
-                        RoundedRectangle(cornerRadius: 2)
-                            .fill(Color.tertiaryColor)
-                            .frame(height: 2)
-                    }
-                    .padding(.bottom, 4)
+                            RoundedRectangle(cornerRadius: 2)
+                                .fill(Color.tertiaryColor)
+                                .frame(height: 2)
+                        }
+                        .padding(.bottom, 4)
 
-                    VStack(spacing: 2) {
-                        SecureField("Password", text: $password)
-                            .padding(.horizontal, 8)
-                            .frame(height: UIFont.preferredFont(forTextStyle: .body).lineHeight)
+                        VStack(spacing: 2) {
+                            SecureField("Password", text: $password)
+                                .padding(.horizontal, 8)
+                                .frame(height: UIFont.preferredFont(forTextStyle: .body).lineHeight)
 
-                        RoundedRectangle(cornerRadius: 2)
-                            .fill(Color.tertiaryColor)
-                            .frame(height: 2)
+                            RoundedRectangle(cornerRadius: 2)
+                                .fill(Color.tertiaryColor)
+                                .frame(height: 2)
+                        }
                     }
                     .padding(.bottom, 16)
 
-                    Button(action: { login() }, label: {
-                        Text("Log In")
-                    })
-                    .buttonStyle(FilledRoundedButtonStyle(fillColor: .tertiaryColor, verticalPadding: 16))
+                    VStack(spacing: 16) {
+                        Button(action: { login() }, label: {
+                            Text("Log In")
+                        })
+                        .buttonStyle(FilledRoundedButtonStyle(fillColor: .tertiaryColor, verticalPadding: 16))
 
-                    NavigationLink(destination: SignUpPage()) {
-                        Text("Sign Up")
+                        NavigationLink(destination: SignUpPage()) {
+                            Text("Sign Up")
+                        }
+                        .buttonStyle(FilledRoundedButtonStyle(verticalPadding: 16))
                     }
-                    .buttonStyle(FilledRoundedButtonStyle(verticalPadding: 16))
                 }
                 .disabled(appContext.authViewState == .loading)
                 .padding(.horizontal, 32)

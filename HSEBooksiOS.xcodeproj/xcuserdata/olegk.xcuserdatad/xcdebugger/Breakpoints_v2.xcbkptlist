@@ -3,29 +3,4 @@
    uuid = "C593234D-1888-4F83-9137-91036E2C845D"
    type = "1"
    version = "2.0">
-   <Breakpoints>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.SymbolicBreakpoint">
-         <BreakpointContent
-            uuid = "78CAD418-AC82-42BE-B1E0-7C09473921BE"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            symbolName = "print_cycle"
-            moduleName = "">
-            <Locations>
-               <Location
-                  uuid = "78CAD418-AC82-42BE-B1E0-7C09473921BE - cc86abe8c9557793"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "AG::Graph::print_cycle(AG::data::ptr&lt;AG::Node&gt;) const"
-                  moduleName = "AttributeGraph"
-                  usesParentBreakpointCondition = "Yes"
-                  offsetFromSymbolStart = "0">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-   </Breakpoints>
 </Bucket>
