@@ -92,7 +92,7 @@ extension SearchPage {
                     coverType: .bookBasePhoto,
                     thirdLine:
                         HStack {
-                            RatingView(value: bookBase.rating)
+                            RatingView(value: rating)
                             Text(bookBase.rating.asStringWithTwoDigits)
                         },
                     fourthLine:

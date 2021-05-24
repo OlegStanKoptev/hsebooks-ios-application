@@ -32,6 +32,7 @@ struct Wishlist: View {
                 }
             }
         }
+        .disabled(viewModel.viewState == .loading)
         .onAppear { fetch() }
         .navigationBarHidden(true)
     }
@@ -50,8 +51,8 @@ extension Wishlist {
                     coverType: .bookBasePhoto,
                     thirdLine:
                         HStack {
-                            RatingView(value: bookBase.rating)
-                            Text(bookBase.rating.asStringWithTwoDigits)
+                            RatingView(value: rating)
+                            Text(rating.asStringWithTwoDigits)
                         },
                     fourthLine:
                         Text(bookBase.availability)
@@ -78,7 +79,6 @@ extension Wishlist {
                 return
             }
             
-            books = []
             viewState = .loading
             
             DispatchQueue.global(qos: .userInteractive).async { [weak self] in

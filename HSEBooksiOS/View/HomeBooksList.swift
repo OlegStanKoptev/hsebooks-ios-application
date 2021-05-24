@@ -66,8 +66,8 @@ extension HomeBooksList {
                     coverType: .bookBasePhoto,
                     thirdLine:
                         HStack {
-                            RatingView(value: bookBase.rating)
-                            Text(bookBase.rating.asStringWithTwoDigits)
+                            RatingView(value: rating)
+                            Text(rating.asStringWithTwoDigits)
                         },
                     fourthLine:
                         Text(bookBase.availability)
