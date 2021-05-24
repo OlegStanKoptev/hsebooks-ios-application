@@ -13,6 +13,7 @@ struct BookListRow<C1: View, C2: View>: View {
     var isHearted: Bool = false
     var photoId: Int? = nil
     var coverType: BookCover.CoverType = .bookBasePhoto
+    var trailingPadding: CGFloat = 24
     var thirdLine: C1
     var fourthLine: C2
     var body: some View {
@@ -27,12 +28,15 @@ struct BookListRow<C1: View, C2: View>: View {
                     .padding(.vertical, 4)
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(title)
-                        .foregroundColor(.primary) +
-                    Text("  ") + 
-                    Text(Image(systemName: "heart.fill"))
-                        .foregroundColor(isHearted ? .red : .clear)
-//                        .padding(.trailing, 16)
+                    HStack {
+                        Text(title)
+                            .foregroundColor(.primary)
+                        
+                        if isHearted {
+                            Image(systemName: "heart.fill")
+                                .foregroundColor(.red)
+                        }
+                    }
                     
                     Group {
                         Text(author)
@@ -43,9 +47,9 @@ struct BookListRow<C1: View, C2: View>: View {
                 }
                 .font(.system(size: 15))
                 .lineLimit(1)
-                .padding(.trailing, 16)
+                .padding(.trailing, trailingPadding)
                 
-                Spacer()
+                Spacer(minLength: 0)
             }
         }
         .frame(height: 120)
@@ -55,6 +59,7 @@ struct BookListRow<C1: View, C2: View>: View {
 struct BookListRow_Previews: PreviewProvider {
     static var previews: some View {
         BookListRow(
+            isHearted: true,
             thirdLine: Text("123"),
             fourthLine: Text("123")
         )

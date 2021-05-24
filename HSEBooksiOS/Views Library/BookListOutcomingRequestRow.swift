@@ -22,6 +22,7 @@ struct BookListOutcomingRequestRow<Destination: View>: View {
             author: author,
             photoId: photoId,
             coverType: .bookPhoto,
+            trailingPadding: 100,
             thirdLine:
                 HStack {
                     Image(systemName: "pin.fill")

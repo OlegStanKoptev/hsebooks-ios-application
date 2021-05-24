@@ -25,6 +25,7 @@ struct BookListIncomingRequestRow<Destination: View>: View {
             author: author,
             photoId: photoId,
             coverType: .bookPhoto,
+            trailingPadding: 48,
             thirdLine:
                 Text("Request from: ")
                     .foregroundColor(.accentColor),

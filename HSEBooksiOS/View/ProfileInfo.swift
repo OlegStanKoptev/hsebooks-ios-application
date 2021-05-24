@@ -76,6 +76,7 @@ struct ProfileInfo: View {
                     Row(key: "Requests to add bookBase", value: "\(user.bookBaseAddRequestIds.count)")
                     Row(key: "Wishlist Items", value: "\(user.wishListIds.count)")
                     Row(key: "Books owned", value: "\(user.exchangeListIds.count)")
+                    Row(key: "Complaints sent", value: "\(user.complaintsIds.count)")
                     Row(key: "Outcoming Exchange Requests", value: "\(user.incomingBookExchangeRequestIds.count)")
                     Row(key: "Incoming Exchange Requests", value: "\(user.outcomingBookExchangeRequestIds.count)")
                 }
