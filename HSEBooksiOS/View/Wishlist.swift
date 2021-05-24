@@ -31,8 +31,8 @@ struct Wishlist: View {
                         .padding(.vertical, 30)
                 }
             }
+            .disabled(viewModel.viewState == .loading)
         }
-        .disabled(viewModel.viewState == .loading)
         .onAppear { fetch() }
         .navigationBarHidden(true)
     }
