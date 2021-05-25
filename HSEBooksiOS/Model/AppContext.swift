@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 class AppContext: ObservableObject {
-    private let defaultServerAddress = "http://olegk.site"
+    private let defaultServerAddress = "https://books.infostrategic.com"
     private let settingsServerAddressId = "server_address"
     static let shared = AppContext()
     
@@ -46,6 +46,10 @@ extension AppContext {
     
     private func authRequest(to endpoint: String, with body: [String: String]) {
         guard !isPreview, authViewState != .loading else { return }
+        guard body.values.allSatisfy({!$0.isEmpty}) else {
+            authViewState = .error("All fields are mandatory")
+            return
+        }
         authViewState = .loading
         RequestService.shared.makeAuthRequest(to: endpoint, with: body) { [weak self] result in
             DispatchQueue.main.async { [weak self] in

@@ -22,7 +22,7 @@ struct BookListOutcomingRequestRow<Destination: View>: View {
             author: author,
             photoId: photoId,
             coverType: .bookPhoto,
-            trailingPadding: 100,
+            trailingPadding: 32,
             thirdLine:
                 HStack {
                     Image(systemName: "pin.fill")
@@ -49,9 +49,10 @@ struct BookListOutcomingRequestRow<Destination: View>: View {
                                 })
                                 .buttonStyle(FilledRoundedButtonStyle(fillColor: Color.tertiaryColor))
                             Button(action: {}, label: {
-                                Text("In Progress")
+                                Text("Pending")
                             })
-                            .buttonStyle(RoundedButtonStyle(color: .green))
+                            .buttonStyle(RoundedButtonStyle(color: .yellow))
+                            .disabled(true)
                         } else if status == .Rejected {
                             NavigationLink(
                                 destination: destination,
@@ -60,7 +61,7 @@ struct BookListOutcomingRequestRow<Destination: View>: View {
                                 }
                             )
                             .buttonStyle(FilledRoundedButtonStyle(fillColor: Color.tertiaryColor))
-                            .disabled(true)
+//                            .disabled(true)
                             
                             Button(action: {}, label: {
                                 Text("Declined")
@@ -74,13 +75,13 @@ struct BookListOutcomingRequestRow<Destination: View>: View {
                                     Text("Chat")
                                 }
                             )
-                            .buttonStyle(FilledRoundedButtonStyle(fillColor: .gray))
-                            .disabled(true)
+                            .buttonStyle(FilledRoundedButtonStyle(fillColor: Color.tertiaryColor))
+//                            .disabled(true)
                             
                             Button(action: {}, label: {
                                 Text("Completed")
                             })
-                            .buttonStyle(RoundedButtonStyle(color: Color.tertiaryColor))
+                            .buttonStyle(RoundedButtonStyle(color: Color.green))
                             .disabled(true)
                         }
                     }

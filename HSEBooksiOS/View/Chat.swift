@@ -37,7 +37,7 @@ struct Chat: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            if let user = appContext.credentials?.user {
+            if let currentUser = appContext.credentials?.user {
                 VStack(spacing: 0) {
                     HStack {
                         Text(bookBase.title)
@@ -75,7 +75,7 @@ struct Chat: View {
                                 HStack {
                                     if isMyMessage(message) {
                                         Spacer(minLength: 32)
-                                        ChatBubble(text: message.body, date: message.creationDate.asDate, avatarId: user.avatarId, bubbleType: .outcoming)
+                                        ChatBubble(text: message.body, date: message.creationDate.asDate, avatarId: currentUser.avatarId, bubbleType: .outcoming)
                                     } else {
                                         ChatBubble(text: message.body, date: message.creationDate.asDate, avatarId: user.avatarId, bubbleType: .incoming)
                                         Spacer(minLength: 32)
@@ -114,7 +114,7 @@ struct Chat: View {
                 }
                 
                 HStack(spacing: 0) {
-                    TextField("Type your message", text: $messageText) { isEditing in
+                    TextField(viewModel.requestClosed ? "Input is blocked" : "Type your message", text: $messageText) { isEditing in
                         if isEditing {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                 withAnimation {
@@ -125,6 +125,7 @@ struct Chat: View {
                     } onCommit: {
                         sendMessage()
                     }
+                    .disabled(viewModel.requestClosed)
                     .padding(12)
                     
                     Button(action: {
@@ -135,10 +136,10 @@ struct Chat: View {
                             .padding(13)
                             .background(
                                 RoundedRectangle(cornerRadius: 4)
-                                    .fill(Color.tertiaryColor)
+                                    .fill(viewModel.requestClosed ? Color.gray : Color.tertiaryColor)
                             )
                     }
-                    .disabled(messageText.isEmpty)
+                    .disabled(messageText.isEmpty || viewModel.requestClosed)
                 }
                 .background(
                     Color(.systemGray6)
@@ -168,10 +169,11 @@ extension Chat {
     class ViewModel: ObservableObject {
         @Published var messages: [Message] = []
         @Published var viewState: ViewState = .none
+        @Published var requestClosed: Bool = false
         var request: BookExchangeRequest?
         
         func fetch(requestId: Int, with context: AppContext, handler: @escaping () -> Void = {}) {
-            guard !context.isPreview else { return }
+            guard !context.isPreview, !requestClosed else { return }
             guard let credentials = context.credentials else {
                 viewState = .error("Not Logged In")
                 return
@@ -194,10 +196,15 @@ extension Chat {
                 semaphore.wait()
                 guard let request = self?.request, self?.viewState == .loading else { return }
                 guard request.status == .Pending else {
-                    self?.viewState = .error(
-                        request.status == .Accepted ? "The owner of the book has confirmed the success of this exchange. You cannot send messages anymore" :
-                            "The owner of the book has declined this exchange. You cannot send messages anymore"
-                    )
+                    if !(self?.requestClosed ?? true) {
+                        DispatchQueue.main.async {
+                            self?.requestClosed = true
+                            self?.viewState = .error(
+                                request.status == .Accepted ? "The owner of the book has confirmed the success of this exchange. You cannot send messages anymore" :
+                                    "The owner of the book has declined this exchange. You cannot send messages anymore"
+                            )
+                        }
+                    }
                     return
                 }
                 

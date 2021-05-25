@@ -42,6 +42,7 @@ struct HomeBooksList: View {
                 }
             }
         }
+        .overlay(StatusOverlay(viewState: $viewModel.viewState, ignoreLoading: true))
         .onAppear { fetch() }
         .navigationBarHidden(true)
     }
@@ -153,7 +154,7 @@ extension HomeBooksList {
                     self?.viewState = .error(error.description)
                 case .success(let books):
                     self?.EOF = books.isEmpty
-                    self?.books.append(contentsOf: books.filter{!(self?.books.contains($0) ?? false)})
+                    self?.books.append(contentsOf: books)
                     self?.viewState = .none
                 }
             }

@@ -14,20 +14,36 @@ struct SplashScreen: View {
     var body: some View {
         HStack {
             Spacer()
-            VStack(spacing: 32) {
-                Spacer()
+            VStack(spacing: 0) {
+                Color.tertiaryColor
                 
                 Text("BOOK EXCHANGE")
                     .font(.title)
                     .foregroundColor(.white)
                 
-                Spacer()
-                Spacer()
+                Color.tertiaryColor
+                Color.tertiaryColor
                 
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
                 
-                Spacer()
+                Color.tertiaryColor
+                    .frame(height: UIFont.preferredFont(forTextStyle: .caption1).pointSize)
+                    .zIndex(1)
+                
+                Group {
+                    if !viewModel.connected {
+                        Text("Connecting to \(RequestService.shared.serverUrl.absoluteString)...")
+                    } else {
+                        Text("Connected to \(RequestService.shared.serverUrl.absoluteString)!")
+                    }
+                }
+                .transition(.asymmetric(insertion: .move(edge: .top), removal: .move(edge: .bottom)))
+                .font(.caption)
+                .foregroundColor(.white)
+                
+                Color.tertiaryColor
+                    .zIndex(1)
             }
             Spacer()
         }
@@ -44,6 +60,7 @@ struct SplashScreen: View {
 extension SplashScreen {
     class ViewModel: ObservableObject {
         @Published var viewState: ViewState = .none
+        @Published var connected: Bool = false
         
         func fetch(with token: String, context: AppContext) {
             guard !context.isPreview else { return }
@@ -53,8 +70,11 @@ extension SplashScreen {
                 }
                 return
             }
-            AppContext.shared.fullUpdate(with: token) {
-                context.splashScreenPresented = false
+            AppContext.shared.fullUpdate(with: token) { [weak self] in
+                withAnimation { self?.connected = true }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    context.splashScreenPresented = false
+                }
             }
         }
     }

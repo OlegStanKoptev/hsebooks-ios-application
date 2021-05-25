@@ -73,6 +73,7 @@ struct SearchPage: View {
                         }
                     }
                 }
+                .overlay(StatusOverlay(viewState: $viewModel.viewState, ignoreLoading: true))
             }
             .navigationBarHidden(true)
         }

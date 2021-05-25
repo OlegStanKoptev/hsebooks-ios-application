@@ -34,7 +34,7 @@ class RequestService {
     private let session: URLSession
     private let decoder: JSONDecoder
     private let encoder: JSONEncoder
-    private var serverUrl: URL!
+    var serverUrl: URL!
     
     private init(session: URLSession = .shared, decoder: JSONDecoder = .init(), encoder: JSONEncoder = .init()) {
         self.session = session
@@ -191,11 +191,12 @@ class RequestService {
                                 handler(.failure(.other("RequestService is nil")))
                             }
                         } catch {}
-                    } else if let data = String(data: data, encoding: .utf8),
-                              httpResponse.statusCode == 403 {
+                    } else if let data = String(data: data, encoding: .utf8) {
                         handler(.failure(.other(data)))
-                    } else {
+                    } else if httpResponse.statusCode == 403 {
                         handler(.failure(.notAuthorized))
+                    } else {
+                        handler(.failure(.server(httpResponse)))
                     }
                 } else {
                     handler(.failure(.server(httpResponse)))

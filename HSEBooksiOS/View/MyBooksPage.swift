@@ -53,6 +53,7 @@ struct MyBooksPage: View {
                     }
                     .padding()
                 }
+                .disabled(viewModel.viewState == .loading)
             }
             .overlay(StatusOverlay(viewState: $viewModel.viewState))
             .navigationTitle("My Books")
@@ -743,7 +744,7 @@ extension MyBooksPage.NewBookMenu.NewBookBase {
             
             viewState = .loading
             
-            let body = BookBaseRequest.PostRequest(author: author, language: language, title: title, numbereOfPages: pagesQuantity, genreIds: genres.map{$0.id}, publishYear: publishYear)
+            let body = BookBaseRequest.PostRequest(author: author, language: language, title: title, numberOfPages: pagesQuantity, genreIds: genres.map{$0.id}, publishYear: publishYear)
             
             RequestService.shared.makePostRequest(to: BookBase.request.endpoint, with: token, body: body) { [weak self] (result: Result<BookBaseRequest, RequestError>) in
                 switch result {
